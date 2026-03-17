@@ -32,7 +32,10 @@
 <div class="table-container">
     <div class="table-header">
         <h2 style="font-size: 1.25rem; font-weight: 600;">Active Orders</h2>
-        <button class="btn-primary" style="font-size: 0.85rem;">DOWNLOAD CSV</button>
+        <div>
+            <button class="btn-primary" style="font-size: 0.85rem;" @onclick="AddNewOrder">+ ADD NEW ORDER</button>
+            <button class="btn-secondary" style="font-size: 0.85rem; padding: 0.6rem 1.2rem; border-radius: 10px; font-weight: 600;">DOWNLOAD CSV</button>
+        </div>
     </div>
     <table>
         <thead>
@@ -63,7 +66,7 @@
                     <td>
                         <div style="display: flex; gap: 12px;">
                             <i class="bi bi-eye" style="cursor: pointer; color: var(--text-muted);"></i>
-                            <i class="bi bi-pencil" style="cursor: pointer; color: var(--text-muted);"></i>
+                            <i class="bi bi-pencil" style="cursor: pointer; color: var(--text-muted);" @onclick="() => EditOrder(order)"></i>
                         </div>
                     </td>
                 </tr>
@@ -72,12 +75,105 @@
     </table>
 </div>
 
+@if (showModal)
+{
+    <div class="modal-overlay" @onclick="CloseModal">
+        <div class="modal-content" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <h3>@(editingOrder.Id == 0 ? "Add New Order" : "Edit Order")</h3>
+                <i class="bi bi-x-lg" style="cursor:pointer;" @onclick="CloseModal"></i>
+            </div>
+            
+            <EditForm Model="editingOrder" OnValidSubmit="SaveOrder">
+                <DataAnnotationsValidator />
+                
+                <div class="form-group">
+                    <label>Customer Name</label>
+                    <InputText @bind-Value="editingOrder.CustomerName" class="form-control" />
+                </div>
+                
+                <div class="form-group">
+                    <label>Customer Email</label>
+                    <InputText @bind-Value="editingOrder.CustomerEmail" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <InputSelect @bind-Value="editingOrder.Status" class="form-control">
+                        <option value="Deposit Paid">Deposit Paid</option>
+                        <option value="In Production">In Production</option>
+                        <option value="Ready for Pickup">Ready for Pickup</option>
+                    </InputSelect>
+                </div>
+                
+                <div class="form-group">
+                    <label>Total Amount (R)</label>
+                    <InputNumber @bind-Value="editingOrder.TotalAmount" class="form-control" />
+                </div>
+                
+                <div class="form-group">
+                    <label>Deposit Paid (R)</label>
+                    <InputNumber @bind-Value="editingOrder.DepositPaid" class="form-control" />
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <InputCheckbox @bind-Value="editingOrder.IsFullyPaid" /> Fully Paid
+                    </label>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" @onclick="CloseModal">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Order</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+}
+
 @code {
     private List<Order> orders = new();
+    private bool showModal = false;
+    private Order editingOrder = new();
 
     protected override void OnInitialized()
     {
         orders = Data.GetOrders();
+    }
+
+    private void AddNewOrder()
+    {
+        editingOrder = new Order();
+        showModal = true;
+    }
+
+    private void EditOrder(Order o)
+    {
+        editingOrder = new Order
+        {
+            Id = o.Id,
+            OrderNumber = o.OrderNumber,
+            CustomerName = o.CustomerName,
+            CustomerEmail = o.CustomerEmail,
+            Status = o.Status,
+            OrderDate = o.OrderDate,
+            TotalAmount = o.TotalAmount,
+            DepositPaid = o.DepositPaid,
+            IsFullyPaid = o.IsFullyPaid
+        };
+        showModal = true;
+    }
+
+    private void SaveOrder()
+    {
+        Data.SaveOrder(editingOrder);
+        orders = Data.GetOrders();
+        showModal = false;
+    }
+
+    private void CloseModal()
+    {
+        showModal = false;
     }
 
     private string GetStatusClass(string status) => status.ToLower() switch

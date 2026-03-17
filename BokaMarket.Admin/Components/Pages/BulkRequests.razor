@@ -54,6 +54,7 @@
                         {
                             <button class="btn-primary" style="font-size: 0.75rem; padding: 4px 12px;" @onclick="() => Confirm(req.Id)">Confirm</button>
                         }
+                        <i class="bi bi-trash" style="cursor: pointer; color: #E74C3C; margin-left: 10px;" @onclick="() => Delete(req.Id)"></i>
                     </td>
                 </tr>
             }
@@ -68,6 +69,7 @@
 
     private void Negotiate(int id) { Data.UpdateBulkStatus(id, "In Negotiation"); requests = Data.GetBulkRequests(); }
     private void Confirm(int id)   { Data.UpdateBulkStatus(id, "Confirmed");       requests = Data.GetBulkRequests(); }
+    private void Delete(int id)    { Data.DeleteBulkRequest(id);                   requests = Data.GetBulkRequests(); }
 
     private string GetStatusClass(string status) => status switch
     {

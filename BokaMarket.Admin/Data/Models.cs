@@ -73,3 +73,14 @@ public class Invoice
     public decimal DiscountAmount => Subtotal * DiscountRate;
     public decimal Total => Subtotal + VatAmount - DiscountAmount;
 }
+
+public class AppSettings
+{
+    public string StoreName { get; set; } = "Boka's Yarn Market";
+    public string Tagline { get; set; } = "Crafting Slowly, Living Intentionally.";
+    public string ContactEmail { get; set; } = "hello@bokayarnmarket.co.za";
+    public string MarketLocation { get; set; } = "Neighbourgoods Market, Woodstock";
+    public DateTime MarketDate { get; set; } = new DateTime(2026, 3, 21);
+    public int DepositPercent { get; set; } = 30;
+    public int LaybyWeeks { get; set; } = 4;
+}

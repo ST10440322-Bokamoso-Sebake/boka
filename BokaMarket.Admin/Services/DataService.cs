@@ -6,10 +6,12 @@ public interface IDataService
 {
     // Orders
     List<Order> GetOrders();
+    void SaveOrder(Order order);
     void UpdateOrderStatus(int id, string status);
 
     // Products
     List<Product> GetProducts();
+    void SaveProduct(Product product);
     void DeleteProduct(int id);
 
     // Reviews
@@ -20,10 +22,15 @@ public interface IDataService
     // Bulk Requests
     List<BulkRequest> GetBulkRequests();
     void UpdateBulkStatus(int id, string status);
+    void DeleteBulkRequest(int id);
 
     // Invoices
     List<Invoice> GetInvoices();
     void SaveInvoice(Invoice invoice);
+
+    // Settings
+    AppSettings GetSettings();
+    void SaveSettings(AppSettings settings);
 }
 
 public class InMemoryDataService : IDataService
@@ -33,6 +40,7 @@ public class InMemoryDataService : IDataService
     private readonly List<Review> _reviews;
     private readonly List<BulkRequest> _bulkRequests;
     private readonly List<Invoice> _invoices;
+    private AppSettings _settings;
 
     public InMemoryDataService()
     {
@@ -85,9 +93,25 @@ public class InMemoryDataService : IDataService
                 }
             }
         };
+
+        _settings = new AppSettings();
     }
 
     public List<Order> GetOrders() => _orders.OrderByDescending(o => o.OrderDate).ToList();
+    public void SaveOrder(Order order)
+    {
+        if (order.Id == 0)
+        {
+            order.Id = _orders.Any() ? _orders.Max(o => o.Id) + 1 : 1;
+            order.OrderNumber = $"#BYM-{9400 + order.Id}";
+            _orders.Add(order);
+        }
+        else
+        {
+            var idx = _orders.FindIndex(o => o.Id == order.Id);
+            if (idx >= 0) _orders[idx] = order;
+        }
+    }
     public void UpdateOrderStatus(int id, string status)
     {
         var order = _orders.FirstOrDefault(o => o.Id == id);
@@ -95,6 +119,19 @@ public class InMemoryDataService : IDataService
     }
 
     public List<Product> GetProducts() => _products.ToList();
+    public void SaveProduct(Product product)
+    {
+        if (product.Id == 0)
+        {
+            product.Id = _products.Any() ? _products.Max(p => p.Id) + 1 : 1;
+            _products.Add(product);
+        }
+        else
+        {
+            var idx = _products.FindIndex(p => p.Id == product.Id);
+            if (idx >= 0) _products[idx] = product;
+        }
+    }
     public void DeleteProduct(int id) => _products.RemoveAll(p => p.Id == id);
 
     public List<Review> GetReviews() => _reviews.OrderByDescending(r => r.Date).ToList();
@@ -111,6 +148,7 @@ public class InMemoryDataService : IDataService
         var req = _bulkRequests.FirstOrDefault(r => r.Id == id);
         if (req != null) req.Status = status;
     }
+    public void DeleteBulkRequest(int id) => _bulkRequests.RemoveAll(r => r.Id == id);
 
     public List<Invoice> GetInvoices() => _invoices.ToList();
     public void SaveInvoice(Invoice invoice)
@@ -126,5 +164,17 @@ public class InMemoryDataService : IDataService
             var idx = _invoices.FindIndex(i => i.Id == invoice.Id);
             if (idx >= 0) _invoices[idx] = invoice;
         }
+    }
+
+    public AppSettings GetSettings() => _settings;
+    public void SaveSettings(AppSettings settings)
+    {
+        _settings.StoreName = settings.StoreName;
+        _settings.Tagline = settings.Tagline;
+        _settings.ContactEmail = settings.ContactEmail;
+        _settings.MarketLocation = settings.MarketLocation;
+        _settings.MarketDate = settings.MarketDate;
+        _settings.DepositPercent = settings.DepositPercent;
+        _settings.LaybyWeeks = settings.LaybyWeeks;
     }
 }

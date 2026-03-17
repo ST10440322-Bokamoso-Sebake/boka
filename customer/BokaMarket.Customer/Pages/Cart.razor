@@ -1,0 +1,96 @@
+@page "/cart"
+@inject IDataService Data
+
+<div style="background: var(--bg-main); padding: 4rem 2.5rem; text-align: center;">
+    <h1 style="font-size: 2.2rem; color: var(--primary); font-weight: 800; margin-bottom: 0.5rem;">Your Cart</h1>
+    <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Review the items you’ve selected before finishing your order.</p>
+</div>
+
+<div class="cart-container" style="max-width: 1000px; margin: 3rem auto; padding: 0 2.5rem; display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
+    <!-- Items Side -->
+    <div>
+        <h2 style="font-size: 1.25rem; font-weight: 700; border-bottom: 2px solid #eee; padding-bottom: 1rem; margin-bottom: 2rem;">2 Items</h2>
+
+        <!-- Mock Item 1 -->
+        <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; border-bottom: 1px dotted #eee; padding-bottom: 1.5rem;">
+            <img src="images/78.png" style="width: 120px; height: 120px; border-radius: 8px; object-fit: cover;" onerror="this.src='https://placehold.co/120x120/F7E8FA/7E3091';" />
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0 0 5px 0;">Chunky Merino Cardigan</h3>
+                        <i class="bi bi-trash" style="cursor: pointer; color: #E74C3C;"></i>
+                    </div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">Custom Fit | Lavender</div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                    <div style="display: flex; align-items: center; border: 1px solid #ddd; border-radius: 6px; overflow: hidden;">
+                        <button style="border: none; background: white; padding: 5px 12px; cursor: pointer;">-</button>
+                        <span style="font-size: 0.9rem; font-weight: 600; padding: 0 10px;">1</span>
+                        <button style="border: none; background: white; padding: 5px 12px; cursor: pointer;">+</button>
+                    </div>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary);">R450</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mock Item 2 -->
+        <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; border-bottom: 1px dotted #eee; padding-bottom: 1.5rem;">
+            <img src="images/79.png" style="width: 120px; height: 120px; border-radius: 8px; object-fit: cover;" onerror="this.src='https://placehold.co/120x120/F7E8FA/7E3091';" />
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0 0 5px 0;">Bamboo Crochet Hook Set</h3>
+                        <i class="bi bi-trash" style="cursor: pointer; color: #E74C3C;"></i>
+                    </div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">Ergonomic 2-6mm</div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                    <div style="display: flex; align-items: center; border: 1px solid #ddd; border-radius: 6px; overflow: hidden;">
+                        <button style="border: none; background: white; padding: 5px 12px; cursor: pointer;">-</button>
+                        <span style="font-size: 0.9rem; font-weight: 600; padding: 0 10px;">1</span>
+                        <button style="border: none; background: white; padding: 5px 12px; cursor: pointer;">+</button>
+                    </div>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary);">R35</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Side -->
+    <div>
+        <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.04); position: sticky; top: 100px;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem;">Order Summary</h3>
+            
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem;">
+                <span style="color: var(--text-muted);">Subtotal</span>
+                <span style="font-weight: 600;">R485.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem;">
+                <span style="color: var(--text-muted);">Shipping</span>
+                <span style="font-weight: 600;">Calculated at next step</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem;">
+                <span style="color: var(--text-muted);">Estimated Tax</span>
+                <span style="font-weight: 600;">R0.00</span>
+            </div>
+
+            <div style="border-top: 1px solid #eee; margin: 1.5rem 0; padding-top: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: 800; color: var(--primary);">
+                    <span>Total</span>
+                    <span>R485.00</span>
+                </div>
+                
+                <p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-top: 10px;">
+                    or choose to <strong style="color: var(--accent);">Lay-by from R145.50</strong> / month.
+                </p>
+            </div>
+
+            <a href="/checkout" class="btn-primary" style="display: block; text-align: center; font-size: 1rem; padding: 1rem;">
+                Proceed to Checkout
+            </a>
+            <a href="/catalog" style="display: block; text-align: center; font-size: 0.85rem; margin-top: 15px; color: var(--text-muted); text-decoration: none;">
+                Continue Shopping
+            </a>
+        </div>
+    </div>
+</div>

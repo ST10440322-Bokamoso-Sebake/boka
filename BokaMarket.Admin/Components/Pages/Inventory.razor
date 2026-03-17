@@ -9,7 +9,7 @@
 <div class="table-container">
     <div class="table-header">
         <h2 style="font-size: 1.25rem; font-weight: 600;">Product Catalog</h2>
-        <button class="btn-primary" style="font-size: 0.85rem;">+ ADD NEW ITEM</button>
+        <button class="btn-primary" style="font-size: 0.85rem;" @onclick="AddNewItem">+ ADD NEW ITEM</button>
     </div>
     <table>
         <thead>
@@ -45,7 +45,7 @@
                     </td>
                     <td>
                         <div style="display: flex; gap: 12px;">
-                            <i class="bi bi-pencil" style="cursor: pointer; color: var(--text-muted);"></i>
+                            <i class="bi bi-pencil" style="cursor: pointer; color: var(--text-muted);" @onclick="() => EditItem(product)"></i>
                             <i class="bi bi-trash" style="cursor: pointer; color: #E74C3C;" @onclick="() => Delete(product.Id)"></i>
                         </div>
                     </td>
@@ -55,12 +55,93 @@
     </table>
 </div>
 
+@if (showModal)
+{
+    <div class="modal-overlay" @onclick="CloseModal">
+        <div class="modal-content" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <h3>@(editingProduct.Id == 0 ? "Add New Item" : "Edit Item")</h3>
+                <i class="bi bi-x-lg" style="cursor:pointer;" @onclick="CloseModal"></i>
+            </div>
+            
+            <EditForm Model="editingProduct" OnValidSubmit="SaveProduct">
+                <DataAnnotationsValidator />
+                
+                <div class="form-group">
+                    <label>Name</label>
+                    <InputText @bind-Value="editingProduct.Name" class="form-control" />
+                </div>
+                
+                <div class="form-group">
+                    <label>Category</label>
+                    <InputText @bind-Value="editingProduct.Category" class="form-control" />
+                </div>
+                
+                <div class="form-group">
+                    <label>Price</label>
+                    <InputNumber @bind-Value="editingProduct.Price" class="form-control" />
+                </div>
+                
+                <div class="form-group">
+                    <label>Stock</label>
+                    <InputNumber @bind-Value="editingProduct.InventoryCount" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <InputTextArea @bind-Value="editingProduct.Description" class="form-control" />
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" @onclick="CloseModal">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Item</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+}
+
 @code {
     private List<Product> products = new();
+    private bool showModal = false;
+    private Product editingProduct = new();
 
     protected override void OnInitialized()
     {
         products = Data.GetProducts();
+    }
+
+    private void AddNewItem()
+    {
+        editingProduct = new Product();
+        showModal = true;
+    }
+
+    private void EditItem(Product p)
+    {
+        editingProduct = new Product
+        {
+            Id = p.Id,
+            Name = p.Name,
+            Category = p.Category,
+            Price = p.Price,
+            InventoryCount = p.InventoryCount,
+            Description = p.Description,
+            ImageUrl = p.ImageUrl
+        };
+        showModal = true;
+    }
+
+    private void SaveProduct()
+    {
+        Data.SaveProduct(editingProduct);
+        products = Data.GetProducts();
+        showModal = false;
+    }
+
+    private void CloseModal()
+    {
+        showModal = false;
     }
 
     private void Delete(int id)

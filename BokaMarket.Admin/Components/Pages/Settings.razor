@@ -1,4 +1,5 @@
 @page "/settings"
+@inject IDataService Data
 
 <div class="page-header">
     <h1>Settings</h1>
@@ -65,17 +66,41 @@
 </div>
 
 @code {
-    private string storeName = "Boka's Yarn Market";
-    private string tagline = "Crafting Slowly, Living Intentionally.";
-    private string email = "hello@bokayarnmarket.co.za";
-    private string marketLocation = "Neighbourgoods Market, Woodstock";
-    private DateTime marketDate = new DateTime(2026, 3, 21);
-    private int depositPercent = 30;
-    private int laybyWeeks = 4;
+    private string storeName = "";
+    private string tagline = "";
+    private string email = "";
+    private string marketLocation = "";
+    private DateTime marketDate;
+    private int depositPercent;
+    private int laybyWeeks;
     private bool saved = false;
+
+    protected override void OnInitialized()
+    {
+        var settings = Data.GetSettings();
+        storeName = settings.StoreName;
+        tagline = settings.Tagline;
+        email = settings.ContactEmail;
+        marketLocation = settings.MarketLocation;
+        marketDate = settings.MarketDate;
+        depositPercent = settings.DepositPercent;
+        laybyWeeks = settings.LaybyWeeks;
+    }
 
     private async void Save()
     {
+        var updated = new AppSettings
+        {
+            StoreName = storeName,
+            Tagline = tagline,
+            ContactEmail = email,
+            MarketLocation = marketLocation,
+            MarketDate = marketDate,
+            DepositPercent = depositPercent,
+            LaybyWeeks = laybyWeeks
+        };
+        Data.SaveSettings(updated);
+
         saved = true;
         StateHasChanged();
         await Task.Delay(3000);

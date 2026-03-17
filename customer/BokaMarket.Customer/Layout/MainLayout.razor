@@ -1,0 +1,33 @@
+@inherits LayoutComponentBase
+
+<div class="page">
+    <nav class="navbar">
+        <a class="brand" href="/">Boka's Yarn Market</a>
+        <div class="nav-links" style="display:flex; align-items:center;">
+            <a href="/">Home</a>
+            <a href="/catalog">Shop All</a>
+            <a href="/about">Our Story</a>
+            <a href="/contact">Contact</a>
+            
+            <a href="/cart" class="cart-icon" style="margin-left: 20px;">
+                <i class="bi bi-bag"></i>
+                <span class="cart-count">2</span> <!-- Hardcoded for now -->
+            </a>
+        </div>
+    </nav>
+    <main>
+        @Body
+    </main>
+    <footer>
+        <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); margin-bottom: 5px;">Boka's Yarn Market</div>
+        <div>Crafting Slowly, Living Intentionally.</div>
+        <div>Cape Town, South Africa</div>
+        <a href="http://localhost:5000" class="admin-link">Admin Dashboard</a> <!-- Or relative link if hosted together -->
+    </footer>
+</div>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
