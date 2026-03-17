@@ -1,0 +1,67 @@
+@page "/reviews"
+@inject IDataService Data
+
+<div class="page-header">
+    <h1>Review Moderation</h1>
+    <p style="color: var(--text-muted);">Approve or reject customer reviews before they go live.</p>
+</div>
+
+<div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="stat-card">
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">PENDING REVIEW</div>
+        <div class="stat-value">@reviews.Count(r => !r.IsApproved)</div>
+    </div>
+    <div class="stat-card">
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">APPROVED</div>
+        <div class="stat-value">@reviews.Count(r => r.IsApproved)</div>
+    </div>
+    <div class="stat-card featured">
+        <div style="font-size: 0.8rem; opacity: 0.8; margin-bottom: 8px;">AVERAGE RATING</div>
+        <div class="stat-value">4.8 ⭐</div>
+    </div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 1.2rem;">
+    @foreach (var review in reviews)
+    {
+        <div class="table-container" style="padding: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+                <div style="flex: 1;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                        <div class="profile-avatar" style="width: 36px; height: 36px; font-size: 0.8rem; flex-shrink: 0;">
+                            @review.CustomerName[0]
+                        </div>
+                        <div>
+                            <div style="font-weight: 600;">@review.CustomerName</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">@review.Date.ToShortDateString()</div>
+                        </div>
+                    </div>
+                    <div style="color: #F39C12; margin-bottom: 10px; font-size: 1.1rem;">
+                        @(new string('★', review.Rating))@(new string('☆', 5 - review.Rating))
+                    </div>
+                    <p style="margin: 0; color: var(--text-main);">@review.Comment</p>
+                </div>
+                <div style="display: flex; gap: 10px; flex-shrink: 0;">
+                    @if (!review.IsApproved)
+                    {
+                        <button class="btn-primary" style="background: var(--accent-green);" @onclick="() => Approve(review.Id)">✓ Approve</button>
+                        <button class="btn-primary" style="background: #E74C3C;" @onclick="() => Delete(review.Id)">✗ Reject</button>
+                    }
+                    else
+                    {
+                        <span class="status-badge status-paid">LIVE</span>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<Review> reviews = new();
+
+    protected override void OnInitialized() => reviews = Data.GetReviews();
+
+    private void Approve(int id) { Data.ApproveReview(id); reviews = Data.GetReviews(); }
+    private void Delete(int id)  { Data.DeleteReview(id);  reviews = Data.GetReviews(); }
+}

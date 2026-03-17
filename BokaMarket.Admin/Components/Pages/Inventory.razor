@@ -1,0 +1,71 @@
+@page "/inventory"
+@inject IDataService Data
+
+<div class="page-header">
+    <h1>Inventory Management</h1>
+    <p style="color: var(--text-muted);">Manage your artisanal goods and digital patterns.</p>
+</div>
+
+<div class="table-container">
+    <div class="table-header">
+        <h2 style="font-size: 1.25rem; font-weight: 600;">Product Catalog</h2>
+        <button class="btn-primary" style="font-size: 0.85rem;">+ ADD NEW ITEM</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td><img src="@product.ImageUrl" style="width: 48px; height: 48px; border-radius: 8px; object-fit: cover;" /></td>
+                    <td>
+                        <div style="font-weight: 600;">@product.Name</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">@product.Description</div>
+                    </td>
+                    <td style="color: var(--text-muted);">@product.Category</td>
+                    <td style="font-weight: 600;">R@product.Price.ToString("N0")</td>
+                    <td>
+                        @if (product.InventoryCount < 10)
+                        {
+                            <span style="color: #E67E22; font-weight: 600;">@product.InventoryCount <small>(LOW)</small></span>
+                        }
+                        else
+                        {
+                            <span>@product.InventoryCount</span>
+                        }
+                    </td>
+                    <td>
+                        <div style="display: flex; gap: 12px;">
+                            <i class="bi bi-pencil" style="cursor: pointer; color: var(--text-muted);"></i>
+                            <i class="bi bi-trash" style="cursor: pointer; color: #E74C3C;" @onclick="() => Delete(product.Id)"></i>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    private List<Product> products = new();
+
+    protected override void OnInitialized()
+    {
+        products = Data.GetProducts();
+    }
+
+    private void Delete(int id)
+    {
+        Data.DeleteProduct(id);
+        products = Data.GetProducts();
+    }
+}

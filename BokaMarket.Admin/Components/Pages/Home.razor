@@ -1,0 +1,101 @@
+@page "/"
+@inject IDataService Data
+
+<div class="page-header">
+    <h1>Overview</h1>
+    <p style="color: var(--text-muted);">Welcome back to the BYM Studio. Here's a look at your shop today.</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">TOTAL REVENUE</div>
+        <div class="stat-value">R12,450</div>
+        <div style="font-size: 0.75rem; color: var(--accent-green); margin-top: 8px;">↑ +14% since last month</div>
+    </div>
+    <div class="stat-card">
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">VISITS TODAY</div>
+        <div class="stat-value">842</div>
+        <div style="font-size: 0.75rem; color: var(--accent-green); margin-top: 8px;">↑ +4% since yesterday</div>
+    </div>
+    <div class="stat-card">
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">CONVERSION RATE</div>
+        <div class="stat-value">3.2%</div>
+        <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px;">Steady as usual</div>
+    </div>
+    <div class="stat-card featured">
+        <div style="font-size: 0.8rem; opacity: 0.8; margin-bottom: 8px;">NEW CUSTOMERS</div>
+        <div class="stat-value">124</div>
+        <div style="font-size: 0.75rem; opacity: 0.8; margin-top: 8px;">Up this month!</div>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+    <div class="table-container">
+        <div class="table-header">
+            <h2 style="font-size: 1.25rem; font-weight: 600;">Recent Orders</h2>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Status</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in recentOrders)
+                {
+                    <tr>
+                        <td style="color: var(--primary); font-weight: 700;">@order.OrderNumber</td>
+                        <td>@order.CustomerName</td>
+                        <td><span class="status-badge @GetStatusClass(order.Status)">@order.Status.ToUpper()</span></td>
+                        <td>@order.TotalAmount.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-container">
+        <div class="table-header">
+            <h2 style="font-size: 1.25rem; font-weight: 600;">Top Categories</h2>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+            @foreach (var cat in categories)
+            {
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <div style="font-weight: 600;">@cat.Name</div>
+                        <div style="color: var(--primary);">@cat.Percent%</div>
+                    </div>
+                    <div style="height: 8px; background: #eee; border-radius: 4px;">
+                        <div style="width: @(cat.Percent)%; height: 100%; background: var(--primary); border-radius: 4px; transition: width 0.6s ease;"></div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Order> recentOrders = new();
+    private record CategoryStat(string Name, int Percent);
+    private List<CategoryStat> categories = new()
+    {
+        new("Yarn Bundles", 45), new("Crochet Kits", 32), new("Hand-dyed Silk", 23)
+    };
+
+    protected override void OnInitialized()
+    {
+        recentOrders = Data.GetOrders().Take(4).ToList();
+    }
+
+    private string GetStatusClass(string status) => status.ToLower() switch
+    {
+        "in production" => "status-in-production",
+        "ready for pickup" => "status-ready",
+        "deposit paid" => "status-paid",
+        _ => ""
+    };
+}

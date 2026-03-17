@@ -1,0 +1,14 @@
+# Netlify Build Configuration for BYM Admin (Blazor WASM)
+
+[build]
+  command   = "dotnet publish -c Release -o publish"
+  publish   = "publish/wwwroot"
+
+[build.environment]
+  DOTNET_VERSION = "10.0"
+
+# SPA fallback — all routes serve index.html so Blazor routing works
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200

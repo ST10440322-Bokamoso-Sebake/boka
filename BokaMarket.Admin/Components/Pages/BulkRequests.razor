@@ -1,0 +1,79 @@
+@page "/bulk-requests"
+@inject IDataService Data
+
+<div class="page-header">
+    <h1>Bulk Requests</h1>
+    <p style="color: var(--text-muted);">Handle large-volume and corporate commission inquiries.</p>
+</div>
+
+<div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="stat-card">
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">PENDING</div>
+        <div class="stat-value" style="color: #E67E22;">@requests.Count(r => r.Status == "Pending")</div>
+    </div>
+    <div class="stat-card">
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">IN NEGOTIATION</div>
+        <div class="stat-value" style="color: var(--primary);">@requests.Count(r => r.Status == "In Negotiation")</div>
+    </div>
+    <div class="stat-card featured">
+        <div style="font-size: 0.8rem; opacity: 0.8; margin-bottom: 8px;">CONFIRMED</div>
+        <div class="stat-value">@requests.Count(r => r.Status == "Confirmed")</div>
+    </div>
+</div>
+
+<div class="table-container">
+    <div class="table-header">
+        <h2 style="font-size: 1.25rem; font-weight: 600;">All Bulk Requests</h2>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Organization</th>
+                <th>Contact</th>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var req in requests)
+            {
+                <tr>
+                    <td style="font-weight: 600;">@req.Organization</td>
+                    <td style="color: var(--text-muted);">@req.ContactPerson</td>
+                    <td>@req.Item</td>
+                    <td>@req.Quantity</td>
+                    <td><span class="status-badge @GetStatusClass(req.Status)">@req.Status</span></td>
+                    <td>
+                        @if (req.Status == "Pending")
+                        {
+                            <button class="btn-primary" style="font-size: 0.75rem; padding: 4px 12px; background: var(--accent-green);" @onclick="() => Negotiate(req.Id)">Negotiate</button>
+                        }
+                        else if (req.Status == "In Negotiation")
+                        {
+                            <button class="btn-primary" style="font-size: 0.75rem; padding: 4px 12px;" @onclick="() => Confirm(req.Id)">Confirm</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    private List<BulkRequest> requests = new();
+
+    protected override void OnInitialized() => requests = Data.GetBulkRequests();
+
+    private void Negotiate(int id) { Data.UpdateBulkStatus(id, "In Negotiation"); requests = Data.GetBulkRequests(); }
+    private void Confirm(int id)   { Data.UpdateBulkStatus(id, "Confirmed");       requests = Data.GetBulkRequests(); }
+
+    private string GetStatusClass(string status) => status switch
+    {
+        "Pending"        => "status-in-production",
+        "In Negotiation" => "status-ready",
+        "Confirmed"      => "status-paid",
+        _ => ""
+    };
+}

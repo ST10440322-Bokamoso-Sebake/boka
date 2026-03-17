@@ -1,0 +1,210 @@
+:root {
+    --primary: #7E3091;
+    --primary-light: #9B59B6;
+    --bg-main: #F7F7E8;
+    --bg-card: #FFFFFF;
+    --sidebar-bg: #E1E4C9;
+    --text-main: #2D2D2D;
+    --text-muted: #6B6B6B;
+    --accent-green: #27AE60;
+    --status-production: #FAD390;
+    --status-ready: #A29BFE;
+    --status-paid: #78E08F;
+    --border-radius: 16px;
+    --card-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    background-color: var(--sidebar-bg);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border-right: 1px solid rgba(0,0,0,0.05);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 2rem;
+}
+
+.logo-icon {
+    width: 32px;
+    height: 32px;
+    background-color: var(--primary);
+    border-radius: 8px;
+}
+
+.admin-profile {
+    background: white;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 2rem;
+    box-shadow: var(--card-shadow);
+}
+
+.profile-avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.nav-item a {
+    text-decoration: none;
+    color: var(--text-muted);
+    padding: 0.8rem 1.2rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.nav-item a:hover {
+    background-color: rgba(255,255,255,0.5);
+    color: var(--primary);
+}
+
+.nav-item a.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+/* Main Content Area */
+.main-content {
+    padding: 2.5rem;
+    overflow-y: auto;
+}
+
+.page-header {
+    margin-bottom: 2.5rem;
+}
+
+.page-header h1 {
+    font-size: 2.5rem;
+    color: var(--primary);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+/* Stats Cards */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.stat-card.featured {
+    background-color: var(--primary);
+    color: white;
+}
+
+.stat-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+/* Table Design */
+.table-container {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+    padding: 1rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #eee;
+}
+
+td {
+    padding: 1.2rem 1rem;
+    border-bottom: 1px solid #f9f9f9;
+}
+
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-in-production { background-color: #E3F2FD; color: #1976D2; }
+.status-ready { background-color: #F3E5F5; color: #7B1FA2; }
+.status-paid { background-color: #E8F5E9; color: #388E3C; }
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: opacity 0.2s;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}

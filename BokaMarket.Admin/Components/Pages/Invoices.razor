@@ -1,0 +1,279 @@
+@page "/invoices"
+@inject IDataService Data
+
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px;">INVOICES / <span style="color: var(--primary); font-weight: 600;">NEW INVOICE</span></div>
+            <h1>Generate Invoice</h1>
+        </div>
+        <div style="display: flex; gap: 12px;">
+            <button class="btn-primary" style="background: white; color: var(--primary); border: 1px solid var(--primary);" @onclick="SaveDraft">
+                Save as Draft
+            </button>
+            <button class="btn-primary" @onclick="SendInvoice" style="display: flex; align-items: center; gap: 8px;">
+                <i class="bi bi-send-fill"></i> Send Invoice via Email
+            </button>
+        </div>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 420px; gap: 1.5rem; align-items: start;">
+
+    <!-- LEFT — Configuration -->
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+
+        <!-- Invoice Config -->
+        <div class="table-container" style="padding: 1.8rem;">
+            <h2 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem;">Invoice Configuration</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;">
+                <div>
+                    <label class="form-label">Order ID</label>
+                    <select @bind="selectedOrderId" class="form-control">
+                        <option value="">Select Order...</option>
+                        @foreach (var o in allOrders)
+                        {
+                            <option value="@o.Id">@o.OrderNumber — @o.CustomerName</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label">Customer</label>
+                    <input type="text" class="form-control" placeholder="Search customer..." @bind="invoice.CustomerName" />
+                </div>
+                <div>
+                    <label class="form-label">Customer Address</label>
+                    <textarea class="form-control" placeholder="123 Artisan Way..." @bind="invoice.CustomerAddress" style="height: 60px; resize: none;"></textarea>
+                </div>
+                <div>
+                    <label class="form-label">Discount Code (Optional)</label>
+                    <input type="text" class="form-control" placeholder="e.g. SUMMERLOOM10" @bind="invoice.DiscountCode"
+                           @onblur="ApplyDiscountCode" />
+                </div>
+                <div>
+                    <label class="form-label">Issue Date</label>
+                    <input type="date" class="form-control" @bind="invoice.IssueDate" />
+                </div>
+                <div>
+                    <label class="form-label">Due Date</label>
+                    <input type="date" class="form-control" @bind="invoice.DueDate" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Line Items -->
+        <div class="table-container" style="padding: 1.8rem;">
+            <div class="table-header" style="margin-bottom: 1.2rem;">
+                <h2 style="font-size: 1.1rem; font-weight: 600;">Line Items</h2>
+                <button class="btn-primary" style="background: var(--primary); font-size: 0.85rem; display: flex; align-items: center; gap: 6px;" @onclick="AddItem">
+                    <i class="bi bi-plus-circle-fill"></i> Add Item
+                </button>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ITEM</th>
+                        <th style="width: 70px;">QTY</th>
+                        <th style="width: 110px;">UNIT PRICE</th>
+                        <th style="width: 100px;">TOTAL</th>
+                        <th style="width: 40px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in invoice.Items)
+                    {
+                        <tr>
+                            <td>
+                                <input class="form-control" style="font-weight: 600; margin-bottom: 4px;" placeholder="Item name" @bind="item.Name" />
+                                <input class="form-control" style="font-size: 0.8rem; color: var(--text-muted);" placeholder="Description" @bind="item.Description" />
+                            </td>
+                            <td><input type="number" class="form-control" min="1" @bind="item.Qty" /></td>
+                            <td><input type="number" class="form-control" step="0.01" @bind="item.UnitPrice" /></td>
+                            <td style="font-weight: 600;">R@item.Total.ToString("N2")</td>
+                            <td>
+                                <i class="bi bi-trash" style="cursor: pointer; color: #E74C3C;" @onclick="() => RemoveItem(item)"></i>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- RIGHT — Live Invoice Preview -->
+    <div class="table-container invoice-preview" style="padding: 2rem; position: sticky; top: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+            <div>
+                <div style="font-size: 1.1rem; font-weight: 700; color: var(--primary); font-style: italic;">Boka's Yarn Market</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">127 Weaver's Lane, Indigo District</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Market Heights, MH-55402</div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 1.4rem; font-weight: 800; letter-spacing: 0.05em;">INVOICE</div>
+                <div style="font-size: 0.8rem; color: var(--primary);">@invoice.InvoiceNumber</div>
+            </div>
+        </div>
+
+        <div style="border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 1rem 0; margin-bottom: 1.2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div>
+                <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Bill To</div>
+                <div style="font-weight: 600;">@(string.IsNullOrWhiteSpace(invoice.CustomerName) ? "Customer Name" : invoice.CustomerName)</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); white-space: pre-line;">@invoice.CustomerAddress</div>
+            </div>
+            <div>
+                <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Details</div>
+                <div style="font-size: 0.8rem;"><b>Issued:</b> @invoice.IssueDate.ToString("MMM dd, yyyy")</div>
+                <div style="font-size: 0.8rem;"><b>Due:</b> @invoice.DueDate.ToString("MMM dd, yyyy")</div>
+            </div>
+        </div>
+
+        <!-- Line Item Preview -->
+        @foreach (var item in invoice.Items)
+        {
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dotted #eee;">
+                <div>
+                    <div style="font-size: 0.9rem; font-weight: 600;">@item.Name</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">@item.Description</div>
+                </div>
+                <div style="font-size: 0.9rem; font-weight: 600; white-space: nowrap; margin-left: 12px;">
+                    @item.Qty × R@item.UnitPrice = <span style="color: var(--primary);">R@item.Total.ToString("N2")</span>
+                </div>
+            </div>
+        }
+
+        <!-- Totals -->
+        <div style="margin-top: 1.2rem; display: flex; flex-direction: column; gap: 6px;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                <span>Subtotal</span>
+                <span>R@invoice.Subtotal.ToString("N2")</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                <span>VAT (15%)</span>
+                <span>R@invoice.VatAmount.ToString("N2")</span>
+            </div>
+            @if (invoice.DiscountRate > 0)
+            {
+                <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: #27AE60;">
+                    <span>Discount (@((invoice.DiscountRate * 100).ToString("0"))%)</span>
+                    <span>-R@invoice.DiscountAmount.ToString("N2")</span>
+                </div>
+            }
+            <div style="display: flex; justify-content: space-between; font-size: 1.5rem; font-weight: 800; color: var(--primary); border-top: 2px solid var(--primary); margin-top: 8px; padding-top: 8px;">
+                <span style="font-size: 0.85rem; text-transform: uppercase; align-self: center;">Total Amount</span>
+                <span>R@invoice.Total.ToString("N2")</span>
+            </div>
+        </div>
+
+        <div style="text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: 1.5rem; border-top: 1px solid #eee; padding-top: 1rem; letter-spacing: 0.05em; text-transform: uppercase;">
+            Thank you for supporting slow fashion.
+        </div>
+
+        <!-- Actions -->
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 1.5rem;">
+            <button class="btn-primary" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px;" @onclick="SendInvoice">
+                <i class="bi bi-send-fill"></i> Send Invoice via Email
+            </button>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <button class="btn-primary" style="background: #444; display: flex; align-items: center; justify-content: center; gap: 6px;" @onclick="DownloadPdf">
+                    <i class="bi bi-download"></i> PDF
+                </button>
+                <button class="btn-primary" style="background: #25D366; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <i class="bi bi-whatsapp"></i> WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (showToast)
+{
+    <div style="position: fixed; bottom: 2rem; right: 2rem; background: var(--primary); color: white; padding: 1rem 1.5rem; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); z-index: 999; display: flex; align-items: center; gap: 10px;">
+        <i class="bi bi-check-circle-fill"></i> @toastMessage
+    </div>
+}
+
+<style>
+    .form-label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        display: block;
+        margin-bottom: 6px;
+    }
+    .form-control {
+        width: 100%;
+        padding: 9px 14px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        font-family: inherit;
+        font-size: 0.9rem;
+        color: var(--text-main);
+        box-sizing: border-box;
+        transition: border-color 0.2s;
+        background: #fafafa;
+    }
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+        background: white;
+    }
+    .invoice-preview { border: 1px solid #e8e8e8; }
+</style>
+
+@code {
+    private Invoice invoice = new();
+    private List<Order> allOrders = new();
+    private int selectedOrderId;
+    private bool showToast;
+    private string toastMessage = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        allOrders = Data.GetOrders();
+        invoice = new Invoice
+        {
+            InvoiceNumber = $"#INV-{DateTime.Now.Year}-{Random.Shared.Next(1000, 9999)}",
+            Items = new List<InvoiceItem>
+            {
+                new() { Name = "Hand-Dyed Merino Wool", Description = "Sage Green, 100g Skein", Qty = 4, UnitPrice = 22 },
+                new() { Name = "Bamboo Crochet Hook Set", Description = "Ergonomic sizes 2-6mm", Qty = 1, UnitPrice = 35 }
+            }
+        };
+    }
+
+    private void AddItem() => invoice.Items.Add(new InvoiceItem());
+    private void RemoveItem(InvoiceItem item) => invoice.Items.Remove(item);
+
+    private void ApplyDiscountCode()
+    {
+        invoice.DiscountRate = invoice.DiscountCode?.ToUpper() switch
+        {
+            "SUMMERLOOM10" => 0.10m,
+            "BYM20"        => 0.20m,
+            "SLOW5"        => 0.05m,
+            _              => 0m
+        };
+    }
+
+    private void SaveDraft()
+    {
+        Data.SaveInvoice(invoice);
+        ShowToast("Invoice saved as draft!");
+    }
+
+    private void SendInvoice() => ShowToast("Invoice sent via email!");
+    private void DownloadPdf() => ShowToast("PDF download started!");
+
+    private async void ShowToast(string msg)
+    {
+        toastMessage = msg;
+        showToast = true;
+        StateHasChanged();
+        await Task.Delay(3000);
+        showToast = false;
+        StateHasChanged();
+    }
+}

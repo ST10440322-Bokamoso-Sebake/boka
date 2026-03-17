@@ -1,0 +1,85 @@
+@page "/settings"
+
+<div class="page-header">
+    <h1>Settings</h1>
+    <p style="color: var(--text-muted);">Manage your store configuration and preferences.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 800px;">
+
+    <div class="table-container">
+        <h2 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--primary);">Store Details</h2>
+        <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+            <div>
+                <label style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 6px;">STORE NAME</label>
+                <input type="text" @bind="storeName" style="width: 100%; padding: 10px 16px; border: 1px solid #eee; border-radius: 10px; font-family: inherit; font-size: 0.95rem;" />
+            </div>
+            <div>
+                <label style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 6px;">TAGLINE</label>
+                <input type="text" @bind="tagline" style="width: 100%; padding: 10px 16px; border: 1px solid #eee; border-radius: 10px; font-family: inherit; font-size: 0.95rem;" />
+            </div>
+            <div>
+                <label style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 6px;">CONTACT EMAIL</label>
+                <input type="email" @bind="email" style="width: 100%; padding: 10px 16px; border: 1px solid #eee; border-radius: 10px; font-family: inherit; font-size: 0.95rem;" />
+            </div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <h2 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--primary);">Next Market Visit</h2>
+        <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+            <div>
+                <label style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 6px;">LOCATION</label>
+                <input type="text" @bind="marketLocation" style="width: 100%; padding: 10px 16px; border: 1px solid #eee; border-radius: 10px; font-family: inherit; font-size: 0.95rem;" />
+            </div>
+            <div>
+                <label style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 6px;">DATE</label>
+                <input type="date" @bind="marketDate" style="width: 100%; padding: 10px 16px; border: 1px solid #eee; border-radius: 10px; font-family: inherit; font-size: 0.95rem;" />
+            </div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <h2 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--primary);">Lay-by Configuration</h2>
+        <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+            <div>
+                <label style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 6px;">MINIMUM DEPOSIT (%)</label>
+                <input type="number" @bind="depositPercent" min="10" max="100" style="width: 100%; padding: 10px 16px; border: 1px solid #eee; border-radius: 10px; font-family: inherit; font-size: 0.95rem;" />
+            </div>
+            <div>
+                <label style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 6px;">LAY-BY PERIOD (WEEKS)</label>
+                <input type="number" @bind="laybyWeeks" min="1" max="12" style="width: 100%; padding: 10px 16px; border: 1px solid #eee; border-radius: 10px; font-family: inherit; font-size: 0.95rem;" />
+            </div>
+        </div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 12px;">
+        <button class="btn-primary" style="padding: 12px 32px; font-size: 1rem;" @onclick="Save">Save Changes</button>
+        @if (saved)
+        {
+            <span style="color: var(--accent-green); font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                <i class="bi bi-check-circle-fill"></i> Settings saved!
+            </span>
+        }
+    </div>
+</div>
+
+@code {
+    private string storeName = "Boka's Yarn Market";
+    private string tagline = "Crafting Slowly, Living Intentionally.";
+    private string email = "hello@bokayarnmarket.co.za";
+    private string marketLocation = "Neighbourgoods Market, Woodstock";
+    private DateTime marketDate = new DateTime(2026, 3, 21);
+    private int depositPercent = 30;
+    private int laybyWeeks = 4;
+    private bool saved = false;
+
+    private async void Save()
+    {
+        saved = true;
+        StateHasChanged();
+        await Task.Delay(3000);
+        saved = false;
+        StateHasChanged();
+    }
+}

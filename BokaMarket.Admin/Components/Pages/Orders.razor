@@ -1,0 +1,90 @@
+@page "/orders"
+@inject IDataService Data
+
+<div class="page-header">
+    <h1>Orders Management</h1>
+    <p style="color: var(--text-muted);">Track and curate pending artisanal commissions.</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">AWAITING DEPOSIT</div>
+        <div class="stat-value">12</div>
+        <div style="font-size: 0.75rem; color: var(--accent-green); margin-top: 8px;">↑ +2 from yesterday</div>
+    </div>
+    <div class="stat-card">
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">IN PRODUCTION</div>
+        <div class="stat-value">08</div>
+        <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px;">4 orders due this week</div>
+    </div>
+    <div class="stat-card">
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">READY FOR PICKUP</div>
+        <div class="stat-value">05</div>
+        <div style="font-size: 0.75rem; color: #E74C3C; margin-top: 8px;">Action required</div>
+    </div>
+    <div class="stat-card featured">
+        <div style="font-size: 0.8rem; opacity: 0.8; margin-bottom: 8px;">TOTAL MONTHLY REVENUE</div>
+        <div class="stat-value">R4,820</div>
+        <div style="font-size: 0.75rem; opacity: 0.8; margin-top: 8px;">Crafted with intentionality</div>
+    </div>
+</div>
+
+<div class="table-container">
+    <div class="table-header">
+        <h2 style="font-size: 1.25rem; font-weight: 600;">Active Orders</h2>
+        <button class="btn-primary" style="font-size: 0.85rem;">DOWNLOAD CSV</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Status</th>
+                <th>Payment</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in orders)
+            {
+                <tr>
+                    <td style="color: var(--primary); font-weight: 700;">@order.OrderNumber</td>
+                    <td>
+                        <div style="font-weight: 600;">@order.CustomerName</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">@order.CustomerEmail</div>
+                    </td>
+                    <td>
+                        <span class="status-badge @GetStatusClass(order.Status)">@order.Status.ToUpper()</span>
+                    </td>
+                    <td>
+                        <div style="font-weight: 600;">@(order.IsFullyPaid ? "Fully Paid" : "Deposit Paid")</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">(R@order.DepositPaid.ToString("N0"))</div>
+                    </td>
+                    <td>
+                        <div style="display: flex; gap: 12px;">
+                            <i class="bi bi-eye" style="cursor: pointer; color: var(--text-muted);"></i>
+                            <i class="bi bi-pencil" style="cursor: pointer; color: var(--text-muted);"></i>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    private List<Order> orders = new();
+
+    protected override void OnInitialized()
+    {
+        orders = Data.GetOrders();
+    }
+
+    private string GetStatusClass(string status) => status.ToLower() switch
+    {
+        "in production" => "status-in-production",
+        "ready for pickup" => "status-ready",
+        "deposit paid" => "status-paid",
+        _ => ""
+    };
+}
