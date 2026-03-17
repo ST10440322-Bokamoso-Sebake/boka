@@ -73,7 +73,7 @@ else
     [Parameter]
     public int Id { get; set; }
     
-    private Product product;
+    private Product? product;
     private int quantity = 1;
 
     protected override void OnParametersSet()
@@ -84,12 +84,18 @@ else
     private void AddToCart()
     {
         // Simple mock method
-        Console.WriteLine($"Added {quantity} x {product.Name} to cart.");
+        if (product != null)
+        {
+            Console.WriteLine($"Added {quantity} x {product.Name} to cart.");
+        }
     }
     
     private void StartLayby()
     {
         // Simple mock method for Lay-by
-        Console.WriteLine($"Started lay-by for {product.Name}.");
+        if (product != null)
+        {
+            Console.WriteLine($"Started lay-by for {product.Name}.");
+        }
     }
 }

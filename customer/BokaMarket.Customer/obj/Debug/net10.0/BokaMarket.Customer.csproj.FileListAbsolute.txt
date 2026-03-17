@@ -217,9 +217,6 @@ C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\icudt_CJK.tjcz0u77k5.dat
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\icudt_EFIGS.tptq2av103.dat
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\icudt_no_CJK.lfu7j35m59.dat
-C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\BokaMarket.Customer.zkfmytc6ln.wasm
-C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\BokaMarket.Customer.6p4ju0vqbb.pdb
-C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\dotnet.xubw10ur3n.js
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\blazor.webassembly.66stpp682q.js.gz
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\Microsoft.AspNetCore.Authorization.3ur142rhlk.wasm.gz
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\Microsoft.AspNetCore.Components.ld1j2d23tn.wasm.gz
@@ -428,9 +425,6 @@ C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\icudt_CJK.tjcz0u77k5.dat.gz
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\icudt_EFIGS.tptq2av103.dat.gz
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\icudt_no_CJK.lfu7j35m59.dat.gz
-C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\BokaMarket.Customer.zkfmytc6ln.wasm.gz
-C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\BokaMarket.Customer.6p4ju0vqbb.pdb.gz
-C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\dotnet.xubw10ur3n.js.gz
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\BokaMarket.Customer.staticwebassets.runtime.json
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\BokaMarket.Customer.staticwebassets.endpoints.json
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\BokaMarket.Customer.dll
@@ -1106,9 +1100,6 @@ C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\obj\Debug\net
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\huhwk3okl3-{0}-tjcz0u77k5-tjcz0u77k5.gz
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\5dgp7qdxf2-{0}-tptq2av103-tptq2av103.gz
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\5t27a3usl2-{0}-lfu7j35m59-lfu7j35m59.gz
-C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\liim9k6j9y-{0}-zkfmytc6ln-zkfmytc6ln.gz
-C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\o9tlanvas1-{0}-6p4ju0vqbb-6p4ju0vqbb.gz
-C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\ba1ysq3o93-{0}-xubw10ur3n-xubw10ur3n.gz
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\staticwebassets.build.json
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\staticwebassets.build.json.cache
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\staticwebassets.development.json
@@ -1119,3 +1110,12 @@ C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\obj\Debug\net
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\refint\BokaMarket.Customer.dll
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\BokaMarket.Customer.pdb
 C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\ref\BokaMarket.Customer.dll
+C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\BokaMarket.Customer.lf5nr38xja.wasm
+C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\BokaMarket.Customer.932ozgro1o.pdb
+C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\dotnet.mvtlcsk9zx.js
+C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\BokaMarket.Customer.lf5nr38xja.wasm.gz
+C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\BokaMarket.Customer.932ozgro1o.pdb.gz
+C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\dotnet.mvtlcsk9zx.js.gz
+C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\liim9k6j9y-{0}-lf5nr38xja-lf5nr38xja.gz
+C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\o9tlanvas1-{0}-932ozgro1o-932ozgro1o.gz
+C:\Users\Esther\OneDrive\Desktop\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\ba1ysq3o93-{0}-mvtlcsk9zx-mvtlcsk9zx.gz
