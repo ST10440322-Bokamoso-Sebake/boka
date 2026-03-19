@@ -1,0 +1,47 @@
+@page "/login"
+@inject IDataService Data
+@inject NavigationManager Nav
+
+<div style="max-width: 400px; margin: 4rem auto; background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+    <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem; text-align: center;">Welcome Back</h2>
+    <p style="color: var(--text-muted); text-align: center; margin-bottom: 2rem;">Sign in to your Boka account</p>
+
+    @if (loginFailed)
+    {
+        <div style="background: #FADBD8; color: #E74C3C; padding: 10px; border-radius: 8px; margin-bottom: 1rem; font-size: 0.9rem; text-align: center;">
+            Invalid email or password.
+        </div>
+    }
+
+    <form @onsubmit="HandleLogin" @onsubmit:preventDefault="true" style="display: flex; flex-direction: column; gap: 1.2rem;">
+        <div>
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem;">Email Address</label>
+            <input type="email" @bind="email" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box;" />
+        </div>
+        <div>
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem;">Password</label>
+            <input type="password" @bind="password" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box;" />
+        </div>
+        
+        <button type="submit" class="btn-primary" style="width: 100%; padding: 14px; margin-top: 1rem;">Sign In</button>
+    </form>
+
+    <div style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+        Don't have an account? <a href="/register" style="color: var(--primary); font-weight: 600; text-decoration: none;">Create one</a>
+    </div>
+</div>
+
+@code {
+    private string email = "";
+    private string password = "";
+    private bool loginFailed = false;
+
+    private void HandleLogin()
+    {
+        loginFailed = !Data.Login(email, password);
+        if (!loginFailed)
+        {
+            Nav.NavigateTo("/profile");
+        }
+    }
+}

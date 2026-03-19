@@ -1,4 +1,6 @@
 using BokaMarket.Admin.Data;
+using Microsoft.JSInterop;
+using System.Text.Json;
 
 namespace BokaMarket.Admin.Services;
 
@@ -28,22 +30,29 @@ public interface IDataService
     List<Invoice> GetInvoices();
     void SaveInvoice(Invoice invoice);
 
-    // Settings
+    // Settings and Auth
     AppSettings GetSettings();
     void SaveSettings(AppSettings settings);
+    User? CurrentUser { get; }
 }
 
 public class InMemoryDataService : IDataService
 {
+    private readonly IJSRuntime _js;
     private readonly List<Order> _orders;
     private readonly List<Product> _products;
     private readonly List<Review> _reviews;
     private readonly List<BulkRequest> _bulkRequests;
     private readonly List<Invoice> _invoices;
     private AppSettings _settings;
+    public User? CurrentUser { get; private set; }
 
-    public InMemoryDataService()
+    public InMemoryDataService(IJSRuntime js)
     {
+        _js = js;
+        // Default Admin User
+        CurrentUser = new User { FirstName = "Admin", Email = "admin@bokayarnmarket.co.za" };
+
         _orders = new List<Order>
         {
             new() { Id = 1, OrderNumber = "#BYM-9402", CustomerName = "Elena Rodriguez", CustomerEmail = "elena.r@example.com", Status = "In Production",   TotalAmount = 450, DepositPaid = 45,  IsFullyPaid = false, OrderDate = DateTime.Now.AddDays(-2)   },
@@ -111,11 +120,16 @@ public class InMemoryDataService : IDataService
             var idx = _orders.FindIndex(o => o.Id == order.Id);
             if (idx >= 0) _orders[idx] = order;
         }
+        ExportToTxt("AdminSaveOrder", order);
     }
     public void UpdateOrderStatus(int id, string status)
     {
         var order = _orders.FirstOrDefault(o => o.Id == id);
-        if (order != null) order.Status = status;
+        if (order != null) 
+        {
+            order.Status = status;
+            ExportToTxt("AdminUpdateOrderStatus", order);
+        }
     }
 
     public List<Product> GetProducts() => _products.ToList();
@@ -131,6 +145,7 @@ public class InMemoryDataService : IDataService
             var idx = _products.FindIndex(p => p.Id == product.Id);
             if (idx >= 0) _products[idx] = product;
         }
+        ExportToTxt("AdminSaveProduct", product);
     }
     public void DeleteProduct(int id) => _products.RemoveAll(p => p.Id == id);
 
@@ -164,6 +179,7 @@ public class InMemoryDataService : IDataService
             var idx = _invoices.FindIndex(i => i.Id == invoice.Id);
             if (idx >= 0) _invoices[idx] = invoice;
         }
+        ExportToTxt("AdminSaveInvoice", invoice);
     }
 
     public AppSettings GetSettings() => _settings;
@@ -176,5 +192,25 @@ public class InMemoryDataService : IDataService
         _settings.MarketDate = settings.MarketDate;
         _settings.DepositPercent = settings.DepositPercent;
         _settings.LaybyWeeks = settings.LaybyWeeks;
+        ExportToTxt("AdminSaveSettings", _settings);
+    }
+
+    private async void ExportToTxt(string action, object data)
+    {
+        try
+        {
+            var userName = CurrentUser?.FirstName ?? "Admin";
+            string filename = $"BokaAdmin_{userName}_{action}_{DateTime.Now:yyyyMMdd_HHmmss}.txt";
+            
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string json = JsonSerializer.Serialize(data, options);
+            string fileContent = $"BOKA YARN MARKET ADMIN LOG\nUser: {userName}\nAction: {action}\nTime: {DateTime.Now}\n\nDATA RECORD:\n{json}";
+            
+            await _js.InvokeVoidAsync("downloadFileFromText", filename, fileContent);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Export ERROR: {ex.Message}");
+        }
     }
 }

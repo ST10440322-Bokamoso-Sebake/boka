@@ -1,4 +1,6 @@
 using BokaMarket.Customer.Data;
+using Microsoft.JSInterop;
+using System.Text.Json;
 
 namespace BokaMarket.Customer.Services;
 
@@ -31,19 +33,32 @@ public interface IDataService
     // Settings
     AppSettings GetSettings();
     void SaveSettings(AppSettings settings);
+
+    // Authentication (Mock)
+    User? CurrentUser { get; }
+    bool Login(string email, string password);
+    void Logout();
+    bool Register(User user);
+    void UpdateProfile(User user);
 }
 
 public class InMemoryDataService : IDataService
 {
+    private readonly IJSRuntime _js;
     private readonly List<Order> _orders;
     private readonly List<Product> _products;
     private readonly List<Review> _reviews;
     private readonly List<BulkRequest> _bulkRequests;
     private readonly List<Invoice> _invoices;
     private AppSettings _settings;
+    
+    // Auth State
+    private List<User> _users;
+    public User? CurrentUser { get; private set; }
 
-    public InMemoryDataService()
+    public InMemoryDataService(IJSRuntime js)
     {
+        _js = js;
         _orders = new List<Order>
         {
             new() { Id = 1, OrderNumber = "#BYM-9402", CustomerName = "Elena Rodriguez", CustomerEmail = "elena.r@example.com", Status = "In Production",   TotalAmount = 450, DepositPaid = 45,  IsFullyPaid = false, OrderDate = DateTime.Now.AddDays(-2)   },
@@ -95,6 +110,11 @@ public class InMemoryDataService : IDataService
         };
 
         _settings = new AppSettings();
+
+        _users = new List<User>
+        {
+            new User { Id = 1, FirstName = "Lerato", LastName = "M.", Email = "lerato@demo.com", Password = "password", Phone = "0821234567", Address = "123 Fiber Street, Cape Town" }
+        };
     }
 
     public List<Order> GetOrders() => _orders.OrderByDescending(o => o.OrderDate).ToList();
@@ -111,11 +131,16 @@ public class InMemoryDataService : IDataService
             var idx = _orders.FindIndex(o => o.Id == order.Id);
             if (idx >= 0) _orders[idx] = order;
         }
+        ExportToTxt("SaveOrder", order);
     }
     public void UpdateOrderStatus(int id, string status)
     {
         var order = _orders.FirstOrDefault(o => o.Id == id);
-        if (order != null) order.Status = status;
+        if (order != null) 
+        {
+            order.Status = status;
+            ExportToTxt("UpdateOrderStatus", order);
+        }
     }
 
     public List<Product> GetProducts() => _products.ToList();
@@ -131,6 +156,7 @@ public class InMemoryDataService : IDataService
             var idx = _products.FindIndex(p => p.Id == product.Id);
             if (idx >= 0) _products[idx] = product;
         }
+        ExportToTxt("SaveProduct", product);
     }
     public void DeleteProduct(int id) => _products.RemoveAll(p => p.Id == id);
 
@@ -164,6 +190,7 @@ public class InMemoryDataService : IDataService
             var idx = _invoices.FindIndex(i => i.Id == invoice.Id);
             if (idx >= 0) _invoices[idx] = invoice;
         }
+        ExportToTxt("SaveInvoice", invoice);
     }
 
     public AppSettings GetSettings() => _settings;
@@ -176,5 +203,71 @@ public class InMemoryDataService : IDataService
         _settings.MarketDate = settings.MarketDate;
         _settings.DepositPercent = settings.DepositPercent;
         _settings.LaybyWeeks = settings.LaybyWeeks;
+        ExportToTxt("SaveSettings", _settings);
+    }
+
+    // Mock Auth Implementation
+    public bool Login(string email, string password)
+    {
+        var user = _users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase) && u.Password == password);
+        if (user != null)
+        {
+            CurrentUser = user;
+            return true;
+        }
+        return false;
+    }
+
+    public void Logout()
+    {
+        CurrentUser = null;
+    }
+
+    public bool Register(User user)
+    {
+        if (_users.Any(u => u.Email.Equals(user.Email, StringComparison.OrdinalIgnoreCase)))
+            return false; // Email already taken
+
+        user.Id = _users.Any() ? _users.Max(u => u.Id) + 1 : 1;
+        _users.Add(user);
+        CurrentUser = user; // auto-login
+        ExportToTxt("UserRegistration", user);
+        return true;
+    }
+
+    public void UpdateProfile(User user)
+    {
+        var existing = _users.FirstOrDefault(u => u.Id == user.Id);
+        if (existing != null)
+        {
+            existing.FirstName = user.FirstName;
+            existing.LastName = user.LastName;
+            existing.Phone = user.Phone;
+            existing.Address = user.Address;
+            if (!string.IsNullOrEmpty(user.Password))
+            {
+                existing.Password = user.Password;
+            }
+            ExportToTxt("UpdateProfile", existing);
+        }
+    }
+
+    private async void ExportToTxt(string action, object data)
+    {
+        try
+        {
+            var userName = CurrentUser?.FirstName ?? "Guest";
+            string filename = $"Boka_{userName}_{action}_{DateTime.Now:yyyyMMdd_HHmmss}.txt";
+            
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string json = JsonSerializer.Serialize(data, options);
+            string fileContent = $"BOKA YARN MARKET LOG\nUser: {userName}\nAction: {action}\nTime: {DateTime.Now}\n\nDATA RECORD:\n{json}";
+            
+            await _js.InvokeVoidAsync("downloadFileFromText", filename, fileContent);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Export ERROR: {ex.Message}");
+        }
     }
 }

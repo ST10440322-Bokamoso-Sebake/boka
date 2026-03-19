@@ -1,4 +1,7 @@
 @inherits LayoutComponentBase
+@inject IDataService Data
+@inject NavigationManager Nav
+@implements IDisposable
 
 <div class="page">
     <nav class="navbar">
@@ -9,7 +12,20 @@
             <a href="/about">Our Story</a>
             <a href="/contact">Contact</a>
             
-            <a href="/cart" class="cart-icon" style="margin-left: 20px;">
+            <span style="border-left: 1px solid #ddd; margin: 0 10px; height: 20px;"></span>
+            
+            @if (Data.CurrentUser != null)
+            {
+                <a href="/profile" style="color: var(--primary); font-weight: 600;">
+                    <i class="bi bi-person-circle"></i> @Data.CurrentUser.FirstName
+                </a>
+            }
+            else
+            {
+                <a href="/login">Sign In</a>
+            }
+
+            <a href="/cart" class="cart-icon" style="margin-left: 15px;">
                 <i class="bi bi-bag"></i>
                 <span class="cart-count">2</span> <!-- Hardcoded for now -->
             </a>
@@ -31,3 +47,20 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Nav.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        Nav.LocationChanged -= OnLocationChanged;
+    }
+}

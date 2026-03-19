@@ -913,7 +913,6 @@ C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\dotnet.
 C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\service-worker\service-worker-assets.js.build
 C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\compressed\f9o902iofb-{0}-99zm1jdh75-99zm1jdh75.gz
 C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\compressed\9torl56w0a-{0}-lc5rvxc6n6-lc5rvxc6n6.gz
-C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\compressed\35ofj9l7lb-{0}-y80jgmt4ii-y80jgmt4ii.gz
 C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\compressed\ko7fvb6k3p-{0}-66stpp682q-66stpp682q.gz
 C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\compressed\f16re1yuw1-{0}-f7yamg8acn-f7yamg8acn.gz
 C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\compressed\pl5dlvcp12-{0}-i180xx2qq9-i180xx2qq9.gz
@@ -1122,10 +1121,11 @@ C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\compres
 C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\compressed\vwtqrve4y7-{0}-tjcz0u77k5-tjcz0u77k5.gz
 C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\compressed\71mpc453d3-{0}-tptq2av103-tptq2av103.gz
 C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\compressed\k4kalv9sx6-{0}-lfu7j35m59-lfu7j35m59.gz
-C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\bin\Debug\net10.0\wwwroot\_framework\BokaMarket.Admin.xfghke7fxl.wasm
-C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\bin\Debug\net10.0\wwwroot\_framework\BokaMarket.Admin.47dnkquoar.pdb
-C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\bin\Debug\net10.0\wwwroot\_framework\BokaMarket.Admin.xfghke7fxl.wasm.gz
-C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\bin\Debug\net10.0\wwwroot\_framework\BokaMarket.Admin.47dnkquoar.pdb.gz
-C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\compressed\g8n553gyd8-{0}-xfghke7fxl-xfghke7fxl.gz
-C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\compressed\5mpk0sx5p6-{0}-47dnkquoar-47dnkquoar.gz
-C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\compressed\y9if5asaar-{0}-3tazzab20o-3tazzab20o.gz
+C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\bin\Debug\net10.0\wwwroot\_framework\BokaMarket.Admin.sl1qctzwhp.wasm
+C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\bin\Debug\net10.0\wwwroot\_framework\BokaMarket.Admin.m87qdpoik7.pdb
+C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\bin\Debug\net10.0\wwwroot\_framework\BokaMarket.Admin.sl1qctzwhp.wasm.gz
+C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\bin\Debug\net10.0\wwwroot\_framework\BokaMarket.Admin.m87qdpoik7.pdb.gz
+C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\compressed\35ofj9l7lb-{0}-g9cr1nz55n-g9cr1nz55n.gz
+C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\compressed\g8n553gyd8-{0}-sl1qctzwhp-sl1qctzwhp.gz
+C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\compressed\5mpk0sx5p6-{0}-m87qdpoik7-m87qdpoik7.gz
+C:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Admin\obj\Debug\net10.0\compressed\y9if5asaar-{0}-rmatt096qm-rmatt096qm.gz
