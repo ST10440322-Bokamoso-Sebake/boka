@@ -17,7 +17,7 @@
     {
         <a href="/product/@product.Id" class="product-card">
             <!-- Using the local images provided by the user if we had them or placeholder -->
-            <img src="/@product.ImageUrl" class="product-image" alt="@product.Name" onerror="this.src='https://placehold.co/400x400/F7E8FA/7E3091?text=Boka+Yarn';" />
+            <img src="https://localhost:7123/@product.ImageUrl" class="product-image" alt="@product.Name" onerror="this.src='https://placehold.co/400x400/F7E8FA/7E3091?text=Boka+Yarn';" />
             
             <div class="product-category">@product.Category</div>
             <h3 class="product-title">@product.Name</h3>
@@ -33,9 +33,10 @@
 @code {
     private List<Product> featuredProducts = new();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         // For the homepage, we just take the first few products
-        featuredProducts = Data.GetProducts().Take(4).ToList();
+        var products = await Data.GetProductsAsync();
+        featuredProducts = products.Take(4).ToList();
     }
 }

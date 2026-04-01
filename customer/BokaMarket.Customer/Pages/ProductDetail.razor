@@ -12,7 +12,7 @@ else
         <!-- Image Area -->
         <div>
             <!-- Let's map certain image files randomly to showcase the screenshot images -->
-            <img src="images/72.png" alt="@product.Name" style="width: 100%; border-radius: var(--border-radius); box-shadow: 0 4px 20px rgba(0,0,0,0.05); object-fit: cover;" onerror="this.src='https://placehold.co/600x600/F7E8FA/7E3091?text=Gallery';"/>
+            <img src="https://localhost:7123/@product.ImageUrl" alt="@product.Name" style="width: 100%; border-radius: var(--border-radius); box-shadow: 0 4px 20px rgba(0,0,0,0.05); object-fit: cover;" onerror="this.src='https://placehold.co/600x600/F7E8FA/7E3091?text=Gallery';"/>
             
             <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1rem;">
                 <img src="images/73.png" style="width: 100%; aspect-ratio: 1; border-radius: 8px; object-fit: cover; cursor: pointer;" />
@@ -76,9 +76,9 @@ else
     private Product? product;
     private int quantity = 1;
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
-        product = Data.GetProducts().FirstOrDefault(p => p.Id == Id);
+        product = await Data.GetProductAsync(Id);
     }
 
     private void AddToCart()

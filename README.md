@@ -1,44 +1,52 @@
-# Boka's Yarn Market
+# Boka's Yarn Market (v2 - Production Ready)
 
-The digital atelier for Boka's handcrafted, slow-fashion yarn goods. This project consists of two separate Blazor WebAssembly applications representing the Admin Dashboard and the Customer Storefront.
+The digital atelier for Boka's handcrafted, slow-fashion yarn goods. This project has been upgraded from a static prototype to a **full-stack production-ready architecture**.
 
-## Features & Aesthetic
-- Beautiful, intuitive **slow-fashion** aesthetic using soft purple gradients (`#F7E8FA` mapping to `--primary: #7E3091`).
-- **User Authentication**: Complete login, registration, and profile management for customers.
-- **Automatic Input Logging**: Every significant user and admin input (orders, registrations, profile updates, settings) triggers an automatic `.txt` file log download for data persistence and auditing.
-- Custom layouts utilizing lightweight vanilla CSS and high-quality web-safe structure.
-- In-memory mock data integration ensuring cohesive flow without a live database dependency (enabling static Netlify deployments).
+## 🚀 NEW: Architecture v2
+The project now features a **Client-Server model** for permanent data storage and multi-user synchronization.
 
-## Applications
+1.  **BokaMarket.Server (NEW)**: ASP.NET Core Web API with SQLite database context.
+2.  **BokaMarket.Shared (NEW)**: Centralized data models shared across all projects.
+3.  **BokaMarket.Customer**: Frontend storefront updated for real-time API communication.
+4.  **BokaMarket.Admin**: Management dashboard now directly connected to the central database.
 
-### 1. Customer Portal (`customer/BokaMarket.Customer`)
-The actual e-commerce application for premium yarn goods.
-- **Authentication**: Sign in/up to manage your artisan profile.
-- **Catalog & Details**: Interactive inventory and elegant product displays.
-- **Cart/Checkout**: Seamless lay-by and payment flows.
-- **Profile**: Update shipping and personal details.
+## ✨ Features & Aesthetic
+- **Premium Design**: Intuitive slow-fashion aesthetic with a curated color palette and professional product photography.
+- **Permanent Data**: All products, orders, and user accounts are now stored in a persistent SQLite database (`BokaMarket.db`).
+- **Real-Time Admin**: Add or remove products instantly. The storefront updates automatically.
+- **Artisanal Catalog**: Seeded with high-quality crochet and knitted items, including lavender cardigans and macramé decor.
 
-**To Run Locally:**
+## 🛠 Applications & Setup
+
+### 1. Master Solution
+Open the **`BokaMarket.sln`** in **Visual Studio 2026** to manage the entire ecosystem at once.
+
+### 2. Backend API (`BokaMarket.Server`)
+The "Brain" of the operation. Must be running for the storefronts to work.
+- **Endpoints**: `api/products`, `api/orders`, `api/auth`, etc.
+- **Database**: SQLite (Automatic creation and seeding).
+
+**To Run:**
 ```bash
-cd customer/BokaMarket.Customer
+cd BokaMarket.Server
 dotnet run
 ```
 
-### 2. Admin Dashboard (`BokaMarket.Admin`)
-The backend management system for managing orders and artisanal work.
-- **Overview**: Central KPIs and sales tracking.
-- **Orders & Invoices**: Manage production statuses and generate digital invoices.
-- **Inventory**: Full product management with custom modals.
-- **Logging**: All admin actions (saving products, updating settings) are automatically logged to local text files.
+### 3. Customer Storefront (`customer/BokaMarket.Customer`)
+- **API Linked**: All products are fetched from the live database.
+- **Async Loading**: Seamless, non-blocking user experience.
 
-**To Run Locally:**
-```bash
-cd BokaMarket.Admin
-dotnet run
-```
+### 4. Admin Dashboard (`BokaMarket.Admin`)
+- **Product Management**: Create, edit, and delete items.
+- **Order Tracking**: Manage production statuses from a central source.
 
-## Structure
-Both applications run as Client-Side WebAssembly (WASM) models and utilize a shared architecture for `InMemoryDataService`. This service handles state during the live session and facilitates the "Save to TXT" logging mechanism to ensure no user input is lost.
+## 📦 Categories
+Our collection is now organized into:
+- **Knitted Wear**: Sweaters and cardigans.
+- **Crochet Fashion**: Handcrafted apparel.
+- **Home Decor**: Macramé and fiber art.
+- **Supplies**: Hand-dyed merino yarn for other crafters.
 
-Crafting Slowly. Living Intentionally.
+---
+Crafting Slowly. Living Intentionally.  
 © 2026 Boka's Yarn Market. All rights reserved.

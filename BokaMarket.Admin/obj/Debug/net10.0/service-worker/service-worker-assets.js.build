@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "zTNVGC7U",
+  "version": "75RvT7XQ",
   "assets": [
     {
       "hash": "sha256-3vAXAFuFB7uuHcBBVgAiTQTu7eqwNWbg/bl/KRhdEEM=",
@@ -14,12 +14,12 @@ self.assetsManifest = {
       "url": "_content/Microsoft.DotNet.HotReload.WebAssembly.Browser/Microsoft.DotNet.HotReload.WebAssembly.Browser.99zm1jdh75.lib.module.js"
     },
     {
-      "hash": "sha256-2iesYVliOceimTs2os6mxrjxuyK1WyJI0Z/rwHzTrwo=",
-      "url": "_framework/BokaMarket.Admin.m87qdpoik7.pdb"
+      "hash": "sha256-r7Z9jqRD8l1uQGmVUIK7WQxSCgw/58puxEcKYYL2aAo=",
+      "url": "_framework/BokaMarket.Admin.jzroj4pkte.pdb"
     },
     {
-      "hash": "sha256-YCX54kaFSynqIPmq3PzLoFfi12ykvZIR7ug5fKgRl0I=",
-      "url": "_framework/BokaMarket.Admin.sl1qctzwhp.wasm"
+      "hash": "sha256-PqFiqIrZlpRjm1c04+Q9GEaftd0LH/Mu4eAf1bvxVP4=",
+      "url": "_framework/BokaMarket.Admin.qhcs38r332.wasm"
     },
     {
       "hash": "sha256-q+EkKN9BLcIwLCOVyaecX4eEO6XppOqATijxWzC6otk=",
@@ -814,7 +814,7 @@ self.assetsManifest = {
       "url": "_framework/blazor.webassembly.js"
     },
     {
-      "hash": "sha256-7deETBXQ9D/4nLZN2Cgwf+UqmaK3aF7EO3eqpRgfpSM=",
+      "hash": "sha256-1FyRuaWD+vgt0MK1JYnCRwuGYUiD6bKQbXzn/d0sqFM=",
       "url": "_framework/dotnet.js"
     },
     {

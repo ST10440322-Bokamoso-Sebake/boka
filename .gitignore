@@ -1,0 +1,33 @@
+# .NET / Blazor .gitignore
+[Bb]in/
+[Oo]bj/
+[Rr]elease/
+[Dd]ebug/
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Build system files
+*.log
+*.tmp
+*.temp
+service-worker-assets.js
+dist/
+publish/
+
+# Large media (uncomment if you want to exclude all mp4 files)
+# *.mp4

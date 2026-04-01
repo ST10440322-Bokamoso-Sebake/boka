@@ -11,7 +11,7 @@
     {
         <a href="/product/@product.Id" class="product-card">
             <!-- Mock dynamic image logic based on what's available or fallback -->
-            <img src="images/7.png" class="product-image" alt="@product.Name" onerror="this.src='https://placehold.co/400x400/F7E8FA/7E3091?text=Product';" />
+            <img src="https://localhost:7123/@product.ImageUrl" class="product-image" alt="@product.Name" onerror="this.src='https://placehold.co/400x400/F7E8FA/7E3091?text=Product';" />
             
             <div class="product-category">@product.Category</div>
             <h3 class="product-title">@product.Name</h3>
@@ -27,8 +27,8 @@
 @code {
     private List<Product> products = new();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        products = Data.GetProducts();
+        products = await Data.GetProductsAsync();
     }
 }
