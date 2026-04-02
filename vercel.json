@@ -2,21 +2,10 @@
   "version": 2,
   "outputDirectory": "customer/BokaMarket.Customer/bin/Release/net10.0/publish/wwwroot",
   "cleanUrls": true,
-  "trailingSlash": false,
+  "framework": null,
   "routes": [
-    {
-      "src": "/_framework/(.*)",
-      "dest": "/_framework/$1",
-      "headers": {
-        "cache-control": "public, max-age=31536000, immutable"
-      }
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
+    { "src": "/_framework/(.*)", "dest": "/_framework/$1" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
