@@ -26,7 +26,7 @@
             @foreach (var product in products)
             {
                 <tr>
-                    <td><img src="@product.ImageUrl" style="width: 48px; height: 48px; border-radius: 8px; object-fit: cover;" /></td>
+                    <td><img src="https://localhost:7123/@product.ImageUrl" style="width: 48px; height: 48px; border-radius: 8px; object-fit: cover;" onerror="this.src='https://placehold.co/48x48/F7E8FA/7E3091?text=Img';" /></td>
                     <td>
                         <div style="font-weight: 600;">@product.Name</div>
                         <div style="font-size: 0.8rem; color: var(--text-muted);">@product.Description</div>
@@ -88,8 +88,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Description</label>
-                    <InputTextArea @bind-Value="editingProduct.Description" class="form-control" />
+                    <label>Product Image</label>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-top: 5px;">
+                        <img src="https://localhost:7123/@editingProduct.ImageUrl" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover; border: 1px solid #eee;" onerror="this.src='https://placehold.co/60px';" />
+                        <InputFile OnChange="HandleFileSelected" class="form-control" />
+                    </div>
                 </div>
 
                 <div class="modal-actions">
@@ -105,15 +108,17 @@
     private List<Product> products = new();
     private bool showModal = false;
     private Product editingProduct = new();
+    private IBrowserFile? selectedFile;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        products = Data.GetProducts();
+        products = await Data.GetProductsAsync();
     }
 
     private void AddNewItem()
     {
         editingProduct = new Product();
+        selectedFile = null;
         showModal = true;
     }
 
@@ -129,13 +134,26 @@
             Description = p.Description,
             ImageUrl = p.ImageUrl
         };
+        selectedFile = null;
         showModal = true;
     }
 
-    private void SaveProduct()
+    private void HandleFileSelected(InputFileChangeEventArgs e)
     {
-        Data.SaveProduct(editingProduct);
-        products = Data.GetProducts();
+        selectedFile = e.File;
+    }
+
+    private async Task SaveProduct()
+    {
+        if (selectedFile != null)
+        {
+            using var stream = selectedFile.OpenReadStream();
+            var url = await Data.UploadImageAsync(stream, selectedFile.Name);
+            if (url != null) editingProduct.ImageUrl = url;
+        }
+
+        await Data.SaveProductAsync(editingProduct);
+        products = await Data.GetProductsAsync();
         showModal = false;
     }
 
@@ -144,9 +162,9 @@
         showModal = false;
     }
 
-    private void Delete(int id)
+    private async Task Delete(int id)
     {
-        Data.DeleteProduct(id);
-        products = Data.GetProducts();
+        await Data.DeleteProductAsync(id);
+        products = await Data.GetProductsAsync();
     }
 }

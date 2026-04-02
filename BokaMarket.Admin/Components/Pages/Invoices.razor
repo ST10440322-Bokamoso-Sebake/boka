@@ -230,9 +230,9 @@
     private bool showToast;
     private string toastMessage = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        allOrders = Data.GetOrders();
+        allOrders = await Data.GetOrdersAsync();
         invoice = new Invoice
         {
             InvoiceNumber = $"#INV-{DateTime.Now.Year}-{Random.Shared.Next(1000, 9999)}",
@@ -244,12 +244,18 @@
         };
     }
 
-    private void AddItem() => invoice.Items.Add(new InvoiceItem());
+    private void AddItem() => invoice.Items.Add(new InvoiceItem { Name = "New Item", Qty = 1 });
     private void RemoveItem(InvoiceItem item) => invoice.Items.Remove(item);
 
     private void ApplyDiscountCode()
     {
-        invoice.DiscountRate = invoice.DiscountCode?.ToUpper() switch
+        if (string.IsNullOrWhiteSpace(invoice.DiscountCode))
+        {
+            invoice.DiscountRate = 0;
+            return;
+        }
+
+        invoice.DiscountRate = invoice.DiscountCode.ToUpper() switch
         {
             "SUMMERLOOM10" => 0.10m,
             "BYM20"        => 0.20m,
@@ -258,9 +264,9 @@
         };
     }
 
-    private void SaveDraft()
+    private async Task SaveDraft()
     {
-        Data.SaveInvoice(invoice);
+        await Data.SaveInvoiceAsync(invoice);
         ShowToast("Invoice saved as draft!");
     }
 

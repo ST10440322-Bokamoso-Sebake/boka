@@ -60,8 +60,8 @@
 @code {
     private List<Review> reviews = new();
 
-    protected override void OnInitialized() => reviews = Data.GetReviews();
+    protected override async Task OnInitializedAsync() => reviews = await Data.GetReviewsAsync();
 
-    private void Approve(int id) { Data.ApproveReview(id); reviews = Data.GetReviews(); }
-    private void Delete(int id)  { Data.DeleteReview(id);  reviews = Data.GetReviews(); }
+    private async Task Approve(int id) { await Data.ApproveReviewAsync(id); reviews = await Data.GetReviewsAsync(); }
+    private async Task Delete(int id)  { await Data.DeleteReviewAsync(id);  reviews = await Data.GetReviewsAsync(); }
 }

@@ -1,139 +1,210 @@
 @page "/checkout"
+@inject CartService CartService
+@inject IDataService DataService
+@inject NavigationManager Nav
+@using BokaMarket.Shared
+@using BokaMarket.Customer.Services
 
-<div style="background: white; min-height: 100vh;">
-    <div style="max-width: 1000px; margin: 0 auto; display: flex;">
+<div style="background: white; min-height: 100vh; font-family: 'Outfit', sans-serif;">
+    <div style="max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap;">
         
         <!-- Left Side: Form -->
-        <div style="flex: 1; padding: 4rem 3rem 4rem 1rem;">
-            <a href="/cart" style="text-decoration: none; color: var(--primary); font-size: 0.85rem; font-weight: 600;">
+        <div style="flex: 1; min-width: 320px; padding: 4rem 3rem 4rem 1rem;">
+            <a href="/cart" style="text-decoration: none; color: var(--primary); font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 5px;">
                 <i class="bi bi-chevron-left"></i> Return to Cart
             </a>
 
-            <h2 style="font-size: 1.6rem; font-weight: 800; margin-top: 2rem; margin-bottom: 1.5rem;">Contact Information</h2>
+            <h2 style="font-size: 1.8rem; font-weight: 800; margin-top: 2rem; margin-bottom: 1.5rem; color: #2D3436;">Contact Information</h2>
             
-            <div style="display: flex; flex-direction: column; gap: 1rem;">
-                <input type="email" placeholder="Email Address" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box;" />
-                <label style="font-size: 0.85rem; display: flex; align-items: center; gap: 8px; color: var(--text-muted);">
-                    <input type="checkbox" checked /> Email me with news and offers
-                </label>
-            </div>
-
-            <h2 style="font-size: 1.6rem; font-weight: 800; margin-top: 3rem; margin-bottom: 1.5rem;">Shipping Address</h2>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                <input type="text" placeholder="First Name" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box;" />
-                <input type="text" placeholder="Last Name" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box;" />
-                <input type="text" placeholder="Address" style="grid-column: span 2; width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box;" />
-                <input type="text" placeholder="Apartment, suite, etc. (optional)" style="grid-column: span 2; width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box;" />
-                <input type="text" placeholder="City" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box;" />
-                <input type="text" placeholder="Postal Code" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box;" />
-                <input type="text" placeholder="Phone Number" style="grid-column: span 2; width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box;" />
-            </div>
-
-            <h2 style="font-size: 1.6rem; font-weight: 800; margin-top: 3rem; margin-bottom: 1.5rem;">Payment Method</h2>
-            <div style="border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-bottom: 2rem;">
-                <label style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; border-bottom: 1px solid #ddd; background: #fafafa; cursor: pointer;">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <input type="radio" name="payment" checked />
-                        <span style="font-weight: 600;">EFT / Bank Transfer</span>
+            <EditForm Model="checkoutRequest" OnValidSubmit="HandleCheckout">
+                <DataAnnotationsValidator />
+                
+                <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+                    <div style="position: relative;">
+                        <input type="email" @bind="checkoutRequest.CustomerEmail" placeholder="Email Address" 
+                               style="width: 100%; padding: 14px; border: 1.5px solid #E0E0E0; border-radius: 10px; font-family: inherit; font-size: 1rem; outline: none; transition: border-color 0.2s;" />
+                        <ValidationMessage For="@(() => checkoutRequest.CustomerEmail)" />
                     </div>
-                    <i class="bi bi-bank" style="font-size: 1.2rem; color: var(--text-muted);"></i>
-                </label>
-                <div style="padding: 1.5rem; font-size: 0.9rem; color: var(--text-muted); background: white; line-height: 1.6;">
-                    Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.
                 </div>
 
-                <label style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; border-top: 1px solid #ddd; cursor: pointer;">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <input type="radio" name="payment" />
-                        <span style="font-weight: 600;">Lay-by (30% Deposit)</span>
-                    </div>
-                </label>
-            </div>
+                <h2 style="font-size: 1.8rem; font-weight: 800; margin-top: 2rem; margin-bottom: 1.5rem; color: #2D3436;">Shipping Address</h2>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
+                    <input type="text" @bind="checkoutRequest.CustomerName" placeholder="Full Name" 
+                           style="grid-column: span 2; width: 100%; padding: 14px; border: 1.5px solid #E0E0E0; border-radius: 10px; font-family: inherit; font-size: 1rem;" />
+                    
+                    <input type="text" @bind="checkoutRequest.Phone" placeholder="Phone Number" 
+                           style="grid-column: span 2; width: 100%; padding: 14px; border: 1.5px solid #E0E0E0; border-radius: 10px; font-family: inherit; font-size: 1rem;" />
 
-            <button class="btn-primary" style="width: 100%; padding: 16px; font-size: 1.1rem; border-radius: 8px;" @onclick="CompleteOrder">Complete Purchase</button>
+                    <textarea @bind="checkoutRequest.ShippingAddress" placeholder="Shipping Address (Street, City, Province, Postal Code)" 
+                              style="grid-column: span 2; width: 100%; padding: 14px; border: 1.5px solid #E0E0E0; border-radius: 10px; font-family: inherit; font-size: 1rem; min-height: 100px; resize: vertical;"></textarea>
+                </div>
+
+                <h2 style="font-size: 1.8rem; font-weight: 800; margin-top: 2rem; margin-bottom: 1.5rem; color: #2D3436;">Payment Method</h2>
+                <div style="border: 1.5px solid #E0E0E0; border-radius: 12px; overflow: hidden; margin-bottom: 2.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
+                    <label style="display: flex; align-items: center; justify-content: space-between; padding: 1.2rem; border-bottom: 1.5px solid #E0E0E0; background: #F8F9FA; cursor: pointer;">
+                        <span style="display: flex; align-items: center; gap: 12px;">
+                            <input type="radio" name="payment" checked style="accent-color: var(--primary); width: 18px; height: 18px;" />
+                            <span style="font-weight: 600; color: #2D3436;">Secure Card Payment (Mock)</span>
+                        </span>
+                        <div style="display: flex; gap: 5px;">
+                            <i class="bi bi-credit-card" style="font-size: 1.4rem; color: #636E72;"></i>
+                        </div>
+                    </label>
+                    <div style="padding: 1.5rem; font-size: 0.95rem; color: #636E72; background: white; line-height: 1.6;">
+                        You will be redirected to our secure payment partner to complete your transaction. We accept all major South African bank cards.
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: #FFF3F3; border-radius: 8px; color: #D63031; font-weight: 600; border: 1px solid #FAB1A0;">
+                        @errorMessage
+                    </div>
+                }
+
+                <button type="submit" class="btn-primary" disabled="@isProcessing"
+                        style="width: 100%; padding: 18px; font-size: 1.2rem; border-radius: 10px; font-weight: 700; transform: translateY(0); transition: all 0.2s; box-shadow: 0 10px 20px rgba(126, 48, 145, 0.2);">
+                    @if (isProcessing) { <span>Processing...</span> } else { <span>Pay R @totalAmount.ToString("N2")</span> }
+                </button>
+            </EditForm>
         </div>
 
-        <!-- Right Side: Mini Summary -->
-        <div style="flex: 0.8; background: var(--bg-main); padding: 4rem 1rem 4rem 3rem; border-left: 1px solid #eee;">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-                <div style="position: relative;">
-                    <img src="images/78.png" style="width: 65px; height: 65px; border-radius: 8px; object-fit: cover; border: 1px solid #ddd;" onerror="this.src='https://placehold.co/65x65/F7E8FA/7E3091';" />
-                    <span style="position: absolute; top: -8px; right: -8px; background: rgba(126, 48, 145, 0.9); color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold;">1</span>
-                </div>
-                <div style="flex: 1;">
-                    <div style="font-weight: 600; font-size: 0.95rem;">Chunky Merino Cardigan</div>
-                    <div style="font-size: 0.8rem; color: var(--text-muted);">Custom Fit | Lavender</div>
-                </div>
-                <div style="font-weight: 600; font-size: 0.95rem;">R450</div>
+        <!-- Right Side: Dynamic Summary -->
+        <div style="flex: 0.7; min-width: 320px; background: #F7F1F8; padding: 4rem 3rem; border-left: 1px solid #E8E8E8;">
+            <div style="max-height: 400px; overflow-y: auto; margin-bottom: 2rem; padding-right: 10px;">
+                @foreach (var item in cartItems)
+                {
+                    <div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.5rem; animation: fadeIn 0.3s ease-out;">
+                        <div style="position: relative;">
+                            <img src="@item.ImageUrl" style="width: 70px; height: 70px; border-radius: 12px; object-fit: cover; border: 1.5px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.05);" />
+                            <span style="position: absolute; top: -10px; right: -10px; background: var(--primary); color: white; min-width: 24px; height: 24px; padding: 0 6px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; border: 2px solid white;">@item.Quantity</span>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 700; font-size: 1rem; color: #2D3436;">@item.Name</div>
+                            <div style="font-size: 0.85rem; color: #636E72;">Handcrafted Item</div>
+                        </div>
+                        <div style="font-weight: 700; font-size: 1rem; color: #2D3436;">R @item.Total.ToString("N2")</div>
+                    </div>
+                }
             </div>
 
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem;">
-                <div style="position: relative;">
-                    <img src="images/79.png" style="width: 65px; height: 65px; border-radius: 8px; object-fit: cover; border: 1px solid #ddd;" onerror="this.src='https://placehold.co/65x65/F7E8FA/7E3091';" />
-                    <span style="position: absolute; top: -8px; right: -8px; background: rgba(126, 48, 145, 0.9); color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold;">1</span>
+            <div style="border-top: 1.5px solid #E0E0E0; padding-top: 2rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: 1rem;">
+                    <span style="color: #636E72;">Subtotal</span>
+                    <span style="font-weight: 700; color: #2D3436;">R @totalAmount.ToString("N2")</span>
                 </div>
-                <div style="flex: 1;">
-                    <div style="font-weight: 600; font-size: 0.95rem;">Bamboo Crochet Hook Set</div>
-                    <div style="font-size: 0.8rem; color: var(--text-muted);">Ergonomic 2-6mm</div>
-                </div>
-                <div style="font-weight: 600; font-size: 0.95rem;">R35</div>
-            </div>
-
-            <div style="display: flex; gap: 10px; margin-bottom: 2rem;">
-                <input type="text" placeholder="Discount code" style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box;" />
-                <button class="btn-primary" style="background: #e1e1e1; color: var(--text-muted); font-weight: 700; border-radius: 8px;">Apply</button>
-            </div>
-
-            <div style="border-top: 1px solid #ddd; padding-top: 1.5rem;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem;">
-                    <span style="color: var(--text-muted);">Subtotal</span>
-                    <span style="font-weight: 600;">R485.00</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem;">
-                    <span style="color: var(--text-muted);">Shipping</span>
-                    <span style="color: var(--text-muted);">Free (Local Pickup)</span>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: 1rem;">
+                    <span style="color: #636E72;">Shipping</span>
+                    <span style="font-weight: 600; color: #27AE60;">Calculated at checkout</span>
                 </div>
                 
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; font-size: 1.4rem; font-weight: 800;">
-                    <span>Total</span>
-                    <span style="color: var(--primary);">
-                        <span style="font-size: 0.8rem; font-weight: 400; color: var(--text-muted); margin-right: 5px;">ZAR</span>R485.00
-                    </span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; border-top: 2px solid #E0E0E0; padding-top: 1.5rem;">
+                    <span style="font-size: 1.2rem; font-weight: 600; color: #636E72;">Total</span>
+                    <div style="text-align: right;">
+                        <span style="font-size: 0.9rem; color: #636E72; margin-right: 8px;">ZAR</span>
+                        <span style="font-size: 2rem; font-weight: 900; color: var(--primary);">R @totalAmount.ToString("N2")</span>
+                    </div>
                 </div>
             </div>
 
-            <div style="margin-top: 2rem; padding: 1rem; border: 1px solid var(--primary-light); background: var(--primary-bg); border-radius: 8px; font-size: 0.85rem; color: var(--primary); font-weight: 600; display: flex; gap: 10px; align-items: flex-start;">
-                <i class="bi bi-info-circle-fill" style="margin-top: 2px;"></i>
-                <span>Your purchase supports sustainable, local artisanship.</span>
+            <div style="margin-top: 3rem; padding: 1.2rem; border-radius: 12px; background: white; border: 1.5px solid #E8DAEF; display: flex; gap: 12px; align-items: flex-start; box-shadow: 0 4px 12px rgba(126, 48, 145, 0.05);">
+                <i class="bi bi-shield-lock-fill" style="color: var(--primary); font-size: 1.2rem;"></i>
+                <div>
+                    <div style="font-weight: 800; color: var(--primary); font-size: 0.9rem; margin-bottom: 4px;">Premium Protection</div>
+                    <div style="font-size: 0.85rem; color: #636E72;">Your data is encrypted using industry-standard SSL technology.</div>
+                </div>
             </div>
         </div>
 
     </div>
 </div>
 
-@if (orderCompleted)
+@if (showSuccessModal)
 {
-    <!-- Order confirmation modal overlay -->
-    <div style="position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
-        <div style="background: white; padding: 3rem; border-radius: 12px; text-align: center; max-width: 500px; width: 90%;">
-            <div style="width: 80px; height: 80px; background: #E8F5E9; color: #27AE60; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 1.5rem auto;">
-                <i class="bi bi-check-lg"></i>
+    <div style="position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); animation: fadeIn 0.4s ease-out;">
+        <div style="background: white; padding: 4rem 3rem; border-radius: 24px; text-align: center; max-width: 550px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.3); position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 8px; background: linear-gradient(90deg, var(--primary), var(--secondary));"></div>
+            
+            <div style="width: 100px; height: 100px; background: #E8F5E9; color: #27AE60; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; margin: 0 auto 2rem auto; box-shadow: 0 8px 20px rgba(39, 174, 96, 0.15);">
+                <i class="bi bi-check-circle-fill"></i>
             </div>
-            <h2 style="font-size: 2rem; font-weight: 800; color: var(--primary); margin-bottom: 1rem;">Order Confirmed!</h2>
-            <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 2rem;">
-                Thank you for your purchase. We've received your order (#BYM-9418) and will begin handcrafting your items soon. An email with payment details has been sent to your address.
+            
+            <h2 style="font-size: 2.2rem; font-weight: 900; color: #2D3436; margin-bottom: 1rem;">Payment Successful!</h2>
+            <p style="color: #636E72; font-size: 1.1rem; line-height: 1.7; margin-bottom: 2.5rem;">
+                Your order <strong style="color: var(--primary);">@orderNumber</strong> has been confirmed. We've sent a detailed receipt to your email. Get ready to enjoy your handcrafted treasures!
             </p>
-            <a href="/" class="btn-primary" style="display: block;">Return to Home</a>
+            
+            <button @onclick="GoHome" class="btn-primary" style="padding: 16px 40px; font-size: 1.1rem; border-radius: 12px; font-weight: 700; width: auto;">Explore More</button>
         </div>
     </div>
 }
 
-@code {
-    private bool orderCompleted = false;
+<style>
+    @@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(126, 48, 145, 0.3); filter: brightness(1.1); }
+    .btn-primary:active { transform: translateY(0); }
+</style>
 
-    private void CompleteOrder()
+@code {
+    private CheckoutRequest checkoutRequest = new();
+    private List<CartItem> cartItems = new();
+    private decimal totalAmount;
+    private bool isProcessing = false;
+    private bool showSuccessModal = false;
+    private string orderNumber = "";
+    private string errorMessage = "";
+
+    protected override async Task OnInitializedAsync()
     {
-        orderCompleted = true;
+        cartItems = await CartService.GetCartAsync();
+        totalAmount = CartService.GetTotal();
+        
+        // Pre-fill if logged in (mock logic for now)
+        checkoutRequest.TotalAmount = totalAmount;
+        checkoutRequest.Items = cartItems;
     }
+
+    private async Task HandleCheckout()
+    {
+        if (!cartItems.Any())
+        {
+            errorMessage = "Your cart is empty.";
+            return;
+        }
+
+        isProcessing = true;
+        errorMessage = "";
+
+        try
+        {
+            var response = await DataService.ProcessCheckoutAsync(checkoutRequest);
+            if (response.Success)
+            {
+                if (!string.IsNullOrEmpty(response.PaymentUrl) && response.PaymentUrl.StartsWith("http"))
+                {
+                    Nav.NavigateTo(response.PaymentUrl, true);
+                    return;
+                }
+                
+                orderNumber = response.OrderNumber;
+                showSuccessModal = true;
+                await CartService.ClearCartAsync();
+            }
+            else
+            {
+                errorMessage = response.Message;
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "A payment error occurred. Please try again later.";
+        }
+        finally
+        {
+            isProcessing = false;
+        }
+    }
+
+    private void GoHome() => Nav.NavigateTo("/");
 }

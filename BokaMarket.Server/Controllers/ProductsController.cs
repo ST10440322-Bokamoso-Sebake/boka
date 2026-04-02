@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using BokaMarket.Server.Data;
 using BokaMarket.Shared;
 
+using Microsoft.AspNetCore.Authorization;
+
 namespace BokaMarket.Server.Controllers;
 
 [ApiController]
@@ -30,6 +32,7 @@ public class ProductsController : ControllerBase
         return product;
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<ActionResult<Product>> PostProduct(Product product)
     {
@@ -40,6 +43,7 @@ public class ProductsController : ControllerBase
         return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
     public async Task<IActionResult> PutProduct(int id, Product product)
     {
@@ -57,6 +61,7 @@ public class ProductsController : ControllerBase
         return NoContent();
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteProduct(int id)
     {

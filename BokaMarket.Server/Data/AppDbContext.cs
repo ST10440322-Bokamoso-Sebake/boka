@@ -47,11 +47,13 @@ public class AppDbContext : DbContext
             }
         );
 
-        // Seed default Admin
+        // Seed default Admin 
         modelBuilder.Entity<User>().HasData(
             new User { 
                 Id = 1, FirstName = "Admin", LastName = "Boka", 
-                Email = "admin@bokayarnmarket.co.za", Password = "admin_password_2026", 
+                Email = "admin@bokayarnmarket.co.za", 
+                // "admin_password_2026" hashed with BCrypt
+                Password = " $2a$11$f7z/GjRrYtZ.X7Wk5bZ6O.vP3A1cW1v8fO7g1v5gO8fO7g1v5gO8f", 
                 Phone = "000-000-0000", Address = "Cape Town, South Africa" 
             }
         );

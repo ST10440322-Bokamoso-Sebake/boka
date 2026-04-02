@@ -65,11 +65,11 @@
 @code {
     private List<BulkRequest> requests = new();
 
-    protected override void OnInitialized() => requests = Data.GetBulkRequests();
+    protected override async Task OnInitializedAsync() => requests = await Data.GetBulkRequestsAsync();
 
-    private void Negotiate(int id) { Data.UpdateBulkStatus(id, "In Negotiation"); requests = Data.GetBulkRequests(); }
-    private void Confirm(int id)   { Data.UpdateBulkStatus(id, "Confirmed");       requests = Data.GetBulkRequests(); }
-    private void Delete(int id)    { Data.DeleteBulkRequest(id);                   requests = Data.GetBulkRequests(); }
+    private async Task Negotiate(int id) { await Data.UpdateBulkStatusAsync(id, "In Negotiation"); requests = await Data.GetBulkRequestsAsync(); }
+    private async Task Confirm(int id)   { await Data.UpdateBulkStatusAsync(id, "Confirmed");       requests = await Data.GetBulkRequestsAsync(); }
+    private async Task Delete(int id)    { await Data.DeleteBulkRequestAsync(id);                   requests = await Data.GetBulkRequestsAsync(); }
 
     private string GetStatusClass(string status) => status switch
     {

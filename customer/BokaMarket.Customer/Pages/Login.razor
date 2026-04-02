@@ -36,9 +36,9 @@
     private string password = "";
     private bool loginFailed = false;
 
-    private void HandleLogin()
+    private async Task HandleLogin()
     {
-        loginFailed = !Data.Login(email, password);
+        loginFailed = !await Data.LoginAsync(email, password);
         if (!loginFailed)
         {
             Nav.NavigateTo("/profile");

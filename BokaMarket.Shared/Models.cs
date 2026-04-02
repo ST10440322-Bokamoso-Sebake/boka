@@ -98,3 +98,45 @@ public class User
     public string Phone { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
 }
+
+public class LoginRequest
+{
+    public string Email { get; set; } = "";
+    public string Password { get; set; } = "";
+}
+
+public class AuthResponse
+{
+    public bool Success { get; set; }
+    public string? Token { get; set; }
+    public string? Message { get; set; }
+    public User? User { get; set; }
+}
+
+public class CartItem
+{
+    public int ProductId { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string ImageUrl { get; set; } = string.Empty;
+    public decimal Price { get; set; }
+    public int Quantity { get; set; }
+    public decimal Total => Price * Quantity;
+}
+
+public class CheckoutRequest
+{
+    public List<CartItem> Items { get; set; } = new();
+    public string CustomerEmail { get; set; } = string.Empty;
+    public string CustomerName { get; set; } = string.Empty;
+    public string ShippingAddress { get; set; } = string.Empty;
+    public string Phone { get; set; } = string.Empty;
+    public decimal TotalAmount { get; set; }
+}
+
+public class CheckoutResponse
+{
+    public bool Success { get; set; }
+    public string Message { get; set; } = string.Empty;
+    public string OrderNumber { get; set; } = string.Empty;
+    public string? PaymentUrl { get; set; } 
+}

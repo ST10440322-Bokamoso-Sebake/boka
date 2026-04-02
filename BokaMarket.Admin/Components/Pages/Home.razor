@@ -9,23 +9,23 @@
 <div class="stats-grid">
     <div class="stat-card">
         <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">TOTAL REVENUE</div>
-        <div class="stat-value">R12,450</div>
-        <div style="font-size: 0.75rem; color: var(--accent-green); margin-top: 8px;">↑ +14% since last month</div>
+        <div class="stat-value">R@totalRevenue.ToString("N0")</div>
+        <div style="font-size: 0.75rem; color: var(--accent-green); margin-top: 8px;">↑ Live from database</div>
     </div>
     <div class="stat-card">
-        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">VISITS TODAY</div>
-        <div class="stat-value">842</div>
-        <div style="font-size: 0.75rem; color: var(--accent-green); margin-top: 8px;">↑ +4% since yesterday</div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">TOTAL ORDERS</div>
+        <div class="stat-value">@totalOrders</div>
+        <div style="font-size: 0.75rem; color: var(--accent-green); margin-top: 8px;">Across all channels</div>
     </div>
     <div class="stat-card">
-        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">CONVERSION RATE</div>
-        <div class="stat-value">3.2%</div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">AVG ORDER VALUE</div>
+        <div class="stat-value">R@(totalOrders > 0 ? (totalRevenue / totalOrders).ToString("N0") : "0")</div>
         <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px;">Steady as usual</div>
     </div>
     <div class="stat-card featured">
-        <div style="font-size: 0.8rem; opacity: 0.8; margin-bottom: 8px;">NEW CUSTOMERS</div>
-        <div class="stat-value">124</div>
-        <div style="font-size: 0.75rem; opacity: 0.8; margin-top: 8px;">Up this month!</div>
+        <div style="font-size: 0.8rem; opacity: 0.8; margin-bottom: 8px;">PENDING REVIEWS</div>
+        <div class="stat-value">@pendingReviews</div>
+        <div style="font-size: 0.75rem; opacity: 0.8; margin-top: 8px;">Action required</div>
     </div>
 </div>
 
@@ -50,7 +50,7 @@
                         <td style="color: var(--primary); font-weight: 700;">@order.OrderNumber</td>
                         <td>@order.CustomerName</td>
                         <td><span class="status-badge @GetStatusClass(order.Status)">@order.Status.ToUpper()</span></td>
-                        <td>@order.TotalAmount.ToString("C")</td>
+                        <td>R@order.TotalAmount.ToString("N0")</td>
                     </tr>
                 }
             </tbody>
@@ -80,15 +80,25 @@
 
 @code {
     private List<Order> recentOrders = new();
+    private decimal totalRevenue = 0;
+    private int totalOrders = 0;
+    private int pendingReviews = 0;
+
     private record CategoryStat(string Name, int Percent);
     private List<CategoryStat> categories = new()
     {
         new("Yarn Bundles", 45), new("Crochet Kits", 32), new("Hand-dyed Silk", 23)
     };
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        recentOrders = Data.GetOrders().Take(4).ToList();
+        var allOrders = await Data.GetOrdersAsync();
+        recentOrders = allOrders.OrderByDescending(o => o.OrderDate).Take(4).ToList();
+        totalRevenue = allOrders.Sum(o => o.TotalAmount);
+        totalOrders = allOrders.Count;
+        
+        var reviews = await Data.GetReviewsAsync();
+        pendingReviews = reviews.Count(r => !r.IsApproved);
     }
 
     private string GetStatusClass(string status) => status.ToLower() switch

@@ -48,7 +48,7 @@
     private User newUser = new();
     private bool registerFailed = false;
 
-    private void HandleRegister()
+    private async Task HandleRegister()
     {
         if (string.IsNullOrWhiteSpace(newUser.Email) || string.IsNullOrWhiteSpace(newUser.Password))
         {
@@ -56,7 +56,7 @@
             return;
         }
 
-        registerFailed = !Data.Register(newUser);
+        registerFailed = !await Data.RegisterAsync(newUser);
         if (!registerFailed)
         {
             Nav.NavigateTo("/profile");

@@ -75,9 +75,9 @@
     private int laybyWeeks;
     private bool saved = false;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        var settings = Data.GetSettings();
+        var settings = await Data.GetSettingsAsync();
         storeName = settings.StoreName;
         tagline = settings.Tagline;
         email = settings.ContactEmail;
@@ -87,7 +87,7 @@
         laybyWeeks = settings.LaybyWeeks;
     }
 
-    private async void Save()
+    private async Task Save()
     {
         var updated = new AppSettings
         {
@@ -99,7 +99,7 @@
             DepositPercent = depositPercent,
             LaybyWeeks = laybyWeeks
         };
-        Data.SaveSettings(updated);
+        await Data.SaveSettingsAsync(updated);
 
         saved = true;
         StateHasChanged();

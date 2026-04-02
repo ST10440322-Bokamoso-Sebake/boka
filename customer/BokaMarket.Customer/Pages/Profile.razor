@@ -79,11 +79,11 @@ else
         }
     }
 
-    private async void SaveProfile()
+    private async Task SaveProfile()
     {
         if (user != null)
         {
-            Data.UpdateProfile(user);
+            await Data.UpdateProfileAsync(user);
             saved = true;
             StateHasChanged();
             await Task.Delay(3000);

@@ -136,9 +136,9 @@
     private bool showModal = false;
     private Order editingOrder = new();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        orders = Data.GetOrders();
+        orders = await Data.GetOrdersAsync();
     }
 
     private void AddNewOrder()
@@ -164,10 +164,10 @@
         showModal = true;
     }
 
-    private void SaveOrder()
+    private async Task SaveOrder()
     {
-        Data.SaveOrder(editingOrder);
-        orders = Data.GetOrders();
+        await Data.SaveOrderAsync(editingOrder);
+        orders = await Data.GetOrdersAsync();
         showModal = false;
     }
 
