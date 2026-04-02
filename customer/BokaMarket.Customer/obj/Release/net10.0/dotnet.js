@@ -5,7 +5,7 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
   "mainAssemblyName": "BokaMarket.Customer",
   "applicationEnvironment": "Development",
   "resources": {
-    "hash": "sha256-1vjCBYiwtUqgqzcHKkI3RNtPxdHp6iQHVJfnvUwfOQc=",
+    "hash": "sha256-57IRMyotal+hq5RD9Hv3ui6NIsWy6YoEQmeeacQKD6s=",
     "jsModuleNative": [
       {
         "name": "dotnet.native.js"
@@ -1045,24 +1045,24 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
       {
         "virtualPath": "BokaMarket.Shared.wasm",
         "name": "BokaMarket.Shared.wasm",
-        "integrity": "sha256-yQBNPiddK8f/9WnphVVNbL4nHKLHTmRfL1eFYRdIAkM="
+        "integrity": "sha256-ZBV1vwxRKXLrmuXBIMtlkdwAjgca355r4LeFSt9YTlo="
       },
       {
         "virtualPath": "BokaMarket.Customer.wasm",
         "name": "BokaMarket.Customer.wasm",
-        "integrity": "sha256-I8omA70Zno7qohdNAAvJgsbC97lAOfBhgfdu5efzzw8="
+        "integrity": "sha256-aWS8u6JU/ChssxwpiwEZ1X7GP3A1Nsdu4Hj4todhzcU="
       }
     ],
     "pdb": [
       {
         "virtualPath": "BokaMarket.Shared.pdb",
         "name": "BokaMarket.Shared.pdb",
-        "integrity": "sha256-wPRI+Hx40RBAGaQZZrkiiuD8VMPzuIqy5eidfrVEzh4="
+        "integrity": "sha256-89MGhT8GItr32Jymu+K9wQYFTt3XC6v4t3lPAm5op+Q="
       },
       {
         "virtualPath": "BokaMarket.Customer.pdb",
         "name": "BokaMarket.Customer.pdb",
-        "integrity": "sha256-ip9YVoMs6AguWF5+V/SOko3CbXrJqfeELB2U9CQwshU="
+        "integrity": "sha256-eYZuzcP9pCNE8vVpdVysv9QoWPzt5acK8hfbqNKz0VY="
       }
     ]
   },
