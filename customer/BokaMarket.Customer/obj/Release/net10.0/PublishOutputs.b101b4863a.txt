@@ -1,0 +1,4 @@
+C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\bin\Release\net10.0\publish\vercel.json
+C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\bin\Release\net10.0\publish\BokaMarket.Customer.runtimeconfig.json
+C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\bin\Release\net10.0\publish\dotnet.js
+C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\bin\Release\net10.0\publish\web.config

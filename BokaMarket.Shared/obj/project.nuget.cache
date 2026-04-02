@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "dgSpecHash": "+SupUl44Sxk=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Esther\\OneDrive\\Desktop\\Bokamoso\\boka\\BokaMarket.Shared\\BokaMarket.Shared.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Esther\\.nuget\\packages\\microsoft.aspnetcore.authorization\\10.0.5\\microsoft.aspnetcore.authorization.10.0.5.nupkg.sha512",
+    "C:\\Users\\Esther\\.nuget\\packages\\microsoft.aspnetcore.components\\10.0.5\\microsoft.aspnetcore.components.10.0.5.nupkg.sha512",
+    "C:\\Users\\Esther\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\10.0.5\\microsoft.aspnetcore.components.analyzers.10.0.5.nupkg.sha512",
+    "C:\\Users\\Esther\\.nuget\\packages\\microsoft.aspnetcore.components.authorization\\10.0.5\\microsoft.aspnetcore.components.authorization.10.0.5.nupkg.sha512",
+    "C:\\Users\\Esther\\.nuget\\packages\\microsoft.aspnetcore.metadata\\10.0.5\\microsoft.aspnetcore.metadata.10.0.5.nupkg.sha512",
+    "C:\\Users\\Esther\\.nuget\\packages\\microsoft.extensions.configuration\\10.0.5\\microsoft.extensions.configuration.10.0.5.nupkg.sha512",
+    "C:\\Users\\Esther\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\10.0.5\\microsoft.extensions.configuration.abstractions.10.0.5.nupkg.sha512",
+    "C:\\Users\\Esther\\.nuget\\packages\\microsoft.extensions.configuration.binder\\10.0.5\\microsoft.extensions.configuration.binder.10.0.5.nupkg.sha512",
+    "C:\\Users\\Esther\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.5\\microsoft.extensions.dependencyinjection.abstractions.10.0.5.nupkg.sha512",
+    "C:\\Users\\Esther\\.nuget\\packages\\microsoft.extensions.diagnostics\\10.0.5\\microsoft.extensions.diagnostics.10.0.5.nupkg.sha512",
+    "C:\\Users\\Esther\\.nuget\\packages\\microsoft.extensions.diagnostics.abstractions\\10.0.5\\microsoft.extensions.diagnostics.abstractions.10.0.5.nupkg.sha512",
+    "C:\\Users\\Esther\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\10.0.5\\microsoft.extensions.logging.abstractions.10.0.5.nupkg.sha512",
+    "C:\\Users\\Esther\\.nuget\\packages\\microsoft.extensions.options\\10.0.5\\microsoft.extensions.options.10.0.5.nupkg.sha512",
+    "C:\\Users\\Esther\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\10.0.5\\microsoft.extensions.options.configurationextensions.10.0.5.nupkg.sha512",
+    "C:\\Users\\Esther\\.nuget\\packages\\microsoft.extensions.primitives\\10.0.5\\microsoft.extensions.primitives.10.0.5.nupkg.sha512",
+    "C:\\Users\\Esther\\.nuget\\packages\\microsoft.jsinterop\\10.0.5\\microsoft.jsinterop.10.0.5.nupkg.sha512",
+    "C:\\Users\\Esther\\.nuget\\packages\\system.text.json\\8.0.5\\system.text.json.8.0.5.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1510",
+      "level": "Warning",
+      "message": "PackageReference System.Text.Json will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
+      "projectPath": "C:\\Users\\Esther\\OneDrive\\Desktop\\Bokamoso\\boka\\BokaMarket.Shared\\BokaMarket.Shared.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\Esther\\OneDrive\\Desktop\\Bokamoso\\boka\\BokaMarket.Shared\\BokaMarket.Shared.csproj",
+      "libraryId": "System.Text.Json",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
+}
