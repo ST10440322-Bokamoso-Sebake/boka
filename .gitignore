@@ -28,7 +28,7 @@ Thumbs.db
 *.tmp
 *.temp
 service-worker-assets.js
-dist/
+# dist/
 # [Rr]elease/
 # publish/
 

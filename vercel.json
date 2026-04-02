@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "outputDirectory": "customer/BokaMarket.Customer/bin/Release/net10.0/publish/wwwroot",
+  "outputDirectory": "dist",
   "cleanUrls": true,
-  "framework": null,
+  "trailingSlash": false,
   "routes": [
     { "src": "/_framework/(.*)", "dest": "/_framework/$1" },
     { "handle": "filesystem" },
