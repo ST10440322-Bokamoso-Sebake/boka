@@ -27,7 +27,8 @@ Thumbs.db
 *.temp
 service-worker-assets.js
 dist/
-publish/
+# [Rr]elease/
+# publish/
 
 # Large media (uncomment if you want to exclude all mp4 files)
 # *.mp4
