@@ -35,11 +35,33 @@ public class CheckoutsController : ControllerBase
             OrderNumber = $"BYM-{DateTime.Now.Ticks.ToString().Substring(10)}",
             CustomerName = request.CustomerName,
             CustomerEmail = request.CustomerEmail,
+            ShippingAddress = request.ShippingAddress,
+            Phone = request.Phone,
             TotalAmount = request.TotalAmount,
             Status = "Awaiting Payment",
             OrderDate = DateTime.Now,
             IsFullyPaid = false
         };
+
+        // 2. Add line items and update inventory
+        foreach (var item in request.Items)
+        {
+            order.Items.Add(new OrderItem
+            {
+                ProductId = item.ProductId,
+                ProductName = item.Name,
+                UnitPrice = item.Price,
+                Quantity = item.Quantity
+            });
+
+            // Decrement inventory
+            var product = await _db.Products.FindAsync(item.ProductId);
+            if (product != null)
+            {
+                product.InventoryCount -= item.Quantity;
+                if (product.InventoryCount < 0) product.InventoryCount = 0; // Simple guard
+            }
+        }
 
         _db.Orders.Add(order);
         await _db.SaveChangesAsync();

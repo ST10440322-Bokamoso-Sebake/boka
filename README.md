@@ -14,10 +14,16 @@ BokaMarket is a premium, artisanal e-commerce platform dedicated to handcrafted 
 - **Role-Based Access**: Specialized portals for Customers and Administrators.
 - **Security Hardened**: All dependencies patched to latest secure versions (including `System.Text.Json` 8.0.5+).
 
-### ✅ Phase 3: Seamless Commerce (Latest!)
+### ✅ Phase 3: Seamless Commerce
 - **Dynamic Cart Management**: Persistent shopping cart using local storage.
-- **Artisanal Checkout**: A high-end, multi-step checkout flow with real-time validation and mock payment processing.
-- **Order Tracking**: Backend infrastructure ready to handle order persistence and status updates.
+- **Artisanal Checkout**: High-end flow with real-time validation and Stripe integration.
+- **Order Tracking**: Backend infrastructure for order persistence and status.
+
+### ✅ Phase 4: Operational Mastery (New!)
+- **Inventory Auto-Sync**: Real-time stock reduction during the checkout process.
+- **Detailed Fulfillment**: Admin-level itemization, courier tracking, and shipping management.
+- **Customer Transparently**: "My Orders" history and live tracking added to the customer profile.
+- **Enhanced Data Models**: Relational tracking of `OrderItems` for production-grade accuracy.
 
 ## 🛠️ Technology Stack
 - **Backend**: ASP.NET Core 10.0 Web API

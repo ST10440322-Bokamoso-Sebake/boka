@@ -8,75 +8,173 @@
 }
 else
 {
-    <div style="max-width: 800px; margin: 4rem auto; display: grid; grid-template-columns: 250px 1fr; gap: 2rem;">
+    <div style="max-width: 1000px; margin: 4rem auto; display: grid; grid-template-columns: 280px 1fr; gap: 2.5rem; padding: 0 20px;">
         <!-- Sidebar Menu -->
-        <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); align-self: start;">
-            <div style="text-align: center; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #eee;">
-                <div style="width: 60px; height: 60px; background: var(--primary-bg); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; margin: 0 auto 10px auto;">
+        <div style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 10px 30px rgba(126, 48, 145, 0.05); align-self: start; border: 1px solid rgba(126, 48, 145, 0.1);">
+            <div style="text-align: center; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #f0f0f0;">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; margin: 0 auto 15px auto; box-shadow: 0 8px 20px rgba(126, 48, 145, 0.2);">
                     @(user.FirstName?.FirstOrDefault() ?? 'U')
                 </div>
-                <div style="font-weight: 700;">@user.FirstName @user.LastName</div>
-                <div style="font-size: 0.8rem; color: var(--text-muted);">@user.Email</div>
+                <div style="font-weight: 800; color: var(--primary); font-size: 1.1rem;">@user.FirstName @user.LastName</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">Artisanal Member</div>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                <a href="/profile" style="padding: 10px; border-radius: 8px; background: var(--primary); color: white; text-decoration: none; font-weight: 600; font-size: 0.9rem;"><i class="bi bi-person-fill" style="margin-right: 8px;"></i> My Details</a>
-                <button @onclick="HandleLogout" style="padding: 10px; border-radius: 8px; border: none; background: transparent; color: #E74C3C; text-align: left; cursor: pointer; font-weight: 600; font-size: 0.9rem; font-family: inherit;"><i class="bi bi-box-arrow-right" style="margin-right: 8px;"></i> Sign Out</button>
+            <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                <button @onclick='() => SetTab("details")' style='padding: 12px 15px; border-radius: 12px; border: none; background: @(activeTab == "details" ? "var(--primary)" : "transparent"); color: @(activeTab == "details" ? "white" : "var(--text-main)"); text-align: left; cursor: pointer; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; gap: 12px;'>
+                    <i class="bi bi-person-fill"></i> My Details
+                </button>
+                <button @onclick='() => SetTab("orders")' style='padding: 12px 15px; border-radius: 12px; border: none; background: @(activeTab == "orders" ? "var(--primary)" : "transparent"); color: @(activeTab == "orders" ? "white" : "var(--text-main)"); text-align: left; cursor: pointer; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; gap: 12px;'>
+                    <i class="bi bi-bag-heart-fill"></i> My Orders
+                </button>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #f0f0f0;">
+                    <button @onclick="HandleLogout" style="padding: 12px 15px; border-radius: 12px; border: none; background: transparent; color: #E74C3C; text-align: left; cursor: pointer; font-weight: 600; font-size: 0.9rem; width: 100%; display: flex; align-items: center; gap: 12px; transition: opacity 0.3s;">
+                        <i class="bi bi-box-arrow-right"></i> Sign Out
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- Details Editor -->
-        <div style="background: white; border-radius: 12px; padding: 2.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
-            <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--primary); margin-bottom: 1.5rem;">Personal Details</h2>
-
-            @if (saved)
+        <!-- Main Content Area -->
+        <div style="background: white; border-radius: 20px; padding: 3rem; box-shadow: 0 10px 30px rgba(126, 48, 145, 0.05); border: 1px solid rgba(126, 48, 145, 0.1);">
+            @if (activeTab == "details")
             {
-                <div style="background: #E8F5E9; color: #27AE60; padding: 10px; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem; display: flex; align-items: center; gap: 10px;">
-                    <i class="bi bi-check-circle-fill"></i> Profile updated successfully!
-                </div>
+                <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--primary); margin-bottom: 2rem; letter-spacing: -0.5px;">Artisanal Profile</h2>
+
+                @if (saved)
+                {
+                    <div style="background: #E8F8F5; color: #27AE60; padding: 15px; border-radius: 12px; margin-bottom: 2rem; font-size: 0.95rem; font-weight: 600; display: flex; align-items: center; gap: 12px; animation: slideIn 0.3s ease;">
+                        <i class="bi bi-check-circle-fill" style="font-size: 1.2rem;"></i> Your updates have been crafted!
+                    </div>
+                }
+
+                <form @onsubmit="SaveProfile" @onsubmit:preventDefault="true" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div>
+                            <label style="display: block; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text-main);">First Name</label>
+                            <input type="text" @bind="user.FirstName" style="width: 100%; padding: 14px; border: 1px solid #e0e0e0; border-radius: 10px; font-family: inherit; font-size: 1rem; transition: border-color 0.3s;" />
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text-main);">Last Name</label>
+                            <input type="text" @bind="user.LastName" style="width: 100%; padding: 14px; border: 1px solid #e0e0e0; border-radius: 10px; font-family: inherit; font-size: 1rem;" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label style="display: block; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text-main);">Phone Number</label>
+                        <input type="text" @bind="user.Phone" style="width: 100%; padding: 14px; border: 1px solid #e0e0e0; border-radius: 10px;" />
+                    </div>
+
+                    <div>
+                        <label style="display: block; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text-main);">Shipping Address</label>
+                        <textarea @bind="user.Address" rows="3" style="width: 100%; padding: 14px; border: 1px solid #e0e0e0; border-radius: 10px; font-family: inherit; resize: none;"></textarea>
+                    </div>
+
+                    <div style="margin-top: 1rem;">
+                        <button type="submit" class="btn-primary" style="padding: 15px 35px; border-radius: 15px; font-weight: 700; box-shadow: 0 10px 20px rgba(126, 48, 145, 0.15);">SAVE PROFILE CHANGES</button>
+                    </div>
+                </form>
             }
+            else if (activeTab == "orders")
+            {
+                <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--primary); margin-bottom: 2rem; letter-spacing: -0.5px;">My Commission History</h2>
 
-            <form @onsubmit="SaveProfile" @onsubmit:preventDefault="true" style="display: flex; flex-direction: column; gap: 1.2rem;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;">
-                    <div>
-                        <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem;">First Name</label>
-                        <input type="text" @bind="user.FirstName" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box;" />
+                @if (orders == null)
+                {
+                    <div style="text-align: center; padding: 2rem; color: var(--text-muted);">Tracing your treasures...</div>
+                }
+                else if (!orders.Any())
+                {
+                    <div style="text-align: center; padding: 4rem 2rem; background: var(--primary-bg); border-radius: 20px;">
+                        <i class="bi bi-bag-x" style="font-size: 3rem; color: var(--primary); opacity: 0.3;"></i>
+                        <h3 style="margin-top: 1.5rem; color: var(--primary);">No artisanal orders yet</h3>
+                        <p style="color: var(--text-muted); font-size: 0.95rem;">Your journey into handmade treasures begins at the catalog.</p>
+                        <a href="/catalog" class="btn-primary" style="display: inline-block; margin-top: 1.5rem; text-decoration: none; padding: 12px 25px; border-radius: 12px;">START SHOPPING</a>
                     </div>
-                    <div>
-                        <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem;">Last Name</label>
-                        <input type="text" @bind="user.LastName" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box;" />
+                }
+                else
+                {
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        @foreach (var order in orders)
+                        {
+                            <div style="border: 1px solid #f0f0f0; border-radius: 16px; overflow: hidden; transition: transform 0.3s ease;">
+                                <div style="background: #fafafa; padding: 1.2rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f0f0f0;">
+                                    <div>
+                                        <div style="font-size: 0.75rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 1px;">Order #@order.OrderNumber</div>
+                                        <div style="font-size: 0.85rem; color: var(--text-muted);">Placed on @order.OrderDate.ToString("dd MMM yyyy")</div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <span style="padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; background: @GetStatusBg(order.Status); color: @GetStatusColor(order.Status);">@order.Status.ToUpper()</span>
+                                    </div>
+                                </div>
+                                <div style="padding: 1.5rem;">
+                                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 1.5rem;">
+                                        @foreach (var item in order.Items)
+                                        {
+                                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem;">
+                                                <div style="color: var(--text-main);"><span style="font-weight: 700; color: var(--primary);">@item.Quantity x</span> @item.ProductName</div>
+                                                <div style="font-weight: 600;">R @item.Total.ToString("N0")</div>
+                                            </div>
+                                        }
+                                    </div>
+                                    
+                                    @if (!string.IsNullOrEmpty(order.TrackingNumber))
+                                    {
+                                        <div style="background: #E8F4FD; border: 1px dashed #3498DB; padding: 12px; border-radius: 10px; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                                            <i class="bi bi-truck-flatbed" style="color: #3498DB; font-size: 1.2rem;"></i>
+                                            <div>
+                                                <div style="font-size: 0.7rem; font-weight: 800; color: #2980B9; text-transform: uppercase;">Tracking Number</div>
+                                                <div style="font-size: 0.9rem; font-weight: 700; color: #2980B9;">@order.TrackingNumber (@order.CourierName)</div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <div style="display: flex; justify-content: space-between; padding-top: 1.2rem; border-top: 1px solid #f0f0f0;">
+                                        <div style="color: var(--text-muted); font-size: 0.9rem;">
+                                            @(order.IsFullyPaid ? "Successfully Paid" : "Deposit Received")
+                                        </div>
+                                        <div style="font-size: 1.1rem; font-weight: 800; color: var(--primary);">Total R @order.TotalAmount.ToString("N0")</div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
-                </div>
-
-                <div>
-                    <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem;">Phone Number</label>
-                    <input type="text" @bind="user.Phone" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box;" />
-                </div>
-
-                <div>
-                    <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem;">Shipping Address</label>
-                    <input type="text" @bind="user.Address" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box;" />
-                </div>
-
-                <div style="margin-top: 1rem;">
-                    <button type="submit" class="btn-primary" style="padding: 12px 24px;">Save Changes</button>
-                </div>
-            </form>
+                }
+            }
         </div>
     </div>
 }
 
+<style>
+    @@keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+
 @code {
     private User? user;
+    private List<Order>? orders;
     private bool saved = false;
+    private string activeTab = "details";
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         user = Data.CurrentUser;
         if (user == null)
         {
             Nav.NavigateTo("/login");
+            return;
         }
+
+        await LoadOrders();
+    }
+
+    private async Task LoadOrders()
+    {
+        orders = await Data.GetMyOrdersAsync();
+    }
+
+    private void SetTab(string tab)
+    {
+        activeTab = tab;
+        StateHasChanged();
     }
 
     private async Task SaveProfile()
@@ -97,4 +195,24 @@ else
         Data.Logout();
         Nav.NavigateTo("/", forceLoad: true);
     }
+
+    private string GetStatusBg(string status) => status.ToLower() switch
+    {
+        "awaiting payment" => "#fef9e7",
+        "deposit paid" => "#e8f8f5",
+        "in production" => "#f4ecf7",
+        "shipped" => "#e8f4fd",
+        "ready for pickup" => "#e8f8f5",
+        _ => "#f5f5f5"
+    };
+
+    private string GetStatusColor(string status) => status.ToLower() switch
+    {
+        "awaiting payment" => "#f1c40f",
+        "deposit paid" => "#27ae60",
+        "in production" => "#8e44ad",
+        "shipped" => "#2980b9",
+        "ready for pickup" => "#27ae60",
+        _ => "#999"
+    };
 }

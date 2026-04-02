@@ -9,8 +9,8 @@ public interface IDataService
 {
     // Orders
     Task<List<Order>> GetOrdersAsync();
+    Task<List<Order>> GetMyOrdersAsync();
     Task SaveOrderAsync(Order order);
-    Task UpdateOrderStatusAsync(int id, string status);
 
     // Products
     Task<List<Product>> GetProductsAsync();
@@ -94,10 +94,10 @@ public class HttpDataService : IDataService
         await _http.PostAsJsonAsync("api/orders", order);
     }
 
-    public async Task UpdateOrderStatusAsync(int id, string status) 
+    public async Task<List<Order>> GetMyOrdersAsync() 
     {
         await AddAuthHeader();
-        await _http.PutAsJsonAsync($"api/orders/{id}/status", status);
+        return await _http.GetFromJsonAsync<List<Order>>("api/orders/my") ?? new();
     }
 
     public async Task<List<Review>> GetReviewsAsync() 

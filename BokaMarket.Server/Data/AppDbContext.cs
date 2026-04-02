@@ -14,6 +14,7 @@ public class AppDbContext : DbContext
     public DbSet<Invoice> Invoices { get; set; }
     public DbSet<AppSettings> Settings { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

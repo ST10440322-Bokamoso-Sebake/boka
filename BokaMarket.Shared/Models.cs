@@ -20,11 +20,27 @@ public class Order
     public string OrderNumber { get; set; } = string.Empty;
     public string CustomerName { get; set; } = string.Empty;
     public string CustomerEmail { get; set; } = string.Empty;
+    public string ShippingAddress { get; set; } = string.Empty;
+    public string Phone { get; set; } = string.Empty;
     public string Status { get; set; } = "In Production";
     public DateTime OrderDate { get; set; } = DateTime.Now;
     public decimal TotalAmount { get; set; }
     public decimal DepositPaid { get; set; }
     public bool IsFullyPaid { get; set; }
+    public string? TrackingNumber { get; set; }
+    public string? CourierName { get; set; }
+    public List<OrderItem> Items { get; set; } = new();
+}
+
+public class OrderItem
+{
+    public int Id { get; set; }
+    public int OrderId { get; set; }
+    public int ProductId { get; set; }
+    public string ProductName { get; set; } = string.Empty;
+    public decimal UnitPrice { get; set; }
+    public int Quantity { get; set; }
+    public decimal Total => UnitPrice * Quantity;
 }
 
 public class Review

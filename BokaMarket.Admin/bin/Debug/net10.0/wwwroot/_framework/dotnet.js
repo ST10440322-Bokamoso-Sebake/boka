@@ -5,7 +5,7 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
   "mainAssemblyName": "BokaMarket.Admin",
   "applicationEnvironment": "Development",
   "resources": {
-    "hash": "sha256-PmUF44av8v+9zU1VIm27Pv+nm29AX0mmaM7J6WC+TE4=",
+    "hash": "sha256-S1gp9Z8MJP9D4eaw6wboXZx7HeB9jaJqfqSXo5Fxh3w=",
     "jsModuleNative": [
       {
         "name": "dotnet.native.ykrnppwhq2.js"
@@ -1254,28 +1254,28 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
       },
       {
         "virtualPath": "BokaMarket.Shared.wasm",
-        "name": "BokaMarket.Shared.mh98wzhtlt.wasm",
-        "integrity": "sha256-Cr6UMvEHW3FmGBhaLZhn9GNdYtYkpDKUaCkIuAdGWIc=",
+        "name": "BokaMarket.Shared.hrqv43oopx.wasm",
+        "integrity": "sha256-PYk57EensLgXNkn23IoSONmfXF4w1qzA3WkIUTReCq8=",
         "cache": "force-cache"
       },
       {
         "virtualPath": "BokaMarket.Admin.wasm",
-        "name": "BokaMarket.Admin.q0jj9iwqwn.wasm",
-        "integrity": "sha256-9merdvtv6lXAE3Z6eejyax9xKcGI9rz8Hb4e48rQ05U=",
+        "name": "BokaMarket.Admin.e6r9yztzd1.wasm",
+        "integrity": "sha256-KrA0d4ZKk92cFBe4Vb2ZdMmLnH4eoQv++e/WDL3wO/4=",
         "cache": "force-cache"
       }
     ],
     "pdb": [
       {
         "virtualPath": "BokaMarket.Shared.pdb",
-        "name": "BokaMarket.Shared.912dobf3bt.pdb",
-        "integrity": "sha256-jR9ROI92f/4ksQMF4/4HO+j5K/sYQMGokTxQCzLeUls=",
+        "name": "BokaMarket.Shared.ce0mncedum.pdb",
+        "integrity": "sha256-hPKe+DkmCEg7bBJI+c6k4/VR+1n37wmo6LrhUWhhrbI=",
         "cache": "force-cache"
       },
       {
         "virtualPath": "BokaMarket.Admin.pdb",
-        "name": "BokaMarket.Admin.pk8tssj5ji.pdb",
-        "integrity": "sha256-qcycCoLzZxs8Myk2SIParMasIUwGVTaWHQyvpp2h0GA=",
+        "name": "BokaMarket.Admin.t01uah87a9.pdb",
+        "integrity": "sha256-rc6kRRzXMMAO2lBJhtcydqYbEC9QluNY8Ofbo3OwgFM=",
         "cache": "force-cache"
       }
     ],

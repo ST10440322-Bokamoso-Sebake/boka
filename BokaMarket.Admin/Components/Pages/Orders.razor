@@ -42,6 +42,7 @@
             <tr>
                 <th>Order ID</th>
                 <th>Customer</th>
+                <th>Items Summary</th>
                 <th>Status</th>
                 <th>Payment</th>
                 <th>Actions</th>
@@ -56,12 +57,26 @@
                         <div style="font-weight: 600;">@order.CustomerName</div>
                         <div style="font-size: 0.8rem; color: var(--text-muted);">@order.CustomerEmail</div>
                     </td>
+                    <td style="font-size: 0.85rem; color: var(--text-muted);">
+                        @if (order.Items != null && order.Items.Any())
+                        {
+                            <div>@string.Join(", ", order.Items.Select(i => $"{i.Quantity}x {i.ProductName}"))</div>
+                        }
+                        else
+                        {
+                            <div>General Order</div>
+                        }
+                    </td>
                     <td>
                         <span class="status-badge @GetStatusClass(order.Status)">@order.Status.ToUpper()</span>
+                        @if (!string.IsNullOrEmpty(order.TrackingNumber))
+                        {
+                             <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 4px;">🚚 @order.TrackingNumber</div>
+                        }
                     </td>
                     <td>
                         <div style="font-weight: 600;">@(order.IsFullyPaid ? "Fully Paid" : "Deposit Paid")</div>
-                        <div style="font-size: 0.8rem; color: var(--text-muted);">(R@order.DepositPaid.ToString("N0"))</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">(R@order.TotalAmount.ToString("N0"))</div>
                     </td>
                     <td>
                         <div style="display: flex; gap: 12px;">
@@ -87,44 +102,70 @@
             <EditForm Model="editingOrder" OnValidSubmit="SaveOrder">
                 <DataAnnotationsValidator />
                 
-                <div class="form-group">
-                    <label>Customer Name</label>
-                    <InputText @bind-Value="editingOrder.CustomerName" class="form-control" />
-                </div>
-                
-                <div class="form-group">
-                    <label>Customer Email</label>
-                    <InputText @bind-Value="editingOrder.CustomerEmail" class="form-control" />
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>Customer Name</label>
+                        <InputText @bind-Value="editingOrder.CustomerName" class="form-control" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Customer Email</label>
+                        <InputText @bind-Value="editingOrder.CustomerEmail" class="form-control" />
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Status</label>
-                    <InputSelect @bind-Value="editingOrder.Status" class="form-control">
-                        <option value="Deposit Paid">Deposit Paid</option>
-                        <option value="In Production">In Production</option>
-                        <option value="Ready for Pickup">Ready for Pickup</option>
-                    </InputSelect>
+                    <label>Shipping Address</label>
+                    <InputTextArea @bind-Value="editingOrder.ShippingAddress" class="form-control" rows="2" />
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>Status</label>
+                        <InputSelect @bind-Value="editingOrder.Status" class="form-control">
+                            <option value="Awaiting Payment">Awaiting Payment</option>
+                            <option value="Deposit Paid">Deposit Paid</option>
+                            <option value="In Production">In Production</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Ready for Pickup">Ready for Pickup</option>
+                        </InputSelect>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Courier Service / Method</label>
+                        <InputText @bind-Value="editingOrder.CourierName" class="form-control" placeholder="e.g. Aramex, PEP Paxi" />
+                    </div>
+                </div>
+
+                @if (editingOrder.Status == "Shipped")
+                {
+                    <div class="form-group">
+                        <label style="color: var(--primary); font-weight: 800;">Tracking Number</label>
+                        <InputText @bind-Value="editingOrder.TrackingNumber" class="form-control" placeholder="CN-XXXX-XXXXX" />
+                    </div>
+                }
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>Total Amount (R)</label>
+                        <InputNumber @bind-Value="editingOrder.TotalAmount" class="form-control" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Deposit Paid (R)</label>
+                        <InputNumber @bind-Value="editingOrder.DepositPaid" class="form-control" />
+                    </div>
                 </div>
                 
                 <div class="form-group">
-                    <label>Total Amount (R)</label>
-                    <InputNumber @bind-Value="editingOrder.TotalAmount" class="form-control" />
-                </div>
-                
-                <div class="form-group">
-                    <label>Deposit Paid (R)</label>
-                    <InputNumber @bind-Value="editingOrder.DepositPaid" class="form-control" />
-                </div>
-                
-                <div class="form-group">
-                    <label>
-                        <InputCheckbox @bind-Value="editingOrder.IsFullyPaid" /> Fully Paid
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <InputCheckbox @bind-Value="editingOrder.IsFullyPaid" style="width: 18px; height: 18px;" /> Fully Paid
                     </label>
                 </div>
 
                 <div class="modal-actions">
                     <button type="button" class="btn-secondary" @onclick="CloseModal">Cancel</button>
-                    <button type="submit" class="btn-primary">Save Order</button>
+                    <button type="submit" class="btn-primary">Update Order Information</button>
                 </div>
             </EditForm>
         </div>
@@ -155,18 +196,31 @@
             OrderNumber = o.OrderNumber,
             CustomerName = o.CustomerName,
             CustomerEmail = o.CustomerEmail,
+            ShippingAddress = o.ShippingAddress,
+            Phone = o.Phone,
             Status = o.Status,
             OrderDate = o.OrderDate,
             TotalAmount = o.TotalAmount,
             DepositPaid = o.DepositPaid,
-            IsFullyPaid = o.IsFullyPaid
+            IsFullyPaid = o.IsFullyPaid,
+            TrackingNumber = o.TrackingNumber,
+            CourierName = o.CourierName,
+            Items = o.Items ?? new()
         };
         showModal = true;
     }
 
     private async Task SaveOrder()
     {
-        await Data.SaveOrderAsync(editingOrder);
+        if (editingOrder.Id == 0)
+        {
+            await Data.SaveOrderAsync(editingOrder);
+        }
+        else
+        {
+            await Data.UpdateOrderAsync(editingOrder);
+        }
+        
         orders = await Data.GetOrdersAsync();
         showModal = false;
     }
@@ -181,6 +235,47 @@
         "in production" => "status-in-production",
         "ready for pickup" => "status-ready",
         "deposit paid" => "status-paid",
+        "shipped" => "status-shipped",
         _ => ""
     };
 }
+
+<style>
+    .status-shipped {
+        background-color: #E8F4FD;
+        color: #2980B9;
+    }
+    .status-paid {
+        background-color: #E8F8F5;
+        color: #27AE60;
+    }
+    .status-in-production {
+        background-color: #FEF9E7;
+        color: #F1C40F;
+    }
+    .status-ready {
+        background-color: #F4ECF7;
+        color: #8E44AD;
+    }
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    .modal-content {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        width: 100%;
+        max-width: 500px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+</style>

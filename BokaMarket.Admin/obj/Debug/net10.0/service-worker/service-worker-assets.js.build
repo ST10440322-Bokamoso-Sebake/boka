@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "dXULAbEv",
+  "version": "tSXbfTfC",
   "assets": [
     {
       "hash": "sha256-3vAXAFuFB7uuHcBBVgAiTQTu7eqwNWbg/bl/KRhdEEM=",
@@ -18,20 +18,20 @@ self.assetsManifest = {
       "url": "_framework/Blazored.LocalStorage.12n6dz54qr.wasm"
     },
     {
-      "hash": "sha256-qcycCoLzZxs8Myk2SIParMasIUwGVTaWHQyvpp2h0GA=",
-      "url": "_framework/BokaMarket.Admin.pk8tssj5ji.pdb"
+      "hash": "sha256-KrA0d4ZKk92cFBe4Vb2ZdMmLnH4eoQv++e/WDL3wO/4=",
+      "url": "_framework/BokaMarket.Admin.e6r9yztzd1.wasm"
     },
     {
-      "hash": "sha256-9merdvtv6lXAE3Z6eejyax9xKcGI9rz8Hb4e48rQ05U=",
-      "url": "_framework/BokaMarket.Admin.q0jj9iwqwn.wasm"
+      "hash": "sha256-rc6kRRzXMMAO2lBJhtcydqYbEC9QluNY8Ofbo3OwgFM=",
+      "url": "_framework/BokaMarket.Admin.t01uah87a9.pdb"
     },
     {
-      "hash": "sha256-jR9ROI92f/4ksQMF4/4HO+j5K/sYQMGokTxQCzLeUls=",
-      "url": "_framework/BokaMarket.Shared.912dobf3bt.pdb"
+      "hash": "sha256-hPKe+DkmCEg7bBJI+c6k4/VR+1n37wmo6LrhUWhhrbI=",
+      "url": "_framework/BokaMarket.Shared.ce0mncedum.pdb"
     },
     {
-      "hash": "sha256-Cr6UMvEHW3FmGBhaLZhn9GNdYtYkpDKUaCkIuAdGWIc=",
-      "url": "_framework/BokaMarket.Shared.mh98wzhtlt.wasm"
+      "hash": "sha256-PYk57EensLgXNkn23IoSONmfXF4w1qzA3WkIUTReCq8=",
+      "url": "_framework/BokaMarket.Shared.hrqv43oopx.wasm"
     },
     {
       "hash": "sha256-q+EkKN9BLcIwLCOVyaecX4eEO6XppOqATijxWzC6otk=",
@@ -830,7 +830,7 @@ self.assetsManifest = {
       "url": "_framework/blazor.webassembly.js"
     },
     {
-      "hash": "sha256-+2ZsE1N7PvA45gfpzRLIn1EaE9TwVP2a4MmvrMtZfiA=",
+      "hash": "sha256-7ddUEAJn+tz3GgxA1OzyjD/+B8ZPeo51cbDRN01fOzs=",
       "url": "_framework/dotnet.js"
     },
     {
