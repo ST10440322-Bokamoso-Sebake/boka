@@ -1,96 +1,145 @@
 @page "/cart"
-@inject IDataService Data
+@inject CartService Cart
+@inject NavigationManager Nav
 
 <div style="background: var(--bg-main); padding: 4rem 2.5rem; text-align: center;">
     <h1 style="font-size: 2.2rem; color: var(--primary); font-weight: 800; margin-bottom: 0.5rem;">Your Cart</h1>
-    <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Review the items you’ve selected before finishing your order.</p>
+    @if (cartItems.Any())
+    {
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Review the items you’ve selected before finishing your order.</p>
+    }
+    else
+    {
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Your cart is currently empty. Treasure awaits!</p>
+    }
 </div>
 
-<div class="cart-container" style="max-width: 1000px; margin: 3rem auto; padding: 0 2.5rem; display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
-    <!-- Items Side -->
-    <div>
-        <h2 style="font-size: 1.25rem; font-weight: 700; border-bottom: 2px solid #eee; padding-bottom: 1rem; margin-bottom: 2rem;">2 Items</h2>
+<div class="cart-container" style="max-width: 1000px; margin: 3rem auto; padding: 0 2.5rem;">
+    @if (!cartItems.Any())
+    {
+        <div style="text-align: center; padding: 4rem;">
+            <i class="bi bi-cart3" style="font-size: 5rem; color: #E8DAEF; display: block; margin-bottom: 2rem;"></i>
+            <button @onclick='() => Nav.NavigateTo("/catalog")' class="btn-primary" style="padding: 1rem 3rem;">Start Shopping</button>
+        </div>
+    }
+    else
+    {
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
+            <!-- Items Side -->
+            <div>
+                <h2 style="font-size: 1.25rem; font-weight: 700; border-bottom: 2px solid #eee; padding-bottom: 1rem; margin-bottom: 2rem;">@cartItems.Count Items</h2>
 
-        <!-- Mock Item 1 -->
-        <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; border-bottom: 1px dotted #eee; padding-bottom: 1.5rem;">
-            <img src="images/78.png" style="width: 120px; height: 120px; border-radius: 8px; object-fit: cover;" onerror="this.src='https://placehold.co/120x120/F7E8FA/7E3091';" />
-            <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                        <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0 0 5px 0;">Chunky Merino Cardigan</h3>
-                        <i class="bi bi-trash" style="cursor: pointer; color: #E74C3C;"></i>
+                @foreach (var item in cartItems)
+                {
+                    <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; border-bottom: 1px dotted #eee; padding-bottom: 1.5rem; animation: fadeIn 0.3s ease-out;">
+                        <img src="@item.ImageUrl" style="width: 120px; height: 120px; border-radius: 8px; object-fit: cover; border: 1px solid #F5F5F5;" 
+                             onerror="this.src='https://placehold.co/120x120/F7E8FA/7E3091?text=Boka';" />
+                        
+                        <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                    <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0 0 5px 0;">@item.Name</h3>
+                                    <i class="bi bi-trash" style="cursor: pointer; color: #E74C3C; font-size: 1.2rem; transition: transform 0.2s;" @onclick="() => RemoveItem(item.ProductId)"></i>
+                                </div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">Handcrafted Treasure</div>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                                <div style="display: flex; align-items: center; border: 1.5px solid #E8DAEF; border-radius: 8px; overflow: hidden; background: white;">
+                                    <button style="border: none; background: white; padding: 8px 14px; cursor: pointer; color: var(--primary); font-weight: bold;" @onclick="() => UpdateQuantity(item, -1)">-</button>
+                                    <span style="font-size: 0.95rem; font-weight: 700; padding: 0 12px; min-width: 30px; text-align: center;">@item.Quantity</span>
+                                    <button style="border: none; background: white; padding: 8px 14px; cursor: pointer; color: var(--primary); font-weight: bold;" @onclick="() => UpdateQuantity(item, 1)">+</button>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-size: 0.8rem; color: var(--text-muted); text-decoration: line-through; opacity: 0.5;">R @((item.Price * 1.2m).ToString("N0"))</div>
+                                    <div style="font-size: 1.3rem; font-weight: 900; color: var(--primary);">R @item.Total.ToString("N0")</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div style="font-size: 0.85rem; color: var(--text-muted);">Custom Fit | Lavender</div>
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                    <div style="display: flex; align-items: center; border: 1px solid #ddd; border-radius: 6px; overflow: hidden;">
-                        <button style="border: none; background: white; padding: 5px 12px; cursor: pointer;">-</button>
-                        <span style="font-size: 0.9rem; font-weight: 600; padding: 0 10px;">1</span>
-                        <button style="border: none; background: white; padding: 5px 12px; cursor: pointer;">+</button>
+                }
+            </div>
+
+            <!-- Summary Side -->
+            <div>
+                <div style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 10px 30px rgba(126, 48, 145, 0.05); position: sticky; top: 100px; border: 1px solid #F5F0F6;">
+                    <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 1.5rem; color: #2D3436;">Order Summary</h3>
+                    
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 1rem;">
+                        <span style="color: var(--text-muted);">Subtotal</span>
+                        <span style="font-weight: 700; color: #2D3436;">R @totalAmount.ToString("N2")</span>
                     </div>
-                    <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary);">R450</div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 1rem;">
+                        <span style="color: var(--text-muted);">Shipping</span>
+                        <span style="font-weight: 700; color: #27AE60;">Calculated at next step</span>
+                    </div>
+                    
+                    <div style="border-top: 2px solid #F7F1F8; margin: 1.5rem 0; padding-top: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                            <span style="font-size: 1.1rem; font-weight: 600; color: #636E72;">Total</span>
+                            <div style="text-align: right;">
+                                <span style="font-size: 0.9rem; color: #636E72; margin-right: 4px;">ZAR</span>
+                                <div style="font-size: 2rem; font-weight: 900; color: var(--primary); line-height: 1;">R @totalAmount.ToString("N2")</div>
+                            </div>
+                        </div>
+                        
+                        @if (totalAmount > 500)
+                        {
+                            <p style="font-size: 0.85rem; color: #27AE60; text-align: center; margin-top: 15px; font-weight: 600; background: #E8F5E9; padding: 8px; border-radius: 8px;">
+                                <i class="bi bi-truck"></i> You qualify for free shipping!
+                            </p>
+                        }
+                    </div>
+
+                    <button @onclick='() => Nav.NavigateTo("/checkout")' class="btn-primary" style="width: 100%; font-size: 1.1rem; padding: 1.2rem; border-radius: 12px; font-weight: 700; box-shadow: 0 10px 20px rgba(126, 48, 145, 0.2);">
+                        Proceed to Checkout
+                    </button>
+                    
+                    <button @onclick='() => Nav.NavigateTo("/catalog")' style="width: 100%; background: transparent; border: none; font-size: 0.9rem; margin-top: 15px; color: var(--text-muted); cursor: pointer; font-weight: 600;">
+                        Wait, I need more yarn!
+                    </button>
                 </div>
             </div>
         </div>
-
-        <!-- Mock Item 2 -->
-        <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; border-bottom: 1px dotted #eee; padding-bottom: 1.5rem;">
-            <img src="images/79.png" style="width: 120px; height: 120px; border-radius: 8px; object-fit: cover;" onerror="this.src='https://placehold.co/120x120/F7E8FA/7E3091';" />
-            <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                        <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0 0 5px 0;">Bamboo Crochet Hook Set</h3>
-                        <i class="bi bi-trash" style="cursor: pointer; color: #E74C3C;"></i>
-                    </div>
-                    <div style="font-size: 0.85rem; color: var(--text-muted);">Ergonomic 2-6mm</div>
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                    <div style="display: flex; align-items: center; border: 1px solid #ddd; border-radius: 6px; overflow: hidden;">
-                        <button style="border: none; background: white; padding: 5px 12px; cursor: pointer;">-</button>
-                        <span style="font-size: 0.9rem; font-weight: 600; padding: 0 10px;">1</span>
-                        <button style="border: none; background: white; padding: 5px 12px; cursor: pointer;">+</button>
-                    </div>
-                    <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary);">R35</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Summary Side -->
-    <div>
-        <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.04); position: sticky; top: 100px;">
-            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem;">Order Summary</h3>
-            
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem;">
-                <span style="color: var(--text-muted);">Subtotal</span>
-                <span style="font-weight: 600;">R485.00</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem;">
-                <span style="color: var(--text-muted);">Shipping</span>
-                <span style="font-weight: 600;">Calculated at next step</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem;">
-                <span style="color: var(--text-muted);">Estimated Tax</span>
-                <span style="font-weight: 600;">R0.00</span>
-            </div>
-
-            <div style="border-top: 1px solid #eee; margin: 1.5rem 0; padding-top: 1.5rem;">
-                <div style="display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: 800; color: var(--primary);">
-                    <span>Total</span>
-                    <span>R485.00</span>
-                </div>
-                
-                <p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-top: 10px;">
-                    or choose to <strong style="color: var(--accent);">Lay-by from R145.50</strong> / month.
-                </p>
-            </div>
-
-            <a href="/checkout" class="btn-primary" style="display: block; text-align: center; font-size: 1rem; padding: 1rem;">
-                Proceed to Checkout
-            </a>
-            <a href="/catalog" style="display: block; text-align: center; font-size: 0.85rem; margin-top: 15px; color: var(--text-muted); text-decoration: none;">
-                Continue Shopping
-            </a>
-        </div>
-    </div>
+    }
 </div>
+
+<style>
+    @@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .bi-trash:hover { transform: scale(1.2) rotate(5deg); }
+</style>
+
+@code {
+    private List<CartItem> cartItems = new();
+    private decimal totalAmount;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCart();
+        Cart.OnChange += async () => await LoadCart();
+    }
+
+    private async Task LoadCart()
+    {
+        cartItems = await Cart.GetCartAsync();
+        totalAmount = Cart.GetTotal();
+        StateHasChanged();
+    }
+
+    private async Task RemoveItem(int productId)
+    {
+        await Cart.RemoveItemAsync(productId);
+    }
+
+    private async Task UpdateQuantity(CartItem item, int change)
+    {
+        var newQuantity = item.Quantity + change;
+        if (newQuantity > 0)
+        {
+            // We reuse AddToCart with negative values if needed, 
+            // but for simplicity let's just use the current logic
+            await Cart.AddToCartAsync(new Product { Id = item.ProductId }, change);
+        }
+    }
+}
+

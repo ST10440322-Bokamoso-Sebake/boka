@@ -1,73 +1,113 @@
-@page "/product/{Id:int}"
 @inject IDataService Data
+@inject CartService Cart
+@inject NavigationManager Nav
+@inject IConfiguration Config
 
 @if (product == null)
 {
-    <div style="padding: 4rem; text-align: center;">Product not found.</div>
+    <div style="padding: 4rem; text-align: center;">
+        <h2 style="color: var(--primary);">Searching the archives...</h2>
+        <p>This treasure might be hidden or sold out.</p>
+        <button @onclick='() => Nav.NavigateTo("/catalog")' class="btn-primary" style="margin-top: 2rem;">Back to Collection</button>
+    </div>
 }
 else
 {
-    <div style="max-width: 1200px; margin: 0 auto; padding: 3rem 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 3rem 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; animation: fadeIn 0.5s ease-out;">
         
         <!-- Image Area -->
-        <div>
-            <!-- Let's map certain image files randomly to showcase the screenshot images -->
-            <img src="https://localhost:7123/@product.ImageUrl" alt="@product.Name" style="width: 100%; border-radius: var(--border-radius); box-shadow: 0 4px 20px rgba(0,0,0,0.05); object-fit: cover;" onerror="this.src='https://placehold.co/600x600/F7E8FA/7E3091?text=Gallery';"/>
+        <div style="position: sticky; top: 100px;">
+            <div style="position: relative; overflow: hidden; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.08);">
+                <img src="@GetImageUrl(product.ImageUrl)" alt="@product.Name" style="width: 100%; aspect-ratio: 1; object-fit: cover; transition: transform 0.8s ease;" class="main-product-image"/>
+                <div style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.9); padding: 8px 16px; border-radius: 100px; font-weight: 800; color: var(--primary); font-size: 0.9rem; backdrop-filter: blur(5px);">
+                    Artisanal
+                </div>
+            </div>
             
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1rem;">
-                <img src="images/73.png" style="width: 100%; aspect-ratio: 1; border-radius: 8px; object-fit: cover; cursor: pointer;" />
-                <img src="images/74.png" style="width: 100%; aspect-ratio: 1; border-radius: 8px; object-fit: cover; cursor: pointer;" />
-                <img src="images/75.png" style="width: 100%; aspect-ratio: 1; border-radius: 8px; object-fit: cover; cursor: pointer;" />
-                <img src="images/76.png" style="width: 100%; aspect-ratio: 1; border-radius: 8px; object-fit: cover; cursor: pointer;" />
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1.5rem;">
+                @for (int i = 0; i < 4; i++)
+                {
+                    <div style="border-radius: 12px; overflow: hidden; border: 2px solid transparent; transition: all 0.2s; cursor: pointer;" class="thumbnail-hover">
+                        <img src="@GetImageUrl(product.ImageUrl)" style="width: 100%; aspect-ratio: 1; object-fit: cover; opacity: 0.6;" />
+                    </div>
+                }
             </div>
         </div>
 
         <!-- Details Area -->
-        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div style="display: flex; flex-direction: column; gap: 2rem;">
             <div>
-                <div class="product-category" style="font-size: 0.85rem; margin-bottom: 8px;">@product.Category</div>
-                <h1 style="font-size: 2.2rem; font-weight: 800; margin: 0; line-height: 1.2; color: var(--primary);">@product.Name</h1>
-                <div class="product-price" style="font-size: 1.5rem; margin-top: 10px;">R@product.Price.ToString("N0")</div>
-            </div>
-
-            <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.6;">
-                @product.Description
-            </p>
-
-            @if (product.InventoryCount < 10)
-            {
-                <div style="color: #E67E22; font-weight: 600; font-size: 0.9rem; padding: 10px; background: #FFF3E0; border-radius: 8px; width: fit-content;">
-                    <i class="bi bi-fire"></i> Only @product.InventoryCount left in stock. Hurry!
-                </div>
-            }
-            else
-            {
-                <div style="color: #27AE60; font-weight: 600; font-size: 0.9rem; padding: 10px; background: #E8F5E9; border-radius: 8px; width: fit-content;">
-                    <i class="bi bi-check-circle"></i> In Stock
-                </div>
-            }
-
-            <div style="border-top: 1px solid #eee; padding-top: 2rem; margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem;">
-                <label style="font-size: 0.9rem; font-weight: 700;">Quantity</label>
-                <div style="display: flex; gap: 1rem;">
-                    <input type="number" min="1" max="@product.InventoryCount" @bind="quantity" style="width: 80px; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; text-align: center;" />
-                    <button class="btn-primary" style="flex: 1;" @onclick="AddToCart">Add to Cart</button>
-                    <button class="btn-primary" style="background: white; color: var(--primary); border: 2px solid var(--primary);" @onclick="StartLayby">Lay-by This Item</button>
-
+                <div class="product-category" style="font-size: 0.9rem; margin-bottom: 12px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 2px;">@product.Category</div>
+                <h1 style="font-size: 3rem; font-weight: 900; margin: 0; line-height: 1.1; color: #2D3436; letter-spacing: -1px;">@product.Name</h1>
+                <div style="display: flex; align-items: center; gap: 15px; margin-top: 15px;">
+                    <div class="product-price" style="font-size: 2rem; font-weight: 900; color: var(--primary);">R @product.Price.ToString("N0")</div>
+                    <div style="font-size: 0.9rem; color: #27AE60; font-weight: 700; background: #E8F5E9; padding: 4px 12px; border-radius: 6px;">Inclusive of VAT</div>
                 </div>
             </div>
 
-            <div style="margin-top: 2rem;">
-                <h3 style="font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem;">Shipping & Returns</h3>
-                <ul style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; padding-left: 20px;">
-                    <li>Free local pickup at our weekend markets.</li>
-                    <li>Nationwide shipping via PEP Paxi (R60) or Aramex (R99).</li>
-                    <li>No returns on customized or worn apparel.</li>
-                </ul>
+            <div style="background: #F8F9FA; padding: 1.5rem; border-radius: 16px; border-left: 4px solid var(--secondary);">
+                <p style="color: #636E72; font-size: 1.1rem; line-height: 1.8; margin: 0;">
+                    @product.Description
+                </p>
+            </div>
+
+            <div style="display: flex; gap: 20px; align-items: center;">
+                @if (product.InventoryCount < 5)
+                {
+                    <div style="color: #D35400; font-weight: 800; font-size: 0.85rem; padding: 8px 16px; background: #FFF3E0; border-radius: 100px; border: 1px solid #FFE0B2; width: fit-content;">
+                        <i class="bi bi-lightning-fill"></i> Rare Find: Only @product.InventoryCount left!
+                    </div>
+                }
+                <div style="display: flex; align-items: center; gap: 4px; color: #F1C40F;">
+                    @for(int i=0; i<5; i++) { <i class="bi bi-star-fill"></i> }
+                    <span style="color: #636E72; font-size: 0.85rem; font-weight: 600; margin-left: 5px;">(24 Reviews)</span>
+                </div>
+            </div>
+
+            <div style="border-top: 1.5px solid #F1F2F6; padding-top: 2rem; margin-top: 1rem; display: flex; flex-direction: column; gap: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 2rem;">
+                    <div style="flex: 0 0 120px;">
+                        <label style="font-size: 0.85rem; font-weight: 800; color: #2D3436; text-transform: uppercase; display: block; margin-bottom: 8px;">Quantity</label>
+                        <div style="display: flex; align-items: center; border: 2px solid #E8DAEF; border-radius: 12px; overflow: hidden; background: white;">
+                             <button style="border: none; background: white; padding: 10px 15px; cursor: pointer;" @onclick="() => { if(quantity > 1) quantity--; }">-</button>
+                             <input type="number" min="1" max="@product.InventoryCount" @bind="quantity" style="width: 50px; border: none; font-weight: 800; text-align: center; outline: none;" />
+                             <button style="border: none; background: white; padding: 10px 15px; cursor: pointer;" @onclick="() => { if(quantity < product.InventoryCount) quantity++; }">+</button>
+                        </div>
+                    </div>
+                    
+                    <div style="flex: 1; padding-top: 25px;">
+                         <button class="btn-primary" style="width: 100%; padding: 1.2rem; font-size: 1.1rem; font-weight: 800; border-radius: 14px; box-shadow: 0 10px 20px rgba(126, 48, 145, 0.15);" @onclick="AddToCart">
+                            <i class="bi bi-bag-heart-fill" style="margin-right: 10px;"></i> Add to Cart
+                         </button>
+                    </div>
+                </div>
+
+                <button @onclick="StartLayby" style="background: white; color: var(--primary); border: 2px solid var(--primary); width: 100%; padding: 1rem; border-radius: 14px; font-weight: 800; transition: all 0.3s;" class="layby-btn">
+                    <i class="bi bi-calendar-heart" style="margin-right: 10px;"></i> Start Lay-by (Secure with R @((product.Price * 0.3m).ToString("N0")) deposit)
+                </button>
+            </div>
+
+            <div style="margin-top: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div style="padding: 1.2rem; border-radius: 16px; background: #FFF9F2; border: 1px solid #FFE8D1;">
+                    <h4 style="font-size: 0.9rem; margin-bottom: 8px; font-weight: 800; color: #A0522D;">Shipping Info</h4>
+                    <p style="font-size: 0.85rem; color: #8B4513; margin: 0; line-height: 1.5;">Dispatched within 3-5 working days. Nationwide delivery via Aramex or PEP Paxi.</p>
+                </div>
+                <div style="padding: 1.2rem; border-radius: 16px; background: #F2F9FF; border: 1px solid #D1E9FF;">
+                    <h4 style="font-size: 0.9rem; margin-bottom: 8px; font-weight: 800; color: #2D5A8E;">Artisan Guarantee</h4>
+                    <p style="font-size: 0.85rem; color: #4A6A8E; margin: 0; line-height: 1.5;">Each piece is unique. 100% handcrafted with premium local fibers.</p>
+                </div>
             </div>
         </div>
     </div>
 }
+
+<style>
+    .main-product-image:hover { transform: scale(1.05); }
+    .thumbnail-hover:hover { border-color: var(--primary); }
+    .thumbnail-hover:hover img { opacity: 1; }
+    .layby-btn:hover { background: var(--primary) !important; color: white !important; }
+    @@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+</style>
 
 @code {
     [Parameter]
@@ -81,21 +121,33 @@ else
         product = await Data.GetProductAsync(Id);
     }
 
-    private void AddToCart()
+    private string GetImageUrl(string? url)
     {
-        // Simple mock method
+        if (string.IsNullOrEmpty(url)) return "https://placehold.co/600x600/F7E8FA/7E3091?text=Boka";
+        if (url.StartsWith("http")) return url;
+        
+        var baseUrl = Config["ApiBaseUrl"] ?? "https://localhost:7123/";
+        if (!baseUrl.EndsWith("/")) baseUrl += "/";
+        return $"{baseUrl}{url}";
+    }
+
+    private async Task AddToCart()
+    {
         if (product != null)
         {
-            Console.WriteLine($"Added {quantity} x {product.Name} to cart.");
+            await Cart.AddToCartAsync(product, quantity);
+            Nav.NavigateTo("/cart");
         }
     }
     
     private void StartLayby()
     {
-        // Simple mock method for Lay-by
+        // For future implementation
         if (product != null)
         {
-            Console.WriteLine($"Started lay-by for {product.Name}.");
+            Nav.NavigateTo("/checkout?type=layby&productId=" + product.Id);
         }
     }
 }
+
+

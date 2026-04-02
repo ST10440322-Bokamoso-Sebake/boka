@@ -1,9 +1,9 @@
 # .NET / Blazor .gitignore
-# [Bb]in/
+[Bb]in/
 !customer/BokaMarket.Customer/bin/Release/net10.0/publish/wwwroot/**
-# [Oo]bj/
-# [Rr]elease/
-# [Dd]ebug/
+[Oo]bj/
+[Rr]elease/
+[Dd]ebug/
 
 # Visual Studio / VS Code
 .vs/
