@@ -1,5 +1,5 @@
 @page "/cart"
-@inject CartService Cart
+@inject CartService CartSvc
 @inject NavigationManager Nav
 
 <div style="background: var(--bg-main); padding: 4rem 2.5rem; text-align: center;">
@@ -116,19 +116,19 @@
     protected override async Task OnInitializedAsync()
     {
         await LoadCart();
-        Cart.OnChange += async () => await LoadCart();
+        CartSvc.OnChange += async () => LoadCart();
     }
 
     private async Task LoadCart()
     {
-        cartItems = await Cart.GetCartAsync();
-        totalAmount = Cart.GetTotal();
+        cartItems = await CartSvc.GetCartAsync();
+        totalAmount = CartSvc.GetTotal();
         StateHasChanged();
     }
 
     private async Task RemoveItem(int productId)
     {
-        await Cart.RemoveItemAsync(productId);
+        await CartSvc.RemoveItemAsync(productId);
     }
 
     private async Task UpdateQuantity(CartItem item, int change)
@@ -136,10 +136,9 @@
         var newQuantity = item.Quantity + change;
         if (newQuantity > 0)
         {
-            // We reuse AddToCart with negative values if needed, 
-            // but for simplicity let's just use the current logic
-            await Cart.AddToCartAsync(new Product { Id = item.ProductId }, change);
+            await CartSvc.AddToCartAsync(new Product { Id = item.ProductId }, change);
         }
     }
 }
+
 
