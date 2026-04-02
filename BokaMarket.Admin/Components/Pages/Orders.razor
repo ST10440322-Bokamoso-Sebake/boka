@@ -30,11 +30,29 @@
 </div>
 
 <div class="table-container">
-    <div class="table-header">
-        <h2 style="font-size: 1.25rem; font-weight: 600;">Active Orders</h2>
-        <div>
-            <button class="btn-primary" style="font-size: 0.85rem;" @onclick="AddNewOrder">+ ADD NEW ORDER</button>
-            <button class="btn-secondary" style="font-size: 0.85rem; padding: 0.6rem 1.2rem; border-radius: 10px; font-weight: 600;">DOWNLOAD CSV</button>
+    <div class="table-header" style="display: flex; flex-direction: column; gap: 1rem; align-items: stretch;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 style="font-size: 1.25rem; font-weight: 600;">Active Orders</h2>
+            <div>
+                <button class="btn-primary" style="font-size: 0.85rem;" @onclick="AddNewOrder">+ ADD NEW ORDER</button>
+                <button class="btn-secondary" style="font-size: 0.85rem; padding: 0.6rem 1.2rem; border-radius: 10px; font-weight: 600;">DOWNLOAD CSV</button>
+            </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 200px; gap: 1rem;">
+            <div class="search-box" style="position: relative;">
+                <i class="bi bi-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+                <input type="text" @bind="searchTerm" @bind:event="oninput" placeholder="Search by Order #, Customer, or Email..." 
+                       style="width: 100%; padding: 10px 10px 10px 40px; border-radius: 10px; border: 1px solid #ddd; font-family: inherit;" />
+            </div>
+            <select @bind="statusFilter" class="form-control" style="padding: 10px; border-radius: 10px;">
+                <option value="">All Statuses</option>
+                <option value="Awaiting Payment">Awaiting Payment</option>
+                <option value="Deposit Paid">Deposit Paid</option>
+                <option value="In Production">In Production</option>
+                <option value="Shipped">Shipped</option>
+                <option value="Ready for Pickup">Ready for Pickup</option>
+            </select>
         </div>
     </div>
     <table>
@@ -49,7 +67,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var order in orders)
+            @foreach (var order in FilteredOrders)
             {
                 <tr>
                     <td style="color: var(--primary); font-weight: 700;">@order.OrderNumber</td>
@@ -80,7 +98,6 @@
                     </td>
                     <td>
                         <div style="display: flex; gap: 12px;">
-                            <i class="bi bi-eye" style="cursor: pointer; color: var(--text-muted);"></i>
                             <i class="bi bi-pencil" style="cursor: pointer; color: var(--text-muted);" @onclick="() => EditOrder(order)"></i>
                         </div>
                     </td>
@@ -173,13 +190,23 @@
 }
 
 @code {
-    private List<Order> orders = new();
+    private List<Order> allOrders = new();
+    private string searchTerm = "";
+    private string statusFilter = "";
     private bool showModal = false;
     private Order editingOrder = new();
 
+    private List<Order> FilteredOrders => allOrders
+        .Where(o => (string.IsNullOrEmpty(searchTerm) || 
+                   o.OrderNumber.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) || 
+                   o.CustomerName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) || 
+                   o.CustomerEmail.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) &&
+                  (string.IsNullOrEmpty(statusFilter) || o.Status == statusFilter))
+        .ToList();
+
     protected override async Task OnInitializedAsync()
     {
-        orders = await Data.GetOrdersAsync();
+        allOrders = await Data.GetOrdersAsync();
     }
 
     private void AddNewOrder()
@@ -221,7 +248,7 @@
             await Data.UpdateOrderAsync(editingOrder);
         }
         
-        orders = await Data.GetOrdersAsync();
+        allOrders = await Data.GetOrdersAsync();
         showModal = false;
     }
 
@@ -230,12 +257,13 @@
         showModal = false;
     }
 
-    private string GetStatusClass(string status) => status.ToLower() switch
+    private string GetStatusClass(string status) => status?.ToLower() switch
     {
         "in production" => "status-in-production",
         "ready for pickup" => "status-ready",
         "deposit paid" => "status-paid",
         "shipped" => "status-shipped",
+        "awaiting payment" => "status-pending",
         _ => ""
     };
 }

@@ -12,11 +12,13 @@ public class WebhooksController : ControllerBase
 {
     private readonly AppDbContext _db;
     private readonly IConfiguration _config;
+    private readonly ILogger<WebhooksController> _logger;
 
-    public WebhooksController(AppDbContext db, IConfiguration config)
+    public WebhooksController(AppDbContext db, IConfiguration config, ILogger<WebhooksController> logger)
     {
         _db = db;
         _config = config;
+        _logger = logger;
     }
 
     [HttpPost]
@@ -33,27 +35,33 @@ public class WebhooksController : ControllerBase
                 _config["Stripe:WebhookSecret"]
             );
 
-            if (stripeEvent.Type == "checkout.session.completed")
+            if (stripeEvent.Type == Events.CheckoutSessionCompleted)
             {
                 var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
-                if (session != null && session.Metadata != null && session.Metadata.ContainsKey("OrderNumber"))
+                if (session != null && session.Metadata != null && session.Metadata.TryGetValue("OrderNumber", out var orderNumber))
                 {
-                    var orderNumber = session.Metadata["OrderNumber"];
                     var order = await _db.Orders.FirstOrDefaultAsync(o => o.OrderNumber == orderNumber);
                     if (order != null)
                     {
                         order.Status = "Deposit Paid";
-                        order.IsFullyPaid = true;
+                        order.IsFullyPaid = session.PaymentStatus == "paid";
                         await _db.SaveChangesAsync();
+                        _logger.LogInformation($"Successfully fulfilled artisanal commission: {orderNumber}");
                     }
                 }
             }
 
             return Ok();
         }
-        catch (StripeException)
+        catch (StripeException ex)
         {
+            _logger.LogError($"Stripe Webhook Exception: {ex.Message}");
             return BadRequest();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Fatal Webhook Error: {ex.Message}");
+            return StatusCode(500);
         }
     }
 }

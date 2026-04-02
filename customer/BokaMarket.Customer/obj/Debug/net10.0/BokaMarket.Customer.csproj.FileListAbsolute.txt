@@ -2257,8 +2257,8 @@ C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\bin\
 C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\bin\Debug\net10.0\wwwroot\_framework\System.Security.SecureString.wasm.gz
 C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\5zxaakm38u-{0}-5oc291g91u-5oc291g91u.gz
 C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\6t3ic8tmos-{0}-5snai08f6s-5snai08f6s.gz
-C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\emazanwnzs-{0}-hrqv43oopx-hrqv43oopx.gz
-C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\1k07kcm2he-{0}-ce0mncedum-ce0mncedum.gz
-C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\liim9k6j9y-{0}-mu7s00ghjn-mu7s00ghjn.gz
-C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\o9tlanvas1-{0}-rec0chv15v-rec0chv15v.gz
-C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\ba1ysq3o93-{0}-uugowglopo-uugowglopo.gz
+C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\emazanwnzs-{0}-fl4bxnuup4-fl4bxnuup4.gz
+C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\1k07kcm2he-{0}-nktall3mok-nktall3mok.gz
+C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\liim9k6j9y-{0}-64ua9mic6d-64ua9mic6d.gz
+C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\o9tlanvas1-{0}-87ll8lf2lo-87ll8lf2lo.gz
+C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\customer\BokaMarket.Customer\obj\Debug\net10.0\compressed\ba1ysq3o93-{0}-4hhuffdmq6-4hhuffdmq6.gz

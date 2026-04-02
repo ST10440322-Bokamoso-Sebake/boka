@@ -12,7 +12,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=BokaMarket.db"));
 
 // 2. JWT Authentication Configuration
-var jwtKey = builder.Configuration["Jwt:Key"] ?? "BokaMarket_Super_Secret_Key_2026_!@#";
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "PLACEHOLDER_FOR_PRODUCTION_SECRET_KEY_CHANGE_IN_APPSETTINGS_JSON";
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -84,6 +84,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+else
+{
+    app.UseExceptionHandler("/error");
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
