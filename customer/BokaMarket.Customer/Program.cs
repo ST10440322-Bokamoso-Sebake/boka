@@ -16,10 +16,12 @@ builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStat
 builder.Services.AddScoped<CustomAuthenticationStateProvider>(); // Registered for direct access
 
 // Configure HttpClient to talk to the Backend API
-builder.Services.AddScoped(sp => new HttpClient { 
-    BaseAddress = sp.GetRequiredService<IConfiguration>()["ApiBaseUrl"] != null ? 
-        new Uri(sp.GetRequiredService<IConfiguration>()["ApiBaseUrl"]) : 
-        new Uri("https://localhost:7123/") 
+builder.Services.AddScoped(sp => 
+{
+    var config = sp.GetRequiredService<IConfiguration>();
+    var baseUrl = config["ApiBaseUrl"] ?? "https://localhost:7123/";
+    if (!baseUrl.EndsWith("/")) baseUrl += "/";
+    return new HttpClient { BaseAddress = new Uri(baseUrl) };
 });
 
 builder.Services.AddScoped<IDataService, HttpDataService>();

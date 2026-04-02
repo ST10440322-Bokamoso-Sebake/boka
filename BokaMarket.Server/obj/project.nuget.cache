@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "+LQr6Dhg6LA=",
+  "dgSpecHash": "0La+uFjKbPw=",
   "success": true,
   "projectFilePath": "C:\\Users\\Esther\\OneDrive\\Desktop\\Bokamoso\\boka\\BokaMarket.Server\\BokaMarket.Server.csproj",
   "expectedPackageFiles": [
@@ -53,21 +53,7 @@
     "C:\\Users\\Esther\\.nuget\\packages\\system.composition.typedparts\\7.0.0\\system.composition.typedparts.7.0.0.nupkg.sha512",
     "C:\\Users\\Esther\\.nuget\\packages\\system.configuration.configurationmanager\\9.0.0\\system.configuration.configurationmanager.9.0.0.nupkg.sha512",
     "C:\\Users\\Esther\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.0.1\\system.identitymodel.tokens.jwt.8.0.1.nupkg.sha512",
-    "C:\\Users\\Esther\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.0\\system.security.cryptography.protecteddata.9.0.0.nupkg.sha512",
-    "C:\\Users\\Esther\\.nuget\\packages\\system.text.json\\8.0.5\\system.text.json.8.0.5.nupkg.sha512"
+    "C:\\Users\\Esther\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.0\\system.security.cryptography.protecteddata.9.0.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1510",
-      "level": "Warning",
-      "message": "PackageReference System.Text.Json will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
-      "projectPath": "C:\\Users\\Esther\\OneDrive\\Desktop\\Bokamoso\\boka\\BokaMarket.Server\\BokaMarket.Server.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\Esther\\OneDrive\\Desktop\\Bokamoso\\boka\\BokaMarket.Server\\BokaMarket.Server.csproj",
-      "libraryId": "System.Text.Json",
-      "targetGraphs": [
-        "net10.0"
-      ]
-    }
-  ]
+  "logs": []
 }

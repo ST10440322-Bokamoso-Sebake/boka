@@ -36,20 +36,22 @@ public class WebhooksController : ControllerBase
             if (stripeEvent.Type == "checkout.session.completed")
             {
                 var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
-                var orderNumber = session.Metadata["OrderNumber"];
-
-                var order = await _db.Orders.FirstOrDefaultAsync(o => o.OrderNumber == orderNumber);
-                if (order != null)
+                if (session != null && session.Metadata != null && session.Metadata.ContainsKey("OrderNumber"))
                 {
-                    order.Status = "Deposit Paid"; // Marking as paid
-                    order.IsFullyPaid = true; // Assuming full payment for now
-                    await _db.SaveChangesAsync();
+                    var orderNumber = session.Metadata["OrderNumber"];
+                    var order = await _db.Orders.FirstOrDefaultAsync(o => o.OrderNumber == orderNumber);
+                    if (order != null)
+                    {
+                        order.Status = "Deposit Paid";
+                        order.IsFullyPaid = true;
+                        await _db.SaveChangesAsync();
+                    }
                 }
             }
 
             return Ok();
         }
-        catch (StripeException e)
+        catch (StripeException)
         {
             return BadRequest();
         }

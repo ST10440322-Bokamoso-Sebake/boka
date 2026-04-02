@@ -116,7 +116,7 @@
     protected override async Task OnInitializedAsync()
     {
         await LoadCart();
-        CartSvc.OnChange += async () => LoadCart();
+        CartSvc.OnChange += () => InvokeAsync(LoadCart);
     }
 
     private async Task LoadCart()

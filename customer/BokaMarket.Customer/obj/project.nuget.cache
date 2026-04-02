@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "4VCK6eJm8VU=",
+  "dgSpecHash": "elgJQXSZ73I=",
   "success": true,
   "projectFilePath": "C:\\Users\\Esther\\OneDrive\\Desktop\\Bokamoso\\boka\\customer\\BokaMarket.Customer\\BokaMarket.Customer.csproj",
   "expectedPackageFiles": [
@@ -15,6 +15,7 @@
     "C:\\Users\\Esther\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly\\10.0.3\\microsoft.aspnetcore.components.webassembly.10.0.3.nupkg.sha512",
     "C:\\Users\\Esther\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.devserver\\10.0.3\\microsoft.aspnetcore.components.webassembly.devserver.10.0.3.nupkg.sha512",
     "C:\\Users\\Esther\\.nuget\\packages\\microsoft.aspnetcore.metadata\\10.0.5\\microsoft.aspnetcore.metadata.10.0.5.nupkg.sha512",
+    "C:\\Users\\Esther\\.nuget\\packages\\microsoft.dotnet.hotreload.webassembly.browser\\10.0.201\\microsoft.dotnet.hotreload.webassembly.browser.10.0.201.nupkg.sha512",
     "C:\\Users\\Esther\\.nuget\\packages\\microsoft.extensions.configuration\\10.0.5\\microsoft.extensions.configuration.10.0.5.nupkg.sha512",
     "C:\\Users\\Esther\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\10.0.5\\microsoft.extensions.configuration.abstractions.10.0.5.nupkg.sha512",
     "C:\\Users\\Esther\\.nuget\\packages\\microsoft.extensions.configuration.binder\\10.0.5\\microsoft.extensions.configuration.binder.10.0.5.nupkg.sha512",
@@ -37,21 +38,7 @@
     "C:\\Users\\Esther\\.nuget\\packages\\microsoft.jsinterop.webassembly\\10.0.3\\microsoft.jsinterop.webassembly.10.0.3.nupkg.sha512",
     "C:\\Users\\Esther\\.nuget\\packages\\microsoft.net.illink.tasks\\10.0.5\\microsoft.net.illink.tasks.10.0.5.nupkg.sha512",
     "C:\\Users\\Esther\\.nuget\\packages\\microsoft.net.sdk.webassembly.pack\\10.0.5\\microsoft.net.sdk.webassembly.pack.10.0.5.nupkg.sha512",
-    "C:\\Users\\Esther\\.nuget\\packages\\system.text.json\\8.0.5\\system.text.json.8.0.5.nupkg.sha512",
     "C:\\Users\\Esther\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\10.0.5\\microsoft.netcore.app.runtime.mono.browser-wasm.10.0.5.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1510",
-      "level": "Warning",
-      "message": "PackageReference System.Text.Json will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
-      "projectPath": "C:\\Users\\Esther\\OneDrive\\Desktop\\Bokamoso\\boka\\customer\\BokaMarket.Customer\\BokaMarket.Customer.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\Esther\\OneDrive\\Desktop\\Bokamoso\\boka\\customer\\BokaMarket.Customer\\BokaMarket.Customer.csproj",
-      "libraryId": "System.Text.Json",
-      "targetGraphs": [
-        "net10.0"
-      ]
-    }
-  ]
+  "logs": []
 }
