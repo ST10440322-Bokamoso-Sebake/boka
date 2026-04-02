@@ -1,9 +1,23 @@
 {
   "version": 2,
-  "outputDirectory": "customer/BokaMarket.Customer/bin/Release/net10.0/publish/wwwroot",
+  "buildCommand": "dotnet publish customer/BokaMarket.Customer/BokaMarket.Customer.csproj -c Release -o output",
+  "outputDirectory": "output/wwwroot",
   "cleanUrls": true,
+  "trailingSlash": false,
   "routes": [
-     { "handle": "filesystem" },
-     { "src": "/(.*)", "dest": "/index.html" }
+    {
+      "src": "/_framework/(.*)",
+      "dest": "/_framework/$1",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }
