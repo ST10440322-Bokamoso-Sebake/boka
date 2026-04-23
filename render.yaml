@@ -3,7 +3,6 @@ services:
     name: boka-market-backend
     env: docker
     plan: free
-    dockerCommand: dotnet BokaMarket.Server.dll
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
