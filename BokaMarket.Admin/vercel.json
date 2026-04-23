@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "outputDirectory": "bin/Release/net10.0/publish/wwwroot",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
+    { "src": "/_framework/(.*)", "dest": "/_framework/$1" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
