@@ -35,7 +35,7 @@ public class WebhooksController : ControllerBase
                 _config["Stripe:WebhookSecret"]
             );
 
-            if (stripeEvent.Type == Events.CheckoutSessionCompleted)
+            if (stripeEvent.Type == "checkout.session.completed")
             {
                 var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
                 if (session != null && session.Metadata != null && session.Metadata.TryGetValue("OrderNumber", out var orderNumber))

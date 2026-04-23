@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // 1. Database Configuration
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=BokaMarket.db"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Host=aws-0-eu-central-1.pooler.supabase.com;Database=postgres;Username=postgres.your_project;Password=your_password;Port=6543;"));
 
 // 2. JWT Authentication Configuration
 var jwtKey = builder.Configuration["Jwt:Key"] ?? "PLACEHOLDER_FOR_PRODUCTION_SECRET_KEY_CHANGE_IN_APPSETTINGS_JSON";

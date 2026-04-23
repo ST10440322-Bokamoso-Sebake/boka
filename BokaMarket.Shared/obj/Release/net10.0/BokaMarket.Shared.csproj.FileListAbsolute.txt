@@ -11,3 +11,16 @@ C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\BokaMarket.Shared\obj\Release\net
 C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\BokaMarket.Shared\obj\Release\net10.0\refint\BokaMarket.Shared.dll
 C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\BokaMarket.Shared\obj\Release\net10.0\BokaMarket.Shared.pdb
 C:\Users\Esther\OneDrive\Desktop\Bokamoso\boka\BokaMarket.Shared\obj\Release\net10.0\ref\BokaMarket.Shared.dll
+c:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Shared\bin\Release\net10.0\BokaMarket.Shared.deps.json
+c:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Shared\bin\Release\net10.0\BokaMarket.Shared.dll
+c:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Shared\bin\Release\net10.0\BokaMarket.Shared.pdb
+c:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Shared\obj\Release\net10.0\BokaMarket.Shared.csproj.AssemblyReference.cache
+c:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Shared\obj\Release\net10.0\BokaMarket.Shared.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Shared\obj\Release\net10.0\BokaMarket.Shared.AssemblyInfoInputs.cache
+c:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Shared\obj\Release\net10.0\BokaMarket.Shared.AssemblyInfo.cs
+c:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Shared\obj\Release\net10.0\BokaMarket.Shared.csproj.CoreCompileInputs.cache
+c:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Shared\obj\Release\net10.0\BokaMarket.Shared.sourcelink.json
+c:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Shared\obj\Release\net10.0\BokaMarket.Shared.dll
+c:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Shared\obj\Release\net10.0\refint\BokaMarket.Shared.dll
+c:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Shared\obj\Release\net10.0\BokaMarket.Shared.pdb
+c:\Users\Esther\OneDrive\Desktop\boka\BokaMarket.Shared\obj\Release\net10.0\ref\BokaMarket.Shared.dll

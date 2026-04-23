@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wdqWIizPbyA=",
+  "dgSpecHash": "Bi3f4FUPTfY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Esther\\OneDrive\\Desktop\\Bokamoso\\boka\\customer\\BokaMarket.Customer\\BokaMarket.Customer.csproj",
+  "projectFilePath": "c:\\Users\\Esther\\OneDrive\\Desktop\\boka\\customer\\BokaMarket.Customer\\BokaMarket.Customer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Esther\\.nuget\\packages\\blazored.localstorage\\4.5.0\\blazored.localstorage.4.5.0.nupkg.sha512",
     "C:\\Users\\Esther\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.5\\microsoft.aspnetcore.app.internal.assets.10.0.5.nupkg.sha512",

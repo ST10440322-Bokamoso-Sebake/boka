@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dR+3oK/ja2g=",
+  "dgSpecHash": "uIFpUirM78w=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Esther\\OneDrive\\Desktop\\Bokamoso\\boka\\BokaMarket.Shared\\BokaMarket.Shared.csproj",
+  "projectFilePath": "c:\\Users\\Esther\\OneDrive\\Desktop\\boka\\BokaMarket.Shared\\BokaMarket.Shared.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Esther\\.nuget\\packages\\microsoft.aspnetcore.authorization\\10.0.5\\microsoft.aspnetcore.authorization.10.0.5.nupkg.sha512",
     "C:\\Users\\Esther\\.nuget\\packages\\microsoft.aspnetcore.components\\10.0.5\\microsoft.aspnetcore.components.10.0.5.nupkg.sha512",

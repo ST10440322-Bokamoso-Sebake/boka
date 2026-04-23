@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BokaMarket.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ba6380600fa7032da5fc8bfdbe15d5d7f79e16c3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6554c21492607f5ca10837faaa1ea7d9b76bcfa8")]
 [assembly: System.Reflection.AssemblyProductAttribute("BokaMarket.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BokaMarket.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
