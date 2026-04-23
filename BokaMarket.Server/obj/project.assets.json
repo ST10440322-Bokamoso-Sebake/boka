@@ -2953,11 +2953,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Esther\\OneDrive\\Desktop\\boka\\BokaMarket.Server\\BokaMarket.Server.csproj",
+      "projectUniqueName": "C:\\Users\\Esther\\OneDrive\\Desktop\\boka\\BokaMarket.Server\\BokaMarket.Server.csproj",
       "projectName": "BokaMarket.Server",
-      "projectPath": "c:\\Users\\Esther\\OneDrive\\Desktop\\boka\\BokaMarket.Server\\BokaMarket.Server.csproj",
+      "projectPath": "C:\\Users\\Esther\\OneDrive\\Desktop\\boka\\BokaMarket.Server\\BokaMarket.Server.csproj",
       "packagesPath": "C:\\Users\\Esther\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Esther\\OneDrive\\Desktop\\boka\\BokaMarket.Server\\obj\\",
+      "outputPath": "C:\\Users\\Esther\\OneDrive\\Desktop\\boka\\BokaMarket.Server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -2979,8 +2979,8 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "c:\\Users\\Esther\\OneDrive\\Desktop\\boka\\BokaMarket.Shared\\BokaMarket.Shared.csproj": {
-              "projectPath": "c:\\Users\\Esther\\OneDrive\\Desktop\\boka\\BokaMarket.Shared\\BokaMarket.Shared.csproj"
+            "C:\\Users\\Esther\\OneDrive\\Desktop\\boka\\BokaMarket.Shared\\BokaMarket.Shared.csproj": {
+              "projectPath": "C:\\Users\\Esther\\OneDrive\\Desktop\\boka\\BokaMarket.Shared\\BokaMarket.Shared.csproj"
             }
           }
         }

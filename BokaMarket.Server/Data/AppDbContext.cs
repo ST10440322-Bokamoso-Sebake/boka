@@ -66,7 +66,7 @@ public class AppDbContext : DbContext
                 Tagline = "Crafting Slowly, Living Intentionally.", 
                 ContactEmail = "hello@bokayarnmarket.co.za", 
                 MarketLocation = "Neighbourgoods Market, Woodstock", 
-                MarketDate = new DateTime(2026, 3, 21), 
+                MarketDate = new DateTime(2026, 3, 21, 0, 0, 0, DateTimeKind.Utc), 
                 DepositPercent = 30, LaybyWeeks = 4 
             }
         );

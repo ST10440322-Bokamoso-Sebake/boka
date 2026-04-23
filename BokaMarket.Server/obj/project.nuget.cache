@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8nrR2eZd+Es=",
+  "dgSpecHash": "Ut5cRgkEfT0=",
   "success": true,
-  "projectFilePath": "c:\\Users\\Esther\\OneDrive\\Desktop\\boka\\BokaMarket.Server\\BokaMarket.Server.csproj",
+  "projectFilePath": "C:\\Users\\Esther\\OneDrive\\Desktop\\boka\\BokaMarket.Server\\BokaMarket.Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Esther\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Esther\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

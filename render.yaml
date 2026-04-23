@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: boka-market-backend
+    env: docker
+    plan: free
+    dockerCommand: dotnet BokaMarket.Server.dll
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      # The rest of the keys (like the database connection) should be configured in the Render Dashboard securely.
