@@ -28,7 +28,7 @@ public class OrdersController : ControllerBase
     [Authorize]
     public async Task<ActionResult<IEnumerable<Order>>> GetMyOrders()
     {
-        var email = User.Identity?.Name;
+        var email = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
         if (string.IsNullOrEmpty(email)) return Unauthorized();
 
         return await _db.Orders

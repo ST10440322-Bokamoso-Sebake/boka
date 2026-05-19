@@ -156,3 +156,65 @@ public class CheckoutResponse
     public string OrderNumber { get; set; } = string.Empty;
     public string? PaymentUrl { get; set; } 
 }
+
+public class CustomOrder
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public string CustomerId { get; set; } = string.Empty;
+    public string CustomerEmail { get; set; } = string.Empty;
+    public string CustomerName { get; set; } = string.Empty;
+    public string BuilderJson { get; set; } = "{}";
+    public string LiveSummary { get; set; } = string.Empty;
+    public string? InspirationImageUrl { get; set; }
+    public string? SketchDataUrl { get; set; }
+    public string CustomerNotes { get; set; } = string.Empty;
+    public string Status { get; set; } = "pending_review";
+    public decimal? QuotedPrice { get; set; }
+    public string? QuoteMessage { get; set; }
+    public string? QuoteChannel { get; set; }
+    public string? RejectionReason { get; set; }
+    public DateTime? EstimatedReadyDate { get; set; }
+    public DateTime? EstimatedDeliveryDate { get; set; }
+    public string? ProductionNotes { get; set; }
+    public string? WhyTimelineLong { get; set; }
+    public decimal? DepositAmount { get; set; }
+    public bool DepositPaid { get; set; }
+    public DateTime? DepositPaidAt { get; set; }
+    public DateTime? DepositNonRefundableAfter { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+}
+
+public class CustomOrderAdminUpdate
+{
+    public string? Status { get; set; }
+    public decimal? QuotedPrice { get; set; }
+    public string? QuoteMessage { get; set; }
+    public string? QuoteChannel { get; set; }
+    public string? RejectionReason { get; set; }
+    public DateTime? EstimatedReadyDate { get; set; }
+    public DateTime? EstimatedDeliveryDate { get; set; }
+    public string? ProductionNotes { get; set; }
+    public string? WhyTimelineLong { get; set; }
+}
+
+public class PayDepositRequest
+{
+    public string? PaymentReference { get; set; }
+}
+
+public class YarnColorStock
+{
+    public int Id { get; set; }
+    public string Slug { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string Hex { get; set; } = "#000000";
+    public bool InStock { get; set; } = true;
+}
+
+public class SupabaseSyncRequest
+{
+    public string Email { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string Role { get; set; } = "customer";
+}

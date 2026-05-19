@@ -15,6 +15,8 @@ public class AppDbContext : DbContext
     public DbSet<AppSettings> Settings { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
+    public DbSet<CustomOrder> CustomOrders { get; set; }
+    public DbSet<YarnColorStock> YarnColors { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -69,6 +71,25 @@ public class AppDbContext : DbContext
                 MarketDate = new DateTime(2026, 3, 21, 0, 0, 0, DateTimeKind.Utc), 
                 DepositPercent = 30, LaybyWeeks = 4 
             }
+        );
+
+        modelBuilder.Entity<CustomOrder>(e =>
+        {
+            e.Property(o => o.QuotedPrice).HasPrecision(18, 2);
+            e.Property(o => o.DepositAmount).HasPrecision(18, 2);
+        });
+
+        modelBuilder.Entity<YarnColorStock>().HasData(
+            new YarnColorStock { Id = 1, Slug = "lavender", Name = "Lavender Dream", Hex = "#9B59B6", InStock = true },
+            new YarnColorStock { Id = 2, Slug = "sage", Name = "Sage Meadow", Hex = "#6B8F71", InStock = true },
+            new YarnColorStock { Id = 3, Slug = "cream", Name = "Natural Cream", Hex = "#F5F0E8", InStock = true },
+            new YarnColorStock { Id = 4, Slug = "terracotta", Name = "Terracotta Clay", Hex = "#C97B4A", InStock = true },
+            new YarnColorStock { Id = 5, Slug = "plum", Name = "Deep Plum", Hex = "#7E3091", InStock = true },
+            new YarnColorStock { Id = 6, Slug = "blush", Name = "Blush Pink", Hex = "#E8B4B8", InStock = true },
+            new YarnColorStock { Id = 7, Slug = "charcoal", Name = "Charcoal", Hex = "#4A4A4A", InStock = true },
+            new YarnColorStock { Id = 8, Slug = "sunset", Name = "Sunset Orange", Hex = "#E67E22", InStock = false },
+            new YarnColorStock { Id = 9, Slug = "ocean", Name = "Ocean Teal", Hex = "#1ABC9C", InStock = true },
+            new YarnColorStock { Id = 10, Slug = "mustard", Name = "Mustard Gold", Hex = "#D4A017", InStock = true }
         );
     }
 }

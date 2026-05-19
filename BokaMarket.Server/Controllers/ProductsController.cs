@@ -58,7 +58,7 @@ public class ProductsController : ControllerBase
             if (!_db.Products.Any(e => e.Id == id)) return NotFound();
             else throw;
         }
-        return NoContent();
+        return Ok(product);
     }
 
     [Authorize(Roles = "Admin")]
