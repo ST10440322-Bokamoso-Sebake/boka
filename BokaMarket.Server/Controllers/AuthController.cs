@@ -79,8 +79,7 @@ public class AuthController : ControllerBase
         var firstName = parts.Length > 0 ? parts[0] : "Customer";
         var lastName = parts.Length > 1 ? parts[1] : "";
 
-        var isAdmin = request.Role.Equals("admin", StringComparison.OrdinalIgnoreCase)
-            || email.Contains("admin");
+        var isAdmin = email.Equals("bokasyarnmarket@gmail.com", StringComparison.OrdinalIgnoreCase);
 
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         if (user == null)
@@ -130,7 +129,7 @@ public class AuthController : ControllerBase
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-        var role = isAdmin || user.Email.Contains("admin", StringComparison.OrdinalIgnoreCase) ? "Admin" : "Customer";
+        var role = user.Email.Equals("bokasyarnmarket@gmail.com", StringComparison.OrdinalIgnoreCase) ? "Admin" : "Customer";
 
         var claims = new[]
         {

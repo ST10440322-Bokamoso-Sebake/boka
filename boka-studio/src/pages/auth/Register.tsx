@@ -6,13 +6,10 @@ import type { UserRole } from '../../types/auth'
 export function Register() {
   const { register } = useAuth()
   const navigate = useNavigate()
-  const location = useLocation()
-  const initialRole = (location.state as { role?: UserRole })?.role ?? 'customer'
 
-  const [role, setRole] = useState<UserRole>(initialRole)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [adminCode, setAdminCode] = useState('')
+  const [phone, setPhone] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -20,18 +17,14 @@ export function Register() {
     e.preventDefault()
     setError('')
     setLoading(true)
-    const result = await register(
-      email,
-      name,
-      role,
-      role === 'admin' ? adminCode : undefined,
-    )
+    const result = await register(email, name, phone || undefined)
     setLoading(false)
     if (!result.ok) {
       setError(result.error ?? 'Registration failed.')
       return
     }
-    navigate(role === 'admin' ? '/admin' : '/design', { replace: true })
+    const isOwner = email.toLowerCase().trim() === 'bokasyarnmarket@gmail.com'
+    navigate(isOwner ? '/admin' : '/design', { replace: true })
   }
 
   return (
@@ -39,23 +32,6 @@ export function Register() {
       <div className="auth-card">
         <h1>Create your account</h1>
         <p className="auth-sub">Sign up in one step — start designing or managing orders right away.</p>
-
-        <div className="role-tabs" role="tablist">
-          <button
-            type="button"
-            className={role === 'customer' ? 'active' : undefined}
-            onClick={() => setRole('customer')}
-          >
-            Customer
-          </button>
-          <button
-            type="button"
-            className={role === 'admin' ? 'active' : undefined}
-            onClick={() => setRole('admin')}
-          >
-            Admin / Studio
-          </button>
-        </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
           <label>
@@ -79,18 +55,15 @@ export function Register() {
               placeholder="you@example.com"
             />
           </label>
-          {role === 'admin' && (
-            <label>
-              Admin invite code
-              <input
-                type="password"
-                required
-                value={adminCode}
-                onChange={(e) => setAdminCode(e.target.value)}
-                placeholder="Provided by studio owner"
-              />
-            </label>
-          )}
+          <label>
+            Phone Number (Optional for SMS alerts)
+            <input
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="e.g. +27821234567"
+            />
+          </label>
           {error && <p className="form-error">{error}</p>}
           <button type="submit" className="btn btn-primary" disabled={loading}>
             {loading ? 'Creating account…' : 'Create account & continue'}

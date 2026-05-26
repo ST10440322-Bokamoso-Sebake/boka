@@ -7,4 +7,5 @@ export type UserProfile = {
   role: UserRole
   verified: boolean
   createdAt: string
+  phone?: string
 }

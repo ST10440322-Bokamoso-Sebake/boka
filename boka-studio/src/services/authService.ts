@@ -98,8 +98,7 @@ async function completeSignIn(
 export async function registerDirect(
   email: string,
   name: string,
-  role: UserRole,
-  adminInviteCode?: string,
+  phone?: string,
 ): Promise<{ ok: boolean; profile?: UserProfile; error?: string; warning?: string }> {
   const normalized = email.toLowerCase().trim()
 
@@ -107,36 +106,30 @@ export async function registerDirect(
     return { ok: false, error: 'This email is already registered. Please log in instead.' }
   }
 
-  if (role === 'admin') {
-    const expected = import.meta.env.VITE_ADMIN_INVITE_CODE ?? 'boka-admin-2026'
-    if (adminInviteCode !== expected) {
-      return { ok: false, error: 'Invalid admin invite code.' }
-    }
-  }
+  const computedRole: UserRole = normalized === 'bokasyarnmarket@gmail.com' ? 'admin' : 'customer'
 
-  return completeSignIn(normalized, name, role)
+  const result = await completeSignIn(normalized, name, computedRole)
+  if (result.ok && result.profile && phone) {
+    result.profile.phone = phone // Save phone number if provided
+    const profiles = loadProfiles().filter((p) => p.email !== normalized)
+    profiles.push(result.profile)
+    saveProfiles(profiles)
+  }
+  return result
 }
 
 export async function loginDirect(
   email: string,
-  role: UserRole,
 ): Promise<{ ok: boolean; profile?: UserProfile; error?: string; warning?: string }> {
   const normalized = email.toLowerCase().trim()
   const existing = findProfileByEmail(normalized)
 
-  if (existing && existing.role !== role) {
-    return {
-      ok: false,
-      error:
-        role === 'admin'
-          ? 'This email is registered as a customer. Use customer login.'
-          : 'This email is registered as admin. Use admin login.',
-    }
-  }
+  const computedRole: UserRole = normalized === 'bokasyarnmarket@gmail.com' ? 'admin' : 'customer'
 
   const name = existing?.name ?? normalized.split('@')[0]
-  return completeSignIn(normalized, name, role)
+  return completeSignIn(normalized, name, computedRole)
 }
+
 
 export function logout() {
   clearSession()

@@ -5,7 +5,7 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
   "mainAssemblyName": "BokaMarket.Admin",
   "applicationEnvironment": "Development",
   "resources": {
-    "hash": "sha256-Y08tseXWpWu9Cs9yvPgQ8O0P7A6Hpi+TUACW17q5HTk=",
+    "hash": "sha256-vFMRLPm7uGBuQZzdz+OOyMJIIBzJCC/zZjdaARFVpZY=",
     "jsModuleNative": [
       {
         "name": "dotnet.native.ykrnppwhq2.js"
@@ -1254,28 +1254,28 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
       },
       {
         "virtualPath": "BokaMarket.Shared.wasm",
-        "name": "BokaMarket.Shared.fl4bxnuup4.wasm",
-        "integrity": "sha256-A8liHjKSI7o6MXKqgMexmc8gE7VZ2wUZSBK8ZFbFG9Q=",
+        "name": "BokaMarket.Shared.tdfj6kxaks.wasm",
+        "integrity": "sha256-ofqfLjlG+29harb3KirzLtyl8ULdTDndi4gC9sktrYk=",
         "cache": "force-cache"
       },
       {
         "virtualPath": "BokaMarket.Admin.wasm",
-        "name": "BokaMarket.Admin.15p825m5ao.wasm",
-        "integrity": "sha256-RUcr9OL0zbJrTX7pLx+A1zS0S8DMwDW88XjqQyysS4Y=",
+        "name": "BokaMarket.Admin.3jetqsajru.wasm",
+        "integrity": "sha256-MWeuYeMdXzzibXp0OrUIkdbkJmM3Gx1ITMbL+WhT/mw=",
         "cache": "force-cache"
       }
     ],
     "pdb": [
       {
         "virtualPath": "BokaMarket.Shared.pdb",
-        "name": "BokaMarket.Shared.nktall3mok.pdb",
-        "integrity": "sha256-yfLP4aOU+Yu6c3odD+nQYgJCLEIctPXCN9frVNSpfqo=",
+        "name": "BokaMarket.Shared.ekejg4bvwt.pdb",
+        "integrity": "sha256-gh+qMgPWPESVV/CeqUIuTslF5Yg4ewxISMdKC5tiBdc=",
         "cache": "force-cache"
       },
       {
         "virtualPath": "BokaMarket.Admin.pdb",
-        "name": "BokaMarket.Admin.f5yzwpinkt.pdb",
-        "integrity": "sha256-XWS5I8MviNrDSq812862XkM+YaapH2B/8XKPCqcQKCs=",
+        "name": "BokaMarket.Admin.rn4h9rjhv8.pdb",
+        "integrity": "sha256-KWneRM0d2Fymlx0WXZgCH1NopIOcqCC5mSkcptp0Ht4=",
         "cache": "force-cache"
       }
     ],
@@ -1291,6 +1291,9 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
     ]
   },
   "debugLevel": -1,
+  "appsettings": [
+    "../appsettings.json"
+  ],
   "globalizationMode": "sharded",
   "extensions": {
     "blazor": {}

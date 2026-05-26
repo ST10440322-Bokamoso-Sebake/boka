@@ -16,16 +16,17 @@ type AuthResult = {
   warning?: string
 }
 
+import { sendAuthNotification } from '../services/notificationService'
+
 type AuthContextValue = {
   user: UserProfile | null
   loading: boolean
   rememberedEmail: string | null
-  login: (email: string, role: UserRole) => Promise<AuthResult>
+  login: (email: string) => Promise<AuthResult>
   register: (
     email: string,
     name: string,
-    role: UserRole,
-    adminInviteCode?: string,
+    phone?: string,
   ) => Promise<AuthResult>
   logout: () => void
 }
@@ -43,21 +44,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(false)
   }, [])
 
-  const login = useCallback(async (email: string, role: UserRole) => {
-    const result = await authService.loginDirect(email, role)
+  const login = useCallback(async (email: string) => {
+    const result = await authService.loginDirect(email)
     if (result.ok && result.profile) {
       setUser(result.profile)
       setRememberedEmail(result.profile.email)
+      sendAuthNotification(result.profile.email, result.profile.name, 'login', result.profile.phone)
     }
     return { ok: result.ok, error: result.error, warning: result.warning }
   }, [])
 
   const register = useCallback(
-    async (email: string, name: string, role: UserRole, adminInviteCode?: string) => {
-      const result = await authService.registerDirect(email, name, role, adminInviteCode)
+    async (email: string, name: string, phone?: string) => {
+      const result = await authService.registerDirect(email, name, phone)
       if (result.ok && result.profile) {
         setUser(result.profile)
         setRememberedEmail(result.profile.email)
+        sendAuthNotification(result.profile.email, result.profile.name, 'register', phone)
       }
       return { ok: result.ok, error: result.error, warning: result.warning }
     },
